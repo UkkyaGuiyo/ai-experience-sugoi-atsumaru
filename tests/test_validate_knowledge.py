@@ -105,6 +105,9 @@ class ScanTests(unittest.TestCase):
             ('PHONE', '012' + '-' + '345' + '-' + '6789'),
             ('IP_ADDRESS', '.'.join(['192', '0', '2', '1'])),
             ('IP_ADDRESS', ':'.join(['2001', 'db8', '', '1'])),
+            ('IP_ADDRESS', ':' * 2 + '1'),
+            ('INTERNATIONAL_PHONE', '+' + '12345678901'),
+            ('DOMESTIC_PHONE', '090' + '12345678'),
             ('PRIVATE_KEY', '-' * 5 + 'BEGIN ' + 'PRIVATE KEY' + '-' * 5),
             ('API_KEY', 'sk' + '-' + 'A' * 30),
             ('API_KEY', 'AI' + 'za' + 'A' * 35),
@@ -114,7 +117,11 @@ class ScanTests(unittest.TestCase):
             ('ACCESS_TOKEN', 'xox' + 'b-' + 'A' * 30),
             ('DANGEROUS_ASSIGNMENT', 'pass' + 'word = ' + chr(34) + 'invented-value' + chr(34)),
             ('DANGEROUS_ASSIGNMENT', 'sec' + 'ret: ' + chr(39) + 'invented-value' + chr(39)),
+            ('UNQUOTED_CREDENTIAL', 'to' + 'ken=synthetic-value'),
+            ('BEARER_TOKEN', 'Bear' + 'er ' + 'A' * 20),
+            ('JWT', 'ey' + 'J' + 'A' * 12 + '.' + 'A' * 12 + '.' + 'A' * 12),
             ('PERSONAL_URL', 'https://' + 'x' + '.com/' + 'invented-profile'),
+            ('PROFILE_URL', 'https://' + 'github' + '.com/' + 'invented-profile'),
         ]
         for code, text in candidates:
             with self.subTest(code=code):
@@ -193,6 +200,25 @@ class RepositoryTests(unittest.TestCase):
             self.assertEqual(v.main([str(self.root)]), 1)
         self.assertNotIn(candidate, capture.getvalue())
         self.assertIn('EMAIL', capture.getvalue())
+
+    def test_schema_definition_failure(self):
+        schema = copy.deepcopy(SCHEMA)
+        schema['unsupportedKeyword'] = True
+        self.write('schema/experience-entry.schema.json', schema)
+        self.assertIn('SCHEMA_DEFINITION', self.codes())
+
+    def test_forbidden_environment_file(self):
+        (self.root / '.env.local').write_text('invented', encoding='utf-8')
+        self.assertIn('FORBIDDEN_FILE', self.codes())
+
+    def test_japanese_document_encoding_and_required_files(self):
+        self.assertTrue((ROOT / 'README.md').read_text(encoding='utf-8').startswith('# AIの経験がスゴーイアツマール'))
+        required = ['AGENTS.md', 'README.md', 'CONTRIBUTING.md', 'SECURITY.md',
+                    'docs/PRIVACY_RULES.md', 'docs/COLLECTION_POLICY.md', 'docs/SOURCE_POLICY.md',
+                    'docs/KNOWLEDGE_MODEL.md', 'docs/AGENT_OPERATIONS.md', 'docs/MIGRATION_POLICY.md',
+                    'templates/EXPERIENCE_ENTRY.md', '.github/pull_request_template.md',
+                    '.github/workflows/knowledge-safety-check.yml']
+        self.assertTrue(all((ROOT / path).is_file() for path in required))
 
 
 if __name__ == '__main__':
