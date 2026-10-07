@@ -1,0 +1,31 @@
+{
+  "id": "EXP-000004",
+  "title": "Keep integration ownership when delegating bounded read-only work",
+  "category": "agents",
+  "task_type": "Agent Operations",
+  "ai_system": "AI-assisted software workflow",
+  "observation_date": "2026-10-07",
+  "environment": "A shared software workspace with a coordinating agent and optional independent assistants.",
+  "goal": "Use independent assistance while keeping responsibility for final changes and decisions explicit.",
+  "approach": "Assign bounded read-only diagnosis and inventory work with an expected evidence report and explicit write restrictions. The coordinating agent retains document edits, result reconciliation and checkpoint integration, while a separate reviewer examines the resulting change.",
+  "what_worked": "In one operational trial, delegated read-only assignments returned their findings without tracked edits. The coordinating agent retained integration and completed a reviewed documentation checkpoint.",
+  "what_failed": "No delegation failure was observed in this trial. Relative speed, cost and quality were not measured.",
+  "why": "The assignment states who may inspect, edit, review and integrate. This makes ownership explicit, although the trial does not establish a causal benefit.",
+  "improved_method": "State the deliverable and permitted mutations for each delegated task. Keep integration assigned to one agent, inspect returned evidence and the actual diff, and obtain independent review where required. Record actual routing rather than inferring model identity from a workflow label.",
+  "when_to_use": "Independent inspection or inventory can proceed alongside a change, and a designated agent can reconcile the results before saving.",
+  "when_not_to_use": "The task is too small to justify delegation overhead, or the work cannot be separated without concurrent edits to the same state.",
+  "known_limitations": "A single operational trial was observed, without a controlled comparison or independent repetition. This entry does not establish better model performance, lower cost or faster delivery. The observation date refers to this workflow trial.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "current"
+}
