@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Generalized AI Experience",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "category", "task_type", "ai_system", "observation_date", "environment", "goal", "approach", "what_worked", "what_failed", "why", "improved_method", "when_to_use", "when_not_to_use", "known_limitations", "evidence_type", "reproduction_status", "confidence", "related_knowledge_ids", "safety_review", "knowledge_status"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^EXP-[0-9]{6}$"},
+    "title": {"type": "string", "minLength": 1, "maxLength": 160},
+    "category": {"type": "string", "enum": ["successes", "failures", "patterns", "anti-patterns", "experiments", "prompts", "tools", "agents", "workflows", "case-studies"]},
+    "task_type": {"type": "string", "minLength": 1, "maxLength": 100},
+    "ai_system": {"type": "string", "minLength": 1, "maxLength": 100},
+    "model": {"type": "string", "minLength": 1, "maxLength": 100},
+    "tool_version": {"type": "string", "minLength": 1, "maxLength": 100},
+    "observation_date": {"type": "string", "format": "date"},
+    "environment": {"type": "string", "minLength": 1, "maxLength": 1000},
+    "goal": {"type": "string", "minLength": 1, "maxLength": 2000},
+    "approach": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "what_worked": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "what_failed": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "why": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "improved_method": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "when_to_use": {"type": "string", "minLength": 1, "maxLength": 2000},
+    "when_not_to_use": {"type": "string", "minLength": 1, "maxLength": 2000},
+    "known_limitations": {"type": "string", "minLength": 1, "maxLength": 2000},
+    "evidence_type": {"type": "string", "enum": ["direct experiment", "repeated experiment", "official documentation", "public research", "anonymized community report", "inference"]},
+    "reproduction_status": {"type": "string", "enum": ["reproduced", "not reproduced"]},
+    "confidence": {"type": "string", "enum": ["low", "medium", "high"]},
+    "knowledge_status": {"type": "string", "enum": ["current", "historical"]},
+    "related_knowledge_ids": {"type": "array", "maxItems": 30, "uniqueItems": true, "items": {"type": "string", "pattern": "^EXP-[0-9]{6}$"}},
+    "safety_review": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "independent_review", "data_minimization", "no_identifiers", "no_private_data", "rights_checked"],
+      "properties": {
+        "status": {"type": "string", "const": "approved"},
+        "independent_review": {"type": "boolean", "const": true},
+        "data_minimization": {"type": "boolean", "const": true},
+        "no_identifiers": {"type": "boolean", "const": true},
+        "no_private_data": {"type": "boolean", "const": true},
+        "rights_checked": {"type": "boolean", "const": true}
+      }
+    },
+    "sources": {"type": "array", "maxItems": 10, "items": {
+      "type": "object", "additionalProperties": false,
+      "required": ["type", "url", "source_safety_review"],
+      "properties": {
+        "type": {"type": "string", "enum": ["official documentation", "public research"]},
+        "url": {"type": "string", "minLength": 1, "maxLength": 500, "format": "safe-source-uri"},
+        "source_safety_review": {"type": "boolean", "const": true}
+      }
+    }},
+    "failure_details": {
+      "type": "object", "additionalProperties": false,
+      "required": ["failure", "impact", "cause", "detection", "recovery", "prevention", "generalized_lesson"],
+      "properties": {
+        "failure": {"type": "string", "minLength": 1, "maxLength": 4000},
+        "impact": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "cause": {"type": "string", "minLength": 1, "maxLength": 4000},
+        "detection": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "recovery": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "prevention": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "generalized_lesson": {"type": "string", "minLength": 1, "maxLength": 4000}
+      }
+    }
+  },
+  "if": {"properties": {"category": {"const": "failures"}}, "required": ["category"]},
+  "then": {"required": ["failure_details"]}
+}
