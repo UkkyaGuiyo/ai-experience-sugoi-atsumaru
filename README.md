@@ -8,6 +8,8 @@ AIの使い方、成功、失敗、事故、工夫、妙に上手くいった方
 
 収集対象はExperience → Analysis → Generalization → Reusable Knowledge。人や会話のアーカイブではなく、成功・失敗・実験・改善・運用パターン・アンチパターンを扱います。Failureは知識の一分類です。
 
+Projectや実作業から得た経験も、元の人物・組織・案件・private sourceを特定できない公開可能な知識へ一般化できる場合は収集対象です。元Projectの生データを保存することと、Projectから得た再利用可能な知見を保存することを区別します。
+
 ## 最初に読む
 
 - [AI運用規則](AGENTS.md)
@@ -29,4 +31,4 @@ GitHub Actionsでもschema validation、automated safety scan、unit testsを実
 
 ## 現在の状態
 
-初期構築の器です。実データはまだ投入していません。既存Failure Atlasからの移植は行っていません。初期状態はPRIVATEで、ユーザーの明示指示なしに公開しません。LICENSEは未設定で、自由な再配布を許諾していません。
+基盤は初期構築済みで、Knowledge EntryはSafety Review・Schema検査・独立レビューを通して通常収集できます。過去Projectや既存Failure Atlas等の一括backfill・自動移植は行っておらず、別途明示された対象範囲が必要です。Repositoryは現在PRIVATEで、PUBLIC化はEntry内容の公開可能性とは別の明示的な判断です。LICENSEは未設定で、自由な再配布を許諾していません。

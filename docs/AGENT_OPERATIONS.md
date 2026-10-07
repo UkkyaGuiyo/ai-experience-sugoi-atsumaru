@@ -4,6 +4,8 @@ AIはroot AGENTS.mdとCollection/Privacy/Source Policyを最初に読む。何�
 
 作業担当は一般化とData Minimizationを行い、Entry作成前にSafety Reviewを実施する。不明な情報は保存しない。個人や元Projectを識別する情報を、根拠・レビュー・handoff・commit messageへ漏らさない。
 
+Project由来の新しい経験は、元Projectから切り離して成立する再利用可能な知識へ一般化できる場合、通常のKnowledge Collectionとして扱える。出所がProjectであることだけを理由に拒否しない。元Project名、private repository識別子、個人path、raw artifactはEntryへ持ち込まない。過去Project全体を探索する一括backfillや自動移植はMigration Policyに従い、明示された対象範囲が必要。
+
 実装担当と独立Reviewerを分ける。ReviewerはPrivacy/Security、Schemaとの整合、根拠と再現性、CI、AI指示、将来拡張性を確認する。指摘の修正後に検査を再実行し、未実施の検証を合格としない。
 
 複数agentは独立したファイル範囲のみ分業し、共有ファイルの統合担当を一人にする。安全性が不明なデータをagent間で再配布しない。通常の承認範囲で継続するが、Safety gateや明示停止を勝手に解除しない。
