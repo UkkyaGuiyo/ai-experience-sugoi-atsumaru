@@ -13,6 +13,8 @@
 
 合成値の回帰テストで上記を確認した。検査診断は候補内容を表示しない。検査器はroot .git以外を対象とし、読取不能、binary、リンク、不正JSONを黙って除外しない。
 
+独立Reviewerによる最終検証で29単体テストとRepository全体の検査がPASSし、Knowledge Entryは0件だった。最終filesystem走査改善も確認し、阻害指摘は残っていない。GitHub Actions設定のレビューは完了したが、remote保存と実CI合格は別の完了条件として残る。
+
 ## 限界と今後
 
 **Automated validation != privacy guarantee**。再識別可能な情報の組合せ、自然言語に含まれる個人・機密・権利上の問題は機械検査だけでは保証できない。Entry作成前のSafety Reviewと独立レビューを継続する。

@@ -10,13 +10,13 @@ JSONをKnowledge Entryの正本とし、Markdownは日本語の運用文書と�
 
 ## 実装手順
 
-- [ ] 安全運用文書、全分類directory、Entryテンプレートを作る。
-- [ ] 必須field、失敗固有field、時点・履歴・根拠・レビュー状態をSchemaに定義する。
-- [ ] Schema違反、危険候補、禁止ファイル、生会話候補、参照整合を検出する。
-- [ ] 合成値で各検出と誤検出、Schema整合、Entry件数ゼロを単体テストする。
-- [ ] 読取権限のみのCIでテストと検査を実行する。
-- [ ] 独立ReviewerがPrivacy、Security、Schema、検査器、CI、AI規則、拡張性をレビューする。
-- [ ] 指摘を修正し、ローカルテストと検査を実行する。
+- [x] 安全運用文書、全分類directory、Entryテンプレートを作る。
+- [x] 必須field、失敗固有field、時点・履歴・根拠・レビュー状態をSchemaに定義する。
+- [x] Schema違反、危険候補、禁止ファイル、生会話候補、参照整合を検出する。
+- [x] 合成値で各検出と誤検出、Schema整合、Entry件数ゼロを単体テストする。
+- [x] 読取権限のみのCI設定を作る。remote上の実行結果は最後の手順で確認する。
+- [x] 独立ReviewerがPrivacy、Security、Schema、検査器、CI、AI規則、拡張性をレビューする。
+- [x] 指摘を修正し、ローカルテストと検査を実行する。
 - [ ] 指定作業branchへ通常commit/pushし、CI・Private・remote SHA・clean状態を確認する。
 
 ## 検証の焦点
