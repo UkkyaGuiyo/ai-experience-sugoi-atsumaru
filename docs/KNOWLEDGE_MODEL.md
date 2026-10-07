@@ -1,0 +1,31 @@
+# Knowledge Model
+
+knowledge/内の分類directoryにJSON Entryを保存し、schema/experience-entry.schema.jsonを形式の正本とする。templates/EXPERIENCE_ENTRY.mdは記入ガイドであり、Markdown全文をEntryとして保存する形式ではない。
+
+分類はsuccesses、failures、patterns、anti-patterns、experiments、prompts、tools、agents、workflows、case-studies。新分類が必要ならSchema・Validator・tests・docsを整合させ、安全性をレビューする。
+
+## 内容
+
+ID、title、category、task_type、ai_system、既知の場合のmodel/tool_version、observation_date、一般化したenvironment、goal、approach、what_worked、what_failed、why、improved_method、when_to_use、when_not_to_use、known_limitations、evidence_type、reproduction_status、confidence、related_knowledge_ids、safety_review、knowledge_statusを表す。
+
+人物・組織・固有案件の識別fieldは設けない。environmentは必要最小限の一般条件のみ。未知のModelやversionを推測で埋めない。
+
+Evidence Typeはdirect experiment、repeated experiment、official documentation、public research、anonymized community report、inferenceを区別する。再現未実施を再現済みとしない。Confidenceは根拠の強さであり安全性の保証ではない。
+
+FailureもKnowledgeの一分類で、failures分類ではfailure_details objectが必須。その中にfailure、impact、cause、detection、recovery、prevention、generalized_lessonを記録する。
+
+safety_reviewはstatusがapprovedであり、independent_review、data_minimization、no_identifiers、no_private_data、rights_checkedがすべてtrueのobject。独立レビュー前の草稿はEntryとして保存しない。個人名やhandleで承認者を記録しない。
+
+任意のsourcesはofficial documentationまたはpublic researchのみ。安全レビュー済みHTTPS URLを用い、credentials、query、fragment、IP、個人特定情報を含めない。許諾不明の内容は出典を付けても保存できない。
+
+## 時間と適用範囲
+
+観測日、Model、tool version、条件、再現状態で知見を限定する。「AIは常にできない」といった無条件の真理へ拡大しない。knowledge_statusはcurrentまたはhistorical。古い経験はhistoricalとして残せるが、現在の能力の根拠として再検証なしに使わない。observation_dateはISO日付。分からない場合や安全に記録できない場合は日付を捏造せず、現在のSchemaではEntryの収録を見送る。環境詳細は必要最小限へ一般化する。関連IDで改善や再現結果をつなぎ、元の経験を密かに別条件の結果へ書き換えない。
+
+## ValidatorのSchema対応範囲
+
+標準Python実装はJSON Schema全機能ではなく、このSchemaが使う限定subsetを検査する。対応keywordはtype、additionalProperties、required、properties、pattern、minLength/maxLength、enum、const、format、items、maxItems、uniqueItems、if/thenおよびSchema metadata。未知keywordやformatは黙って無視せず失敗させる。拡張時はSchemaとValidatorの対応をtestsで確認する。
+
+format=dateは暦上のISO日付を検査する。safe-source-uriは本Repository独自formatで、HTTPSとhostnameを要求しcredentials/query/fragment/IPを拒否する。一般のJSON Schema validatorは独自formatを保証しないため、RepositoryのValidatorも必ず実行する。URLが機械的に合格しても公式出典、権利、個人非識別の保証ではない。
+
+Entry作成前Safety Reviewと独立レビューが必要。Automated validation != privacy guarantee。
