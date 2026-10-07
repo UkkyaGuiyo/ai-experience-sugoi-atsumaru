@@ -1,0 +1,33 @@
+{
+  "id": "EXP-000006",
+  "title": "空の観測結果を確認済みの不在に変換しない",
+  "category": "patterns",
+  "task_type": "Agent Operations / Verification",
+  "ai_system": "AI agent",
+  "observation_date": "2026-10-07",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "knowledge_status": "current",
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "environment": "ツール検索、プロセス確認、共有資源の問い合わせで空の結果を受け取る作業。",
+  "goal": "取得失敗や観測不足を不在と誤認して後続操作を開始することを防ぐ。",
+  "approach": "結果を存在、確認範囲内で不在、不明に分ける。不在には問い合わせ成功、対象範囲の充足、十分な鮮度が必要だと定義する。",
+  "what_worked": "成功結果は未観測。三状態を保持すると、観測の不確実性を後続判断へ渡せると推論する。",
+  "what_failed": "失敗結果は未観測。同じ空リストでも、権限不足、一部取得、期限切れ、正常取得では根拠が異なるため、一律に不在と判定すると誤操作を起こし得る。",
+  "why": "空の出力自体には、問い合わせが成功し必要な範囲を新しく観測したという情報が含まれない。",
+  "improved_method": "未検証の提案として、同じ空リストに取得成功、権限不足、一部取得、期限切れの条件を与える合成例を評価する。不明の場合は、その条件に依存する操作だけを保留し、独立した作業を進める。",
+  "when_to_use": "起動、削除、上書き、共有資源取得の前提確認。",
+  "when_not_to_use": "観測範囲や鮮度を定義できないのに、全体の不在証明として扱う場合。",
+  "known_limitations": "observation_dateは一般化提案のレビュー・JSON案作成日であり、過去の事例の発生日や実験日ではない。不在判定は確認範囲内に限る。観測を増やすための無断の権限昇格、個人情報取得、他作業への干渉を認める提案ではない。合成例は未実行。",
+  "related_knowledge_ids": [
+    "EXP-000002"
+  ]
+}

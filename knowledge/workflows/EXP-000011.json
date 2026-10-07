@@ -1,0 +1,33 @@
+{
+  "id": "EXP-000011",
+  "title": "検査条件と限定的な延期を作業段階に結び付ける",
+  "category": "workflows",
+  "task_type": "Agent Operations / Verification",
+  "ai_system": "AI agent",
+  "observation_date": "2026-10-07",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "knowledge_status": "current",
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "environment": "テンプレート確認、依存物の配置、依存解決後の確認を持つビルドや移行パイプライン。",
+  "goal": "早い段階で未生成のものを要求した結果、検査全体を緩めて後段の欠落まで見逃すことを防ぐ。",
+  "approach": "各段階で存在すべきもの、後段まで未確定でよいもの、常に禁止するものを定義する。延期できる条件の対象と段階を限定し、後段で必ず確認する。",
+  "what_worked": "成功結果は未観測。段階ごとの条件と延期の終了点を定義すると、早期の正当な未存在と後段の欠落を分けられると推論する。",
+  "what_failed": "失敗結果は未観測。広い例外は未知の対象、不正な参照、配置後の未存在、段階不明まで通してしまう可能性がある。",
+  "why": "同じ未存在でも、生成前の許容状態と生成後の要件違反では意味が異なる。段階を保持しない例外はその差を消す。",
+  "improved_method": "未検証の提案として、許可依存物が配置前だけ未存在の例、未許可依存物、許可名で場所が違う例、配置後も未存在の例を評価する。段階遷移の証拠を確認し、延期が後段の合格へ引き継がれないようにする。",
+  "when_to_use": "ビルド、配布、依存解決、移行パイプライン。",
+  "when_not_to_use": "段階不明のまま例外を適用する場合、または延期を安全制約の免除として扱う場合。",
+  "known_limitations": "observation_dateは一般化提案のレビュー・JSON案作成日であり、過去の事例の発生日や実験日ではない。合成例は未実行。段階遷移の証拠がなければ実行可能と判定しない。安全制約を外す変更は別途レビューが必要。",
+  "related_knowledge_ids": [
+    "EXP-000001"
+  ]
+}

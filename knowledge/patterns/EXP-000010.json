@@ -1,0 +1,33 @@
+{
+  "id": "EXP-000010",
+  "title": "件数や順序の一致から意味上の対応を推定しない",
+  "category": "patterns",
+  "task_type": "Agent Operations / Verification",
+  "ai_system": "AI agent",
+  "observation_date": "2026-10-07",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "knowledge_status": "current",
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "environment": "インポート、データ変換、移行、参照の付け直し、表の結合などの入出力対応付け。",
+  "goal": "件数、表示名、配列位置の偶然の一致を、意味が保存された証明と扱うことを防ぐ。",
+  "approach": "何を同一と見なすか定義し、処理対象の意味を保つ識別子や内容上の対応を使う。曖昧な対応を未確定として残し、対応を決める根拠と検証の根拠を分ける。",
+  "what_worked": "成功結果は未観測。意味上の同一性を定義して独立した根拠で確認すると、順序だけの偶然の一致を区別しやすいと推論する。",
+  "what_failed": "失敗結果は未観測。要素数が同じでも内容の交換や並べ替えは起こり得る。期待結果から逆算した対応表を同じ検査の正解にも使うと誤対応を見逃し得る。",
+  "why": "件数や位置は内容の同一性を決めず、対応作成と正解判定に同じ仮定を使う検査はその仮定の誤りを検出できない可能性がある。",
+  "improved_method": "未検証の提案として、順番だけの交換、件数を保った内容交換、同名で異なる内容、重複要素の合成例を評価する。偶然一致した並び順を固定の変換規則にせず、独立した意味属性も必要に応じて確認する。",
+  "when_to_use": "データ移行、3D変換、参照の修復、表の結合。",
+  "when_not_to_use": "意味上の同一性を定義できないのに、内容一致だけですべての属性の保存を保証する場合。",
+  "known_limitations": "observation_dateは一般化提案のレビュー・JSON案作成日であり、過去の事例の発生日や実験日ではない。量子化、正規化、重複がある場合は一致判定に限界がある。内容一致は別の意味属性まで証明しない。合成例は未実行で、変換精度は未測定。",
+  "related_knowledge_ids": [
+    "EXP-000003"
+  ]
+}

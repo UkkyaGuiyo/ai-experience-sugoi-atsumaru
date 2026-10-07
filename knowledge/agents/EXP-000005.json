@@ -1,0 +1,33 @@
+{
+  "id": "EXP-000005",
+  "title": "現行指示の入口を一意にし、矛盾した例で検査する",
+  "category": "agents",
+  "task_type": "Agent Operations / Verification",
+  "ai_system": "AI agent",
+  "observation_date": "2026-10-07",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "knowledge_status": "current",
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "environment": "複数セッションや担当交代があり、現行指示と過去の引き継ぎが同じ文書に残る作業。",
+  "goal": "エージェントが過去の指示を現行の実行対象として選ぶことを防ぐ。",
+  "approach": "現行指示の入口を一つ示し、履歴との役割を明示する。検査対象を現行セクションの位置、見出し、対象文書、必須条件、禁止条件に限定して定義する。",
+  "what_worked": "成功結果は未観測。現行指示の位置と条件を明示すれば、文書全体で単語の存在だけを見る検査の曖昧さを減らせると推論する。",
+  "what_failed": "失敗結果は未観測。正しい語句が履歴に残っているだけで合格する検査は、古い指示や矛盾する指示を見逃し得る。",
+  "why": "語句の存在は、その語句が現在の実行対象であることや、同じ箇所に禁止条件がないことを示さない。",
+  "improved_method": "未検証の提案として、正しい語句を残したまま古い指示を先頭に置く合成例と、任意・必須が矛盾する現行文の合成例を用意し、検査が拒否するか評価する。履歴は書き換えず、現行と履歴の役割を明示する。",
+  "when_to_use": "長期エージェント作業、担当交代、複数セッションの引き継ぎ。",
+  "when_not_to_use": "文字列検査だけで任意の自然言語の意味や現在の実行環境を保証したい場合。",
+  "known_limitations": "observation_dateは一般化提案のレビュー・JSON案作成日であり、過去の事例の発生日や実験日ではない。検査が保証するのは指定した形式だけである。合成例は未実行で、指示選択の正確さや作業効率への効果は未測定。",
+  "related_knowledge_ids": [
+    "EXP-000001"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "EXP-000012",
+  "title": "編集担当と共有実行資源の利用担当を別々に管理する",
+  "category": "agents",
+  "task_type": "Agent Operations / Verification",
+  "ai_system": "AI agent",
+  "observation_date": "2026-10-07",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "knowledge_status": "current",
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "environment": "複数エージェントが異なるファイルを編集しながら、Editor、実行プロセス、出力先、計測環境を共有する作業。",
+  "goal": "ファイルの分担だけで実行環境も独立したと誤認し、共有資源を同時利用することを防ぐ。",
+  "approach": "ファイルの担当範囲と実行資源の担当範囲を別に定義する。共有資源には調整役を置き、対象インスタンス、許可作業、取得条件、解放条件を確認してから利用する。",
+  "what_worked": "成功結果は未観測。編集範囲と実行資源を別に管理すると、異なるファイルの作業者が同じ資源を競合利用する条件を明示できると推論する。",
+  "what_failed": "失敗結果は未観測。ブランチや編集ファイルの分離だけでは、同じEditorや出力先を同時操作することを防げない。",
+  "why": "ファイルの所有範囲と実行資源の排他性は異なる状態であり、片方の分離からもう片方の独立性は導けない。",
+  "improved_method": "未検証の提案として、異なるファイルを担当する二者が同じ実行資源を要求する合成例を評価する。片方だけに利用を許可し、古い所有情報や不明な対象では開始しない。待機中は共有資源に触れない調査や合成テストを進める。",
+  "when_to_use": "複数エージェント、GUI操作、共有Editor、実機テスト。",
+  "when_not_to_use": "独立した資源まで一律に直列化する場合、または文書の担当指定だけを排他制御の実装として扱う場合。",
+  "known_limitations": "observation_dateは一般化提案のレビュー・JSON案作成日であり、過去の事例の発生日や実験日ではない。合成例は未実行。性能改善や待ち時間削減は未測定。他担当の接続先を無断で変更したり、広い名前一致でプロセスを停止したりする許可を与えるものではない。",
+  "related_knowledge_ids": [
+    "EXP-000003",
+    "EXP-000004"
+  ]
+}
