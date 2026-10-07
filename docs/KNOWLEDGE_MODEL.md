@@ -24,8 +24,10 @@ safety_reviewはstatusがapprovedであり、independent_review、data_minimizat
 
 ## ValidatorのSchema対応範囲
 
-標準Python実装はJSON Schema全機能ではなく、このSchemaが使う限定subsetを検査する。対応keywordはtype、additionalProperties、required、properties、pattern、minLength/maxLength、enum、const、format、items、maxItems、uniqueItems、if/thenおよびSchema metadata。未知keywordやformatは黙って無視せず失敗させる。拡張時はSchemaとValidatorの対応をtestsで確認する。
+標準Python実装はJSON Schema全機能ではなく、このSchemaが使う限定subsetを検査する。対応keywordはtype、additionalProperties、required、properties、pattern、minLength/maxLength、enum、const、format、items、maxItems、uniqueItems、if/thenおよびSchema metadata。未知keywordやformat、不正な制約定義は黙って無視せず失敗させる。拡張時はSchemaとValidatorの対応をtestsで確認する。
 
 format=dateは暦上のISO日付を検査する。safe-source-uriは本Repository独自formatで、HTTPSとhostnameを要求しcredentials/query/fragment/IPを拒否する。一般のJSON Schema validatorは独自formatを保証しないため、RepositoryのValidatorも必ず実行する。URLが機械的に合格しても公式出典、権利、個人非識別の保証ではない。
+
+Safety scanはrootの.git以外を対象とする。すべてのJSONについて、ファイルの文字列表現に加え、decode後のkeyと文字列値も検査する。escapeによって候補を隠しても検査を回避できない。不正なJSONやSchema定義は失敗とする。cache directoryは除外しない。ローカルtestsはpython -B -m unittest discover -s tests -vで実行し、検査対象にbytecodeを生成しない。
 
 Entry作成前Safety Reviewと独立レビューが必要。Automated validation != privacy guarantee。

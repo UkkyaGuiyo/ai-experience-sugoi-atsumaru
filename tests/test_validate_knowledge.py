@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import shutil
 import sys
+sys.dont_write_bytecode = True
 import tempfile
 import unittest
 
@@ -85,12 +86,25 @@ class SchemaTests(unittest.TestCase):
         schema['properties']['model']['unknownKeyword'] = True
         self.assertTrue(v.schema_errors(entry(), schema))
 
+    def test_malformed_schema_constraints_fail_closed(self):
+        for key, invalid in [('minLength', -1), ('minLength', True), ('pattern', '['),
+                             ('format', 'unknown')]:
+            schema = copy.deepcopy(SCHEMA)
+            schema['properties']['title'][key] = invalid
+            self.assertTrue(v.unsupported_schema(schema))
+        for key, invalid in [('additionalProperties', 'false'), ('required', 'title'),
+                             ('properties', []), ('type', 'unknown')]:
+            schema = copy.deepcopy(SCHEMA)
+            schema[key] = invalid
+            self.assertTrue(v.unsupported_schema(schema))
+
     def test_source_safety_and_uri(self):
         value = entry()
         value['sources'] = [{'type': 'official documentation', 'url': 'https://docs.python.org/3/',
                              'source_safety_review': True}]
         self.assertEqual(v.schema_errors(value, SCHEMA), [])
-        for url in ['http://docs.python.org/', 'https://docs.python.org/?sensitive=value']:
+        for url in ['http://docs.python.org/', 'https://docs.python.org/?sensitive=value',
+                    'https://docs.python.org:invalid/']:
             value['sources'][0]['url'] = url
             self.assertTrue(v.schema_errors(value, SCHEMA))
 
@@ -184,6 +198,30 @@ class RepositoryTests(unittest.TestCase):
     def test_scan_includes_code_and_tests(self):
         for path in ['scripts/new.py', 'tests/new.py', 'docs/new.md']:
             self.write(path, 'invented' + '@' + 'example.invalid')
+        self.assertIn('EMAIL', self.codes())
+
+    def test_escaped_json_candidate_is_detected(self):
+        value = entry()
+        value['goal'] = 'invented' + '@' + 'example.invalid'
+        target = self.root / 'knowledge/experiments/one.json'
+        target.parent.mkdir(parents=True)
+        serialized = json.dumps(value).replace('@', '\\u0040')
+        target.write_text(serialized, encoding='utf-8')
+        self.assertIn('EMAIL', self.codes())
+
+    def test_decoded_json_key_assignment_is_detected(self):
+        value = {'pass' + 'word': 'synthetic-value'}
+        serialized = json.dumps(value).replace('password', '\\u0070assword')
+        (self.root / 'invented.json').write_text(serialized, encoding='utf-8')
+        self.assertIn('DANGEROUS_ASSIGNMENT', self.codes())
+
+    def test_structured_giant_dialogue_is_detected(self):
+        value = [{'role': 'user', 'content': 'x' * 7000} for _ in range(12)]
+        self.write('invented.json', value)
+        self.assertIn('RAW_TRANSCRIPT', self.codes())
+
+    def test_cache_directory_is_scanned(self):
+        self.write('docs/__pycache__/hidden.json', 'invented' + '@' + 'example.invalid')
         self.assertIn('EMAIL', self.codes())
 
     def test_forbidden_binary_oversize_and_wrong_entry_format(self):

@@ -11,6 +11,7 @@ from dataclasses import dataclass
 from datetime import date
 import ipaddress
 import json
+import os
 from pathlib import Path
 import re
 from urllib.parse import urlsplit
@@ -46,16 +47,8 @@ FORBIDDEN_NAMES = {".env", "credentials", "id_rsa", "id_ed25519", "cookies.txt",
 def schema_errors(value, schema: dict, location: str = "$") -> list[str]:
     """Return value-free error locations for the explicitly supported subset."""
     errors = []
-    if not isinstance(schema, dict) or set(schema) - KEYWORDS:
+    if unsupported_schema(schema):
         return [location + ":unsupported-schema"]
-    # Validate nested schemas even when a value is absent or conditional unused.
-    for key in ("properties",):
-        for child in schema.get(key, {}).values():
-            if unsupported_schema(child):
-                return [location + ":unsupported-schema"]
-    for key in ("items", "if", "then"):
-        if key in schema and unsupported_schema(schema[key]):
-            return [location + ":unsupported-schema"]
     kind = schema.get("type")
     predicates = {"object": lambda v: isinstance(v, dict), "array": lambda v: isinstance(v, list), "string": lambda v: isinstance(v, str), "boolean": lambda v: isinstance(v, bool), "integer": lambda v: isinstance(v, int) and not isinstance(v, bool), "number": lambda v: isinstance(v, (int, float)) and not isinstance(v, bool), "null": lambda v: v is None}
     if kind is not None and (kind not in predicates or not predicates[kind](value)):
@@ -90,6 +83,7 @@ def schema_errors(value, schema: dict, location: str = "$") -> list[str]:
         elif fmt == "safe-source-uri":
             try:
                 parsed = urlsplit(value)
+                parsed.port  # Validate port syntax/range even when no port is needed.
                 if parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password or parsed.query or parsed.fragment:
                     raise ValueError()
                 try:
@@ -115,12 +109,48 @@ def schema_errors(value, schema: dict, location: str = "$") -> list[str]:
     return errors
 
 
-def unsupported_schema(schema):
-    if not isinstance(schema, dict) or set(schema) - KEYWORDS:
+def unsupported_schema(schema, depth=0):
+    """Reject unsupported keywords and malformed keyword values without crashing."""
+    if depth > 64 or not isinstance(schema, dict) or set(schema) - KEYWORDS:
         return True
-    if schema.get("format") not in (None, "date", "safe-source-uri"):
+    for key in ("$schema", "title", "description", "pattern", "format", "type"):
+        if key in schema and not isinstance(schema[key], str):
+            return True
+    if "type" in schema and schema["type"] not in {"object", "array", "string", "boolean", "integer", "number", "null"}:
         return True
-    return any(unsupported_schema(v) for v in schema.get("properties", {}).values()) or any(unsupported_schema(schema[k]) for k in ("items", "if", "then") if k in schema)
+    if "format" in schema and schema["format"] not in {"date", "safe-source-uri"}:
+        return True
+    if "$schema" in schema and schema["$schema"] != "https://json-schema.org/draft/2020-12/schema":
+        return True
+    for key in ("additionalProperties", "uniqueItems"):
+        if key in schema and not isinstance(schema[key], bool):
+            return True
+    for key in ("minLength", "maxLength", "maxItems"):
+        if key in schema and (type(schema[key]) is not int or schema[key] < 0):
+            return True
+    if schema.get("minLength", 0) > schema.get("maxLength", float("inf")):
+        return True
+    if "pattern" in schema:
+        try:
+            re.compile(schema["pattern"])
+        except re.error:
+            return True
+    if "required" in schema:
+        required = schema["required"]
+        if not isinstance(required, list) or any(not isinstance(v, str) for v in required) or len(set(required)) != len(required):
+            return True
+    if "enum" in schema:
+        options = schema["enum"]
+        if not isinstance(options, list) or not options:
+            return True
+        try:
+            if len({json.dumps(v, sort_keys=True, allow_nan=False) for v in options}) != len(options):
+                return True
+        except (TypeError, ValueError):
+            return True
+    if "properties" in schema and (not isinstance(schema["properties"], dict) or any(not isinstance(k, str) for k in schema["properties"])):
+        return True
+    return any(unsupported_schema(v, depth + 1) for v in schema.get("properties", {}).values()) or any(unsupported_schema(schema[k], depth + 1) for k in ("items", "if", "then") if k in schema)
 
 
 def scan_text(text: str, path: str = "<memory>") -> list[Finding]:
@@ -151,19 +181,65 @@ def _load_json(text):
     return json.loads(text, object_pairs_hook=unique_pairs, parse_constant=lambda _: (_ for _ in ()).throw(ValueError("nonfinite")))
 
 
+def scan_json(value, path: str) -> list[Finding]:
+    """Scan decoded keys/strings and associations so escaping cannot hide candidates."""
+    codes = set()
+    conversation_roles = 0
+
+    def visit(node):
+        nonlocal conversation_roles
+        if isinstance(node, str):
+            codes.update(f.code for f in scan_text(node, path))
+        elif isinstance(node, dict):
+            if node.get("role") in ("user", "assistant", "system", "human", "agent"):
+                conversation_roles += 1
+            for key, child in node.items():
+                visit(key)
+                visit(child)
+        elif isinstance(node, list):
+            for child in node:
+                visit(child)
+
+    visit(value)
+    # Decoded key/value associations also reveal credential assignments.
+    decoded_text = json.dumps(value, ensure_ascii=False, allow_nan=False)
+    codes.update(f.code for f in scan_text(decoded_text, path))
+    if len(decoded_text.encode("utf-8")) > 65536 and conversation_roles >= 10:
+        codes.add("RAW_TRANSCRIPT")
+    return [Finding(path, code, 0) for code in sorted(codes)]
+
+
 def validate_repository(root: Path | str) -> tuple[list[Finding], int]:
     root = Path(root)
     findings = []
     entries = []
     try:
-        schema = _load_json((root / "schema/experience-entry.schema.json").read_text(encoding="utf-8"))
+        schema_path = root / "schema/experience-entry.schema.json"
+        for candidate in (root, root / "schema", schema_path):
+            if candidate.is_symlink() or (hasattr(candidate, "is_junction") and candidate.is_junction()):
+                return [Finding("schema/experience-entry.schema.json", "SYMLINK")], 0
+        schema = _load_json(schema_path.read_text(encoding="utf-8"))
         if unsupported_schema(schema):
             raise ValueError("unsupported-schema")
-    except (OSError, UnicodeError, ValueError, TypeError, AttributeError):
+    except (OSError, UnicodeError, ValueError, TypeError, AttributeError, RecursionError):
         return [Finding("schema/experience-entry.schema.json", "SCHEMA_DEFINITION")], 0
-    for item in sorted(root.rglob("*")):
+    paths = []
+    def walk_error(error):
+        findings.append(Finding("<unreadable-directory>", "UNREADABLE_DIRECTORY"))
+    for directory, subdirs, filenames in os.walk(root, topdown=True, followlinks=False, onerror=walk_error):
+        directory_path = Path(directory)
+        for dirname in list(subdirs):
+            child = directory_path / dirname
+            if directory_path == root and dirname == ".git":
+                subdirs.remove(dirname)
+                continue
+            if child.is_symlink() or (hasattr(child, "is_junction") and child.is_junction()):
+                paths.append(child)
+                subdirs.remove(dirname)
+        paths.extend(directory_path / name for name in filenames)
+    for item in sorted(paths):
         relative = item.relative_to(root)
-        if relative.parts[0] == ".git" or "__pycache__" in relative.parts:
+        if relative.parts[0] == ".git":
             continue
         path = relative.as_posix()
         if item.is_symlink() or (hasattr(item, "is_junction") and item.is_junction()):
@@ -184,13 +260,21 @@ def validate_repository(root: Path | str) -> tuple[list[Finding], int]:
             findings.append(Finding(path, "UNREADABLE_OR_BINARY"))
             continue
         findings.extend(scan_text(text, path))
+        parsed_json = None
+        if item.suffix.lower() == ".json":
+            try:
+                parsed_json = _load_json(text)
+                findings.extend(scan_json(parsed_json, path))
+            except (ValueError, TypeError, UnicodeError, RecursionError):
+                findings.append(Finding(path, "INVALID_JSON"))
+                continue
         if relative.parts[0] != "knowledge" or item.name == ".gitkeep":
             continue
         if item.suffix.lower() != ".json":
             findings.append(Finding(path, "KNOWLEDGE_FORMAT"))
             continue
         try:
-            entry = _load_json(text)
+            entry = parsed_json
             errors = schema_errors(entry, schema)
             if errors:
                 findings.append(Finding(path, "SCHEMA_VIOLATION"))

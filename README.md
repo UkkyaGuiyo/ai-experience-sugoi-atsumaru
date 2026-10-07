@@ -21,11 +21,11 @@ AIの使い方、成功、失敗、事故、工夫、妙に上手くいった方
 knowledge/内の分類directoryに、Schemaに従うJSON Entryを保存します。観測時期、Model、tool version、一般化した環境、再現状態により適用範囲を限定します。古い知見はHistorical Knowledgeとして扱い、永遠の真理としません。
 
 ```sh
-python scripts/validate_knowledge.py
-python -m unittest discover -s tests -v
+python -B scripts/validate_knowledge.py
+python -B -m unittest discover -s tests -v
 ```
 
-GitHub Actionsでもschema validation、automated safety scan、unit testsを実行します。**Automated validation != privacy guarantee**。PASSしても識別可能性・秘密・権利・契約・法令について独立したSafety Reviewが必要です。
+GitHub Actionsでもschema validation、automated safety scan、unit testsを実行します。検査対象から除くのはrootの.gitのみです。生成されたbytecode/cacheも検査対象になるため、ローカル実行では上記の-B指定またはPYTHONDONTWRITEBYTECODE設定でbytecodeを作成しないでください。**Automated validation != privacy guarantee**。PASSしても識別可能性・秘密・権利・契約・法令について独立したSafety Reviewが必要です。
 
 ## 現在の状態
 
