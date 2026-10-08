@@ -4,9 +4,15 @@ Review status: PENDING_REVIEW
 
 A retired, lower-level failure-lesson knowledge base contained **72 generalized Lessons**. All 72 reusable lesson bodies have been migrated into this Atsumaru proposal batch as `LFA-001` through `LFA-072`.
 
-This migration preserves each source Lesson's intent, observed failure, failed assumption, confirmed root cause, correction, verification, reusable rule, applicability and any additional source notes when present. The old repository's operational manuals, agent handoff instructions, templates, index machinery and validator are **not** migrated as Knowledge because Atsumaru supersedes those mechanisms.
+This migration preserves each source Lesson's core intent, failure, assumptions, root-cause evidence, correction, verification and reusable rule. Applicable scope and essential diagnostic notes have been reconciled where omissions were found; incidental historical notes are not copied verbatim. The original confirmed label remains historical evidence, not approval by Atsumaru. The old repository's operational manuals, agent handoff instructions, templates, index machinery and validator are **not** migrated as Knowledge because Atsumaru supersedes those mechanisms.
 
 The source repository had already generalized/anonymized these Lessons and marked them confirmed. That status is retained only as source provenance. It does **not** satisfy Atsumaru's independent-review requirement. Every migrated candidate remains `PENDING_REVIEW` until an independent reviewer checks technical generalization, safety/rights, evidence level, limitations, and overlap with the 12 formal Knowledge Entries plus other pending proposal batches.
+
+## Review and remediation (2026-10-09)
+
+A per-candidate comparison against the original generalized Lessons found 14 missing Applicability sections, two truncated GZip explanations and one missing bounded Material diagnostic note. These passages have been restored or generalized from the source Lessons in the existing five batches. Three mixed-evidence candidates now explicitly separate verified and unresolved routes. **All 72 IDs remain in the pending proposal archive, not in formal Knowledge.**
+
+[Scoped remediation audit](../../reviews/2026-10-09-candidate-remediation.md) / [10 candidate overlaps consolidated into seven reviewed rule proposals](../../reviews/2026-10-09-consolidated-candidates.md).
 
 ## Migration completeness gate
 

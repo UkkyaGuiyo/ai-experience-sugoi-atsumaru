@@ -31,7 +31,7 @@ GitHub Actionsでもschema validation、automated safety scan、unit testsを実
 
 ## 現在の状態
 
-基盤は初期構築済みで、独立ReviewとSafety Reviewを通した正式Knowledge Entryを12件収録しています。一般化済みのエンジニアリング候補20件は `docs/proposals/engineering-lessons-batch/` で `PENDING_REVIEW` として保持し、正式Entryと混同しません。過去Projectや既存Failure Atlas等の一括backfill・自動移植は別途明示された対象範囲が必要です。
+基盤は初期構築済みで、独立ReviewとSafety Reviewを通した正式Knowledge Entryを12件収録しています。エンジニアリング候補20件と、許可された旧Lessonからの移行候補72件は、**正式Knowledgeとは別に** `docs/proposals/` に収録しています。計92候補の内容審査後、[移行本文の19件を修復した記録](docs/reviews/2026-10-09-candidate-remediation.md)と[重複10件を7組に集約したレビュー案](docs/reviews/2026-10-09-consolidated-candidates.md)があります。残る正式登録には元の実験・再現状況を誇張しない独立Safety/rights/technicalレビューが必要です。今後の一括backfillは明示された範囲ごとに許可を得ます。
 
 RepositoryはPUBLICです。保存する情報は、ファイル本体だけでなくcommit、branch、PR、Issue、review、Actions summary等も第三者から見える前提で最小化・一般化します。PublicであることはSafety Reviewの代替ではありません。
 

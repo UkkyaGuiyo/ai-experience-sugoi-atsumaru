@@ -130,6 +130,12 @@ Prove identity at each transport boundary, not just in pre-export metadata. Insp
 
 The historical callback evidence covers Blender 5.2.1 and Unity 2022.3.22f1 with one static UV mesh. The added Material-label evidence covers one synthetic three-slot skinned mesh and Blender 5.2.1 native FBX import. No universal exporter defect or general Skin/multi-object guarantee is inferred.
 
+### Separate transport claims before formalization
+
+- **Verified in the bounded identifier route:** the exact identity was observed in exported FBX and in the destination's callback receipts, with missing or duplicated identifiers rejected.
+- **Separately observed in the native Material-label route:** serialized Material names carried three ordered transport labels into Blender; the attempted custom Material-property lookup did not carry those labels. This does not establish a general material-slot or Skin reconstruction contract.
+- The two routes require separate acceptance boundaries and evidence classifications when converted to formal Knowledge. A successful serialization of one field does not prove the other field, importer context, or downstream use.
+
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 
 ## LFA-019 — Declare external references and inspect every provider kind
@@ -549,6 +555,12 @@ Compare effective material partitions using authoritative material identity and 
 ### Applicability
 
 Bounded direct Skin route. Unassigned/unused carrier slots are refused; UV, normals, deformation and broader component fidelity remain separate gates.
+
+### Supplemental diagnostic and provenance boundary (from original Lesson)
+
+A later bounded diagnostic compared native FBX import, fresh package import before and after explicit renderer confirmation, and a saved confirmed scene. At a declared coordinate quantization, triangle membership corresponded after one uniform reversal. Renderer confirmation did not change geometry or polygon indices but did yield a mismatch between exact Material identities on the corresponding face partitions. This strengthens the **material-membership** problem description; it does not prove winding/culling fidelity or explain the cause of the reversal.
+
+A diagnostic and an import fixture may use **different package contexts**. Before treating their material scopes as the same, compare the exact source FBX and metadata, source Prefab renderer-to-mesh identity, and material references. An output-package identity must never be substituted for the original input fixture's material scope.
 
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 

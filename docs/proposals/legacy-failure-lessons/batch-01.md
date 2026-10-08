@@ -40,6 +40,10 @@ Public directory-named-like-archive controls reproduced failure at both boundari
 
 Do not infer filesystem type from a suffix. Test directories with archive-like names at every discovery entry point before diagnosing package dependency resolution.
 
+### Applicability
+
+Local archive and provider discovery in Python or similar tools. A file-type check alone does not establish archive validity, permissions, content identity, or race-free access.
+
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 
 ## LFA-002 — Separate callback execution from effective target fidelity
@@ -77,6 +81,10 @@ The control locked model and policy revisions, observed callback phases, verifie
 ### Reusable rule
 
 Prove exact callback invocation and assigned settings, then measure actual target data before blaming timing or a getter. Refute simple cutoff/cardinality explanations with retained-and-missing counterexamples; never widen tolerances or claim a downstream numeric stage ran after its prerequisite gate refused.
+
+### Applicability
+
+Unity public ModelImporter and other callback-driven data pipelines. The verified result is the diagnostic method and exclusion of those explanations in scope, not a universal Unity threshold bug or a solved import mechanism.
 
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 
@@ -158,6 +166,10 @@ Long and short controls used identical input hashes. The short extraction comple
 
 When Windows staging fails with missing-path errors, first compare identical input under a fresh short destination. Record actual source existence and target length; do not patch content or change global OS settings before isolating the path effect.
 
+### Applicability
+
+Windows extraction, generated project staging, and nested output trees. This does not imply every missing-file error is a length limit or that one numeric path threshold applies to every API.
+
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 
 ## LFA-005 — Unity GPU render tests require a graphics device
@@ -238,6 +250,10 @@ An isolated Avatar SDK 3.10.5 EditMode run passed tests for hierarchy duplicatio
 
 When an EditMode test requires an object-change repair in the next yielded frames, verify that deferred callbacks actually execute within that test loop. If not, process the published event synchronously and explicitly cover Undo/Redo to avoid reassigning restored identities.
 
+### Applicability
+
+Applies to Unity Editor `ObjectChangeEvents` handling tested in batch EditMode at Unity 2022.3.22f1. Do not generalize it into a ban on `EditorApplication.delayCall` for ordinary interactive Editor work.
+
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 
 ## LFA-007 — Wait for a Unity Editor process to release its project before relaunch
@@ -275,6 +291,10 @@ The duplicate launch reproduced the explicit project-lock message. After the ear
 ### Reusable rule
 
 Before starting Unity on a project, check all running Unity process command lines for that exact project path. Do not treat a completion line in the log as proof that the process has released the project; wait for process exit first.
+
+### Applicability
+
+Applies when reopening the same Unity project from batch mode or the interactive Editor. It does not prohibit separate Unity processes that target different projects, such as asset-import workers.
 
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 
@@ -551,6 +571,12 @@ Separate provider identity from binding occurrence, including role/property and 
 ### Applicability
 
 The original texture route was verified in Blender 5.2.1 synthetic resolution. The follow-up concerns source-level FBX/Prefab material binding and must not be generalized into a claim that arbitrary late binding or shader/export fidelity is implemented.
+
+### Evidence boundaries for subsequent Knowledge entries
+
+- **Reproduced within the recorded texture route:** a single provider used for distinct material roles no longer collapses those bindings; repeated resolution and save/reopen were checked.
+- **Not yet demonstrated for the separate FBX external-material route:** receipt records still lacked a proven exact native consumer/slot mapping. The uncorrected grouped Prefab fixture must not inherit the texture-route PASS.
+- Each implementation route requires its own evidence type, reproduction status, and applicability assessment before formalization; the source's confirmed status applies only to its individually described observations.
 
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 

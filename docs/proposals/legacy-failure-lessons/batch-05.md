@@ -166,6 +166,10 @@ The named publication root existed with the expected remote. A normally approved
 
 Treat cwd as execution context, not as a revocation of explicit prior authorization. Check named approved roots and artifact revisions before reporting an environment blocker. Use formal approval for restricted operations, report actual denial details, and never bypass access controls.
 
+### Applicability
+
+Applies when the user or handoff explicitly authorizes a separate work root. It does not authorize arbitrary new roots, overwrites, deletion, or retrying a rejected operation through a bypass.
+
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 
 ## LFA-065 — Diagnostic outputs must not clobber inputs
@@ -344,6 +348,17 @@ Another task reported a different server PID. Fresh local PID/parent-PID metadat
 
 Before publishing a completion runner, test evidence from a prior same-root run and an Editor using a different executable. Require both to fail closed. Check request/envelope fixtures against the actual vendor implementation, bind configured targets independently, and bound acquisition start as well as end. Recheck live identity and freshness immediately before marker publication and retain the distinction between source/pure-test verification and runtime proof. A denied prerequisite must not be reported as an attempted or successful identity execution.
 
+### Applicability
+
+Applies to trusted local evidence files used to authorize process completion. This binding is not cryptographic authentication of hostile evidence. Inventory checks cannot make process launch atomic with unrelated user activity; host Project locking and live checks remain necessary.
+
+### Separate evidence and scope before formal Knowledge conversion
+
+- **Observed code defects and verified pure controls:** stale/mismatched completion receipts, insufficient Editor-version coverage, and a mixed PowerShell predicate had distinguishable negative/positive tests. Reverting the predicate grouping caused its focused regression to fail.
+- **Reviewed implementation proposal only:** in-memory Roslyn self-identity and its input-envelope contract were examined through source review and synthetic request validation; this is not native Unity execution proof.
+- **Native runtime not demonstrated for the corrected reusable identity runner:** an OS prerequisite was denied in one attempt, and a later permitted read found stale Editor readiness. Do not propagate the earlier bounded pilot result to the new identity route.
+- **Separate process-anatomy observation:** a wrapper PID and actual listener PID may refer to different members of the same ancestry rather than a restarted server. Review this as a distinct sub-lesson if reused.
+
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 
 ## LFA-069 — A passing in-process Unity test does not prove a command-line gate ran
@@ -381,6 +396,10 @@ Source review confirmed the conditional branch, the required command-line argume
 ### Reusable rule
 
 Before interpreting a test pass, inspect the control flow and confirm that the required branch ran using branch-specific output or evidence. If a gate depends on command-line run identity and a prepared journal, use a runner that supplies both; do not hand-create artifacts or infer execution from unrelated assertions.
+
+### Applicability
+
+Applies to Unity EditMode tests and other in-process test interfaces when a guarded operation depends on external run identity or prepared artifacts. It does not imply that every GUI test skips guarded work; inspect the actual process arguments and the specific branch before making that claim.
 
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 
@@ -503,6 +522,10 @@ The bounded Project-specific client connected to the existing loopback HTTP serv
 ### Reusable rule
 
 Before a headless Unity MCP pilot, inspect both batch-start gates and `EditorApplication.quitting` handlers in the exact installed revision. Do not enable `UNITY_MCP_ALLOW_BATCH` when the callback can stop a shared server. Keep vendor process-global settings untouched, use the narrow process-local client opt-in, and verify listener continuity independently after shutdown.
+
+### Applicability
+
+Applies to a batch-mode Unity MCP client connecting to an existing shared local HTTP server. It does not apply to a separately managed server process that is intentionally owned by and bounded to the batch Editor; review its lifecycle independently.
 
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 

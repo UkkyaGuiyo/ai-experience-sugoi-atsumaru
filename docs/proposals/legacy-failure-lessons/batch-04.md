@@ -126,6 +126,10 @@ The isolated Unity project compiled and ran the focused EditMode suite after the
 
 Before running Unity tests, verify that each test source is inside the intended test asmdef boundary and that the asmdef references its target runtime assembly. Treat compiler failure or missing result XML as an invalid test run, not a test pass.
 
+### Applicability
+
+Unity projects using assembly definitions and NUnit EditMode tests. Do not generalize the exact folder convention to projects with a different asmdef layout; inspect their assembly boundaries.
+
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 
 ## LFA-049 — Keep fixture oracles separate from product policy
@@ -248,6 +252,10 @@ A synthetic control confirmed that the fractional source value normalizes to the
 
 When a decision depends on exact serialized identity, preserve the original scalar at every parser boundary, alongside normalized fields, until validation is complete. Validate type and exact value before allowing a provider-specific route; test malformed values through direct and inherited/variant paths that collapse to a valid identity under normalization.
 
+### Applicability
+
+Applies to narrow provider allowlists fed by parsed serialized data. It does not require every general-purpose parser to reject all numeric formats or establish semantics for other Unity reference kinds.
+
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 
 ## LFA-052 — Use a run-owned temporary directory for restricted Python processes
@@ -328,6 +336,10 @@ The selected `true + localToWorld` path passed a real Finalizer Apply/repeat run
 
 For each Unity version and transform class, compare all plausible BakeMesh/useScale and renderer-frame combinations against an independent per-vertex skin equation. Require pointwise error, bounds parity, and an explicit transform control before choosing a conversion. Do not generalize a result to negative, nonuniform, or sheared transforms without separate controls.
 
+### Applicability
+
+Unity Editor diagnostics for skinned meshes. The measured combination is not a universal rule for other Unity versions, rigs, transform hierarchies, or scale/shear cases.
+
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 
 ## LFA-054 — Materialize float tolerance edges before inclusive comparisons
@@ -365,6 +377,10 @@ The exact six min/max +/- tolerance edges passed after the correction; the immed
 ### Reusable rule
 
 When an inclusive float edge unexpectedly fails, log component values and bit patterns before changing the tolerance. Materialize computed float thresholds once, and test both the exact edge and the adjacent representable value outside it. Avoid per-vertex allocation when the limits can be computed once per bounds set.
+
+### Applicability
+
+The observed behavior and fix apply to the tested Unity Editor runtime and single-precision bounds checks. Revalidate on other runtimes or comparison types.
 
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 
@@ -446,6 +462,10 @@ Unity 2022.3.22f1 logs showed two compiler responses: the first lacked the newly
 
 For incremental Unity builds, inspect the final compiler response and completed build diagnostics before acting on a transient early-pass missing-type error. Verify the exact source and metadata sync separately; do not infer an assembly-reference defect until the final pass still lacks the type.
 
+### Applicability
+
+Applies to incremental Unity Editor/Bee builds that invoke more than one C# compiler pass while source inputs are changing. Do not generalize to a clean build with a single stable compiler response; diagnose that response directly.
+
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 
 ## LFA-057 — Validate archive compatibility against real producer output
@@ -462,15 +482,15 @@ Check that a bounded package reader accepts actual Unity ExportPackage output wh
 
 ### Observed failure
 
-Synthetic package tests passed, but a small self-authored package exported by Unity 2022.3.22f1 was rejected as InvalidArchive. The real archive used the G
+Synthetic package tests passed, but a small self-authored archive exported by the actual Unity producer was rejected. The real producer used a GZip header containing an original filename (FNAME) and an old-GNU TAR marker; neither variant matched the synthetic-only reader profile.
 
 ### Failed assumption / approach
 
-The test writer and reader shared the same assumed G
+The synthetic writer and reader shared the same assumed GZip/USTAR header profile. Agreement between those two implementations was incorrectly treated as compatibility evidence for the independent real producer.
 
 ### Root cause
 
-Confirmed from the captured producer bytes: the G
+The observed producer bytes had a filename-bearing GZip header and an old-GNU TAR marker, but the validator's supported profile was narrower. The observation did not justify weakening header checksums, archive-path safety, asset identity or content-hash requirements.
 
 ### Correction
 
@@ -584,15 +604,15 @@ Unity Editor tests that open windows, custom Inspectors or other callback-driven
 
 ### Intent
 
-Audit a package without extraction while enforcing a bounded, single-member G
+Audit an archive without extraction while enforcing the application's bounded single-member GZip framing contract.
 
 ### Observed failure
 
-A regression showed that a truncated trailer could still yield the complete decompressed payload. A later control appended garbage with a copied valid footer, or an empty additional G
+A truncated trailer could still produce a complete decompressed payload. Additional controls appended garbage with a copied valid footer, or an empty additional GZip member; those malformed or unsupported streams were accepted by the earlier audit.
 
 ### Failed assumption / approach
 
-Successful G
+Successful GZipStream decompression and reading a footer at the end of the overall input were treated as evidence that the input contained exactly one complete, valid GZip member.
 
 ### Root cause
 
@@ -612,7 +632,7 @@ Do not equate decompression success with container integrity. Include truncated 
 
 ### Applicability
 
-Auditors with an explicit single-member policy. Concatenated G
+This guidance applies to auditors with an explicit single-member policy. Concatenated GZip members can be valid for other consumers; reject them when the application contract requires a single member, not because concatenation is inherently malformed.
 
 **Migration status:** PENDING_REVIEW. Check overlap with existing formal Knowledge and pending candidates before formalization.
 
