@@ -482,7 +482,7 @@ Connect a one-shot headless Unity Editor to an already running local Unity MCP H
 
 ### Observed failure
 
-In CoplayDev Unity MCP v10.2.0 resolved at commit `30d22075093d1d35dfb0091c1c7550e9ad948577`, `McpEditorShutdownCleanup.ShouldRunCleanup` returns true for a batch Editor when `UNITY_MCP_ALLOW_BATCH` is nonempty. The subscribed quit callback then stops both local transports and calls `StopManagedLocalHttpServer`, which can follow the global PID/port handshake and stop a server created by another Editor.
+In the tested CoplayDev Unity MCP v10.2.0 environment, `McpEditorShutdownCleanup.ShouldRunCleanup` returns true for a batch Editor when `UNITY_MCP_ALLOW_BATCH` is nonempty. The subscribed quit callback then stops both local transports and calls `StopManagedLocalHttpServer`, which can follow the global PID/port handshake and stop a server created by another Editor.
 
 ### Failed assumption / approach
 
