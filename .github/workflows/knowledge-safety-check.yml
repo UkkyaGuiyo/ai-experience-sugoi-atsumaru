@@ -53,18 +53,26 @@ jobs:
           else:
               # Existing proposals are Markdown review documents, not schema entries.
               proposals = sorted(Path('docs/proposals').rglob('*.md'))
+              pending = []
+              for proposal in proposals:
+                  text = proposal.read_text(encoding='utf-8')
+                  # Only an explicit document-level status before the first section counts.
+                  header = re.split(r'^##\s', text, maxsplit=1, flags=re.MULTILINE)[0]
+                  states = set(re.findall(r'^Review status: ([^\r\n]+)', header, re.MULTILINE))
+                  if len(states) == 1 and states.pop().strip() in {'REVIEWED', 'REJECTED', 'FORMALIZED'}:
+                      continue
+                  pending.append((proposal, text))
               entries = [json.loads(p.read_text(encoding='utf-8'))
                          for p in sorted(Path('knowledge').rglob('*.json'))]
-              lines.append(f"Knowledge entries checked: {len(entries)}. Proposal documents: {len(proposals)}.")
-              if not proposals:
-                  lines.append("No candidates: successful no-op for review collection.")
+              lines.append(f"Knowledge entries checked: {len(entries)}. Proposal documents: {len(proposals)}. Pending documents: {len(pending)}.")
+              if not pending:
+                  lines.append("No pending candidates: successful no-op for review collection.")
               else:
                   lines += ["Batch independent review preferred: GPT-6.1 Sol; no automatic reviewer is started.",
-                            "All proposal documents remain PENDING_REVIEW until independent review; no files are changed.",
+                            "Unreviewed or unknown-status documents remain PENDING_REVIEW; no files are changed.",
                             "", "| Proposal document | State | Possible existing overlap |",
                             "| --- | --- | --- |"]
-                  for index, proposal in enumerate(proposals, 1):
-                      text = proposal.read_text(encoding='utf-8')
+                  for index, (proposal, text) in enumerate(pending, 1):
                       references = set(re.findall(r'\bEXP-[0-9]{6}\b', text))
                       headings = re.findall(r'^#{1,6}\s+(.+)$', text, re.MULTILINE)
                       overlap = []

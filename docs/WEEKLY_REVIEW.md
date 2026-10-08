@@ -6,11 +6,28 @@ It uses a standard Linux runner, read-only contents permission and a five-minute
 job timeout. The existing schema, validator, safety scan and unit tests are reused.
 
 The Actions run summary reports check outcomes and lists existing Markdown
-documents under `docs/proposals/` recursively as `PENDING_REVIEW`. A document can
+documents under `docs/proposals/` recursively that are still `PENDING_REVIEW`. A document can
 contain multiple candidates; this is a document queue, not a count of lessons.
 Proposal Markdown receives the existing repository safety scan, not the JSON
 entry schema check. Only `knowledge/**/*.json` are checked as formal entries.
 No new candidate schema or stored state is introduced.
+
+An explicit standalone `Review status: REVIEWED`, `Review status: REJECTED`, or
+`Review status: FORMALIZED` line before the first `##` section removes that whole
+document from the pending queue. A reviewer/maintainer sets this line only after
+the corresponding independent review or disposition, referring to the existing
+review record where available. For mixed batches, leave the document pending
+until every candidate has a disposition. No line, an unknown status, conflicting
+lines, or `Review status: PENDING_REVIEW` stays pending. Prose, entry references
+and machine PASS never set review status automatically. This is a small explicit
+Markdown convention, not a new entry schema or review framework.
+
+Existing historical review records are in `docs/reviews/` on other work branches;
+for example `generalized-workflow-eight-entries.md` records eight adopted
+candidates and one excluded duplicate. Those records are not on this workflow's
+base/default branch and are not automatically imported or interpreted. That
+branch currently has zero formal Knowledge entries; twelve entries on the
+curation branch are a separate integration decision.
 
 Possible overlap with checked-out Knowledge is extracted from existing entry ID
 references and proposal heading / entry title similarity (threshold 0.8). These
