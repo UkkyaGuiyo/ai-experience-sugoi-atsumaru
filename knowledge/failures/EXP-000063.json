@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000063",
+  "title": "Bound uncertainty without silently discarding aliases",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Bounded material projection and nested-instance evidence. Package-only identity can remain unresolved; names, order and candidate counts do not complete a missing join.",
+  "goal": "Preserve usable material assignments while reporting unresolved overrides.",
+  "approach": "Historical failed assumption: An empty match initially invalidated all child records; a narrower response risked assuming every unmatched reference was unrelated.",
+  "what_worked": "Historical correction: Retain the unresolved issue, trace alias and instance edges, and invalidate only the class-compatible scope supported by evidence. Keep ambiguous siblings unknown rather than guessing. Verification reported by the source: Historical causal replay isolated the global fallback. Unity-authored saved/reopened alias cases proved scoped effects; wrong-ID, missing-edge and revision controls retained fail-closed behavior.",
+  "what_failed": "Historical observed failure: Adding one unmatched override removed two otherwise valid dependencies; remove/reinsert controls toggled counts 2/0/2/0. A later alias fixture also showed that an unmatched override could affect a real target.",
+  "why": "Confirmed: the broad fallback poisoned unrelated rows. Independently, serialized nested aliases made the opposite blanket assumption unsound.",
+  "improved_method": "Minimize uncertainty only after proving its scope. Test both unrelated unmatched inputs and real aliases so a precision improvement does not silently accept incomplete state.",
+  "when_to_use": "Bounded material projection and nested-instance evidence. Package-only identity can remain unresolved; names, order and candidate counts do not complete a missing join.",
+  "when_not_to_use": "Package-only identity can remain unresolved; names, order and candidate counts do not complete a missing join.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000006"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Adding one unmatched override removed two otherwise valid dependencies; remove/reinsert controls toggled counts 2/0/2/0. A later alias fixture also showed that an unmatched override could affect a real target.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: the broad fallback poisoned unrelated rows. Independently, serialized nested aliases made the opposite blanket assumption unsound.",
+    "detection": "The historical record reports: Historical causal replay isolated the global fallback. Unity-authored saved/reopened alias cases proved scoped effects; wrong-ID, missing-edge and revision controls retained fail-closed behavior.",
+    "recovery": "Retain the unresolved issue, trace alias and instance edges, and invalidate only the class-compatible scope supported by evidence. Keep ambiguous siblings unknown rather than guessing.",
+    "prevention": "Minimize uncertainty only after proving its scope. Test both unrelated unmatched inputs and real aliases so a precision improvement does not silently accept incomplete state.",
+    "generalized_lesson": "Bound uncertainty without silently discarding aliases: Minimize uncertainty only after proving its scope. Test both unrelated unmatched inputs and real aliases so a precision improvement does not silently accept incomplete state."
+  }
+}

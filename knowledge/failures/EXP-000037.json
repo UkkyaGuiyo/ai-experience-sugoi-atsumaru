@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000037",
+  "title": "Distinguish explicit null from malformed references",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "One-slot synthetic Variant controls. Array-size changes, multi-level precedence and export were not established by this evidence.",
+  "goal": "Project a serialized material-slot override and realize its intended value.",
+  "approach": "Historical failed assumption: A reference without a GUID was assumed to be uniformly unknown.",
+  "what_worked": "Historical correction: Retain valid null as a known slot-clear operation. Keep nonzero references without GUIDs and zero references with invalid GUIDs unresolved. Require exact occurrence/native receipts before clearing live slots. Verification reported by the source: Unity 2022.3.22f1 authored RED became parser/projection GREEN. A separate exact-witness direct native realization and save/reopen control passed; the historical normal nested import path was still native-missing at that checkpoint.",
+  "what_failed": "Historical observed failure: A Unity-authored explicit fileID: 0 override was discarded and reported unresolved.",
+  "why": "Confirmed: the parser conflated an explicit null value with incomplete non-null references.",
+  "improved_method": "Model absent, explicit null, and malformed references separately. Verify live clearing independently from parsed-state correctness.",
+  "when_to_use": "One-slot synthetic Variant controls. Array-size changes, multi-level precedence and export were not established by this evidence.",
+  "when_not_to_use": "Array-size changes, multi-level precedence and export were not established by this evidence.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000010"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "A Unity-authored explicit fileID: 0 override was discarded and reported unresolved.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: the parser conflated an explicit null value with incomplete non-null references.",
+    "detection": "The historical record reports: Unity 2022.3.22f1 authored RED became parser/projection GREEN. A separate exact-witness direct native realization and save/reopen control passed; the historical normal nested import path was still native-missing at that checkpoint.",
+    "recovery": "Retain valid null as a known slot-clear operation. Keep nonzero references without GUIDs and zero references with invalid GUIDs unresolved. Require exact occurrence/native receipts before clearing live slots.",
+    "prevention": "Model absent, explicit null, and malformed references separately. Verify live clearing independently from parsed-state correctness.",
+    "generalized_lesson": "Distinguish explicit null from malformed references: Model absent, explicit null, and malformed references separately. Verify live clearing independently from parsed-state correctness."
+  }
+}

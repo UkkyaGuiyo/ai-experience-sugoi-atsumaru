@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000069",
+  "title": "Disabling Unity Package Manager can remove package assembly references",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Unity projects whose scripts or test assemblies depend on packages installed through UPM, especially NUnit-backed EditMode tests. Do not generalize this to projects that use only built-in Unity assemblies or have no UPM dependencies.",
+  "goal": "Compile an isolated Unity project without permitting dependency downloads.",
+  "approach": "Historical failed assumption: The cached packages were assumed to remain available to script compilation when the Package Manager was disabled.",
+  "what_worked": "Historical correction: Keep the existing package manifest and lockfile unchanged. When the exact required package versions are already cached, allow Unity's Package Manager to resolve the existing lock/cache; do not add or update dependencies. If the required package is unavailable and obtaining it is not authorized, stop at compile-only scope or report the blocker. Verification reported by the source: The `-noUpm` run emitted the NUnit `CS0246` errors and exited with code 1. Package directories for `com.unity.test-framework` 1.1.33 and `com.unity.ext.nunit` 1.0.6 were already present. With UPM enabled, Unity reported restoring the resolved package state from cache and registered the four locked packages. The manifest and lockfile stayed byte-identical, and the 693-file PackageCache inventory SHA256 stayed `[omitted: task-specific package-cache inventory digest]`. A subsequent standalone Editor compile exited 0 with zero `error CS` diagnostics.",
+  "what_failed": "Historical observed failure: Unity 2022.3.22f1 was launched with `-noUpm`. Existing Editor test sources then failed compilation with `CS0246` for NUnit `Test` and `TestCase` attributes. The exact Test Framework and NUnit package directories were already present in the project package cache and the manifest/lockfile pinned them.",
+  "why": "Confirmed: disabling UPM prevented the project package assemblies from being resolved into Unity's compilation inputs, even though their cached package files were present. The resulting error was missing NUnit symbols in the existing test assembly.",
+  "improved_method": "Do not use `-noUpm` to avoid downloads in a Unity project whose compile depends on UPM packages. First verify exact versions in the lockfile and package cache, then let UPM restore those existing packages without changing the manifest. Verify a clean compile after package resolution; if that cannot happen without a new package download, stop and report instead of compiling with missing references.",
+  "when_to_use": "Unity projects whose scripts or test assemblies depend on packages installed through UPM, especially NUnit-backed EditMode tests. Do not generalize this to projects that use only built-in Unity assemblies or have no UPM dependencies.",
+  "when_not_to_use": "Do not generalize this to projects that use only built-in Unity assemblies or have no UPM dependencies.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000001"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Unity 2022.3.22f1 was launched with `-noUpm`. Existing Editor test sources then failed compilation with `CS0246` for NUnit `Test` and `TestCase` attributes. The exact Test Framework and NUnit package directories were already present in the project package cache and the manifest/lockfile pinned them.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: disabling UPM prevented the project package assemblies from being resolved into Unity's compilation inputs, even though their cached package files were present. The resulting error was missing NUnit symbols in the existing test assembly.",
+    "detection": "The historical record reports: The `-noUpm` run emitted the NUnit `CS0246` errors and exited with code 1. Package directories for `com.unity.test-framework` 1.1.33 and `com.unity.ext.nunit` 1.0.6 were already present. With UPM enabled, Unity reported restoring the resolved package state from cache and registered the four locked packages. The manifest and lockfile stayed byte-identical, and the 693-file PackageCache inventory SHA256 stayed `[omitted: task-specific package-cache inventory digest]`. A subsequent standalone Editor compile exited 0 with zero `error CS` diagnostics.",
+    "recovery": "Keep the existing package manifest and lockfile unchanged. When the exact required package versions are already cached, allow Unity's Package Manager to resolve the existing lock/cache; do not add or update dependencies. If the required package is unavailable and obtaining it is not authorized, stop at compile-only scope or report the blocker.",
+    "prevention": "Do not use `-noUpm` to avoid downloads in a Unity project whose compile depends on UPM packages. First verify exact versions in the lockfile and package cache, then let UPM restore those existing packages without changing the manifest. Verify a clean compile after package resolution; if that cannot happen without a new package download, stop and report instead of compiling with missing references.",
+    "generalized_lesson": "Disabling Unity Package Manager can remove package assembly references: Do not use `-noUpm` to avoid downloads in a Unity project whose compile depends on UPM packages. First verify exact versions in the lockfile and package cache, then let UPM restore those existing packages without changing the manifest. Verify a clean compile after package resolution; if that cannot happen without a new package download, stop and report instead of compiling with missing references."
+  }
+}

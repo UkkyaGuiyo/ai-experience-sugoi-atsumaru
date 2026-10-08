@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000064",
+  "title": "Validate the whole batch before changing caller state",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Bounded in-memory Unity generators/migrations. This does not establish disk rollback or immunity to errors after the commit boundary.",
+  "goal": "Add generated parameters to a caller-owned Animator controller.",
+  "approach": "Historical failed assumption: Validation interleaved with per-item mutation was assumed to make rejection atomic.",
+  "what_worked": "Historical correction: Preflight the complete reserved-name/type set before any addition. For transformations that can fail midway, prepare isolated results before committing them. Verification reported by the source: Twelve later-name/type collision cases preserved parameters, layers and clips after rejection. A related migration fault control preserved full serialization and original object identities using clone-transform-commit.",
+  "what_failed": "Historical observed failure: A collision with a later reserved name rejected the build after earlier parameters had already been appended.",
+  "why": "Confirmed: the append loop changed state before discovering all conflicts.",
+  "improved_method": "Validate every batch constraint before the first mutation, and stage fallible transformations before commit. Test a last-item conflict and compare the whole pre-state.",
+  "when_to_use": "Bounded in-memory Unity generators/migrations. This does not establish disk rollback or immunity to errors after the commit boundary.",
+  "when_not_to_use": "This does not establish disk rollback or immunity to errors after the commit boundary.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000003"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "A collision with a later reserved name rejected the build after earlier parameters had already been appended.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: the append loop changed state before discovering all conflicts.",
+    "detection": "The historical record reports: Twelve later-name/type collision cases preserved parameters, layers and clips after rejection. A related migration fault control preserved full serialization and original object identities using clone-transform-commit.",
+    "recovery": "Preflight the complete reserved-name/type set before any addition. For transformations that can fail midway, prepare isolated results before committing them.",
+    "prevention": "Validate every batch constraint before the first mutation, and stage fallible transformations before commit. Test a last-item conflict and compare the whole pre-state.",
+    "generalized_lesson": "Validate the whole batch before changing caller state: Validate every batch constraint before the first mutation, and stage fallible transformations before commit. Test a last-item conflict and compare the whole pre-state."
+  }
+}

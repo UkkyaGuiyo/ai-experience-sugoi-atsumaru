@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000038",
+  "title": "Declare external references and inspect every provider kind",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "One bounded Unity 2022.3.22f1 route. This does not prove arbitrary component fidelity, all avatars, or permission to redistribute external SDKs.",
+  "goal": "Finalize exported content whose framework components remain external.",
+  "approach": "Historical failed assumption: The exported dependency contract omitted script prerequisites, and the initial provider search covered C# metadata only.",
+  "what_worked": "Historical correction: Declare selected-chain GUID/signed-localID references with revision-bound requiring contexts. Preflight public MonoScript resolution before mutation; explicitly refuse absent or malformed providers. Verification reported by the source: Retrying the same output with exact providers changed missing scripts from 55 to zero and passed first/repeated Apply. Ten public controls covered declarations, absent-provider refusal and same-output recovery.",
+  "what_failed": "Historical observed failure: Output compiled, yet finalization refused 55 missing scripts; the dependency manifest was empty and an initial source-script search missed compiled providers.",
+  "why": "Confirmed: required exact script references were undeclared; provider identity could reside in compiled script assets, not only source files.",
+  "improved_method": "Separate preserved reference identity from provider availability. Search all relevant provider kinds and verify exact references before blaming unrelated geometry or bundling a framework.",
+  "when_to_use": "One bounded Unity 2022.3.22f1 route. This does not prove arbitrary component fidelity, all avatars, or permission to redistribute external SDKs.",
+  "when_not_to_use": "This does not prove arbitrary component fidelity, all avatars, or permission to redistribute external SDKs.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000010"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Output compiled, yet finalization refused 55 missing scripts; the dependency manifest was empty and an initial source-script search missed compiled providers.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: required exact script references were undeclared; provider identity could reside in compiled script assets, not only source files.",
+    "detection": "The historical record reports: Retrying the same output with exact providers changed missing scripts from 55 to zero and passed first/repeated Apply. Ten public controls covered declarations, absent-provider refusal and same-output recovery.",
+    "recovery": "Declare selected-chain GUID/signed-localID references with revision-bound requiring contexts. Preflight public MonoScript resolution before mutation; explicitly refuse absent or malformed providers.",
+    "prevention": "Separate preserved reference identity from provider availability. Search all relevant provider kinds and verify exact references before blaming unrelated geometry or bundling a framework.",
+    "generalized_lesson": "Declare external references and inspect every provider kind: Separate preserved reference identity from provider availability. Search all relevant provider kinds and verify exact references before blaming unrelated geometry or bundling a framework."
+  }
+}

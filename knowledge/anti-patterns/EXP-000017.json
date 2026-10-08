@@ -1,0 +1,33 @@
+{
+  "id": "EXP-000017",
+  "title": "安全側の観測器にも、永久に進めなくなる条件がないか調べる",
+  "category": "anti-patterns",
+  "task_type": "Safety diagnostics and process supervision",
+  "ai_system": "AI-assisted engineering workflow",
+  "observation_date": "2026-10-09",
+  "environment": "プロセス監視、分散状態確認、共有資源の安全検査。",
+  "goal": "時間差で取得する二つの全体一覧に完全一致を要求すると、無関係な対象の出現・消滅でも不明判定が続く。自分の作業対象が終了していても安全確認が閉じないことがある。",
+  "approach": "何の不在・安定性を証明したいかを先に定義する。取得範囲、時間差、世代識別、履歴、権限不足を区別し、失敗理由を固定の分類で記録する。安全条件を黙って緩めず、不明が継続する条件と回復不能時の判断経路を設計レビューへ返す。",
+  "what_worked": "本知見の効果を確かめる再現実験は未実施。候補に記載された方法は、問題の原因を切り分けるための検証設計として提案されている。",
+  "what_failed": "想定される失敗モード：時間差で取得する二つの全体一覧に完全一致を要求すると、無関係な対象の出現・消滅でも不明判定が続く。自分の作業対象が終了していても安全確認が閉じないことがある。",
+  "why": "一般原則から追加して区別する論点：「不明を不在にしない」という既存候補に対し、正しい拒否が永久待機を起こす生存性の問題を追加する。",
+  "improved_method": "何の不在・安定性を証明したいかを先に定義する。取得範囲、時間差、世代識別、履歴、権限不足を区別し、失敗理由を固定の分類で記録する。安全条件を黙って緩めず、不明が継続する条件と回復不能時の判断経路を設計レビューへ返す。",
+  "when_to_use": "プロセス監視、分散状態確認、共有資源の安全検査。",
+  "when_not_to_use": "対象外要素を除けば安全だという結論ではない。範囲縮小には系統・所有関係を失わない別の根拠が必要。診断へ任意の生メッセージや秘密情報を持ち込まない。",
+  "known_limitations": "評価用の対照試験はまだ実行されていない：対象自身は安定したまま、観測範囲の別要素だけが入れ替わる合成履歴を与える。観測不能、世代変化、対象終了の各理由が区別されるかを確認する。単に再試行回数を増やして解決したとしない。。正式レビュー日をobservation_dateとして保存しており、元事例の発生日や実験日ではない。効果の再現性と適用範囲は未確認。",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000006"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "current"
+}

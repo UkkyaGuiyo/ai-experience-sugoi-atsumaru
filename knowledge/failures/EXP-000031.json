@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000031",
+  "title": "Animation addresses must be unique in the target scheme",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Unity path/type animation bindings. Repeated leaf names under distinct parents are not automatically ambiguous; this is separate from authoring-ID duplication.",
+  "goal": "Generate animation clips targeting a selected renderer.",
+  "approach": "Historical failed assumption: Selecting distinct object identities was assumed to imply independent animation addressing.",
+  "what_worked": "Historical correction: Recompute the path, count matching path/type renderers and reject ambiguous bindings before output or descriptor writes. Verification reported by the source: A duplicate-sibling fixture confirmed identical calculated paths, rejection and unchanged outputs/descriptor. Existing different-parent cases remained valid.",
+  "what_failed": "Historical observed failure: Distinct same-name sibling renderers produced identical animation binding addresses.",
+  "why": "Confirmed: the destination binding key used hierarchy path plus component type, which did not distinguish those siblings.",
+  "improved_method": "Validate uniqueness in the destination's actual addressing scheme. Stable source IDs cannot resolve ambiguity that the destination format cannot represent.",
+  "when_to_use": "Unity path/type animation bindings. Repeated leaf names under distinct parents are not automatically ambiguous; this is separate from authoring-ID duplication.",
+  "when_not_to_use": "Repeated leaf names under distinct parents are not automatically ambiguous; this is separate from authoring-ID duplication.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000010"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Distinct same-name sibling renderers produced identical animation binding addresses.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: the destination binding key used hierarchy path plus component type, which did not distinguish those siblings.",
+    "detection": "The historical record reports: A duplicate-sibling fixture confirmed identical calculated paths, rejection and unchanged outputs/descriptor. Existing different-parent cases remained valid.",
+    "recovery": "Recompute the path, count matching path/type renderers and reject ambiguous bindings before output or descriptor writes.",
+    "prevention": "Validate uniqueness in the destination's actual addressing scheme. Stable source IDs cannot resolve ambiguity that the destination format cannot represent.",
+    "generalized_lesson": "Animation addresses must be unique in the target scheme: Validate uniqueness in the destination's actual addressing scheme. Stable source IDs cannot resolve ambiguity that the destination format cannot represent."
+  }
+}

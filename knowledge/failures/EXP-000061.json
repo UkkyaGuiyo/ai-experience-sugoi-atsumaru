@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000061",
+  "title": "Speech does not remove model and tool latency",
+  "category": "failures",
+  "task_type": "AI-assisted technical troubleshooting",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Guided capture orchestration. Offline timing success is not live human-motion acceptance, and no automatic retry of user effort is implied.",
+  "goal": "Collect baseline, held-state and return windows inside a bounded observation period.",
+  "approach": "Historical failed assumption: Changing communication modality or passing a manually driven terminal control was assumed to validate the real guidance path.",
+  "what_worked": "Historical correction: Move stage progression into a local state-aware wrapper under existing supervision/deadlines. Test the same wrapper with synthetic SDK and speech before requesting more user effort. Verification reported by the source: Recorded local synthetic runs collected 60/20/20. Delayed, failed and hanging speech, lifecycle hangs, stop and cleanup cases passed; actual audibility and physical mapping remained unverified.",
+  "what_failed": "Historical observed failure: A chat-paced attempt collected 60/0/0 samples; a spoken-countdown retry still ended at 60/20/0 without the return window.",
+  "why": "Confirmed: time-critical progression still depended on model/tool round trips. A later acknowledgment could not reconstruct uncaptured data.",
+  "improved_method": "Keep model/tool round trips outside bounded real-time control. Test the exact execution path, distinguishing user confirmation from scheduled stage boundaries.",
+  "when_to_use": "Guided capture orchestration. Offline timing success is not live human-motion acceptance, and no automatic retry of user effort is implied.",
+  "when_not_to_use": "Offline timing success is not live human-motion acceptance, and no automatic retry of user effort is implied.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000008"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "A chat-paced attempt collected 60/0/0 samples; a spoken-countdown retry still ended at 60/20/0 without the return window.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: time-critical progression still depended on model/tool round trips. A later acknowledgment could not reconstruct uncaptured data.",
+    "detection": "The historical record reports: Recorded local synthetic runs collected 60/20/20. Delayed, failed and hanging speech, lifecycle hangs, stop and cleanup cases passed; actual audibility and physical mapping remained unverified.",
+    "recovery": "Move stage progression into a local state-aware wrapper under existing supervision/deadlines. Test the same wrapper with synthetic SDK and speech before requesting more user effort.",
+    "prevention": "Keep model/tool round trips outside bounded real-time control. Test the exact execution path, distinguishing user confirmation from scheduled stage boundaries.",
+    "generalized_lesson": "Speech does not remove model and tool latency: Keep model/tool round trips outside bounded real-time control. Test the exact execution path, distinguishing user confirmation from scheduled stage boundaries."
+  }
+}

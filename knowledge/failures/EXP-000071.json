@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000071",
+  "title": "Regenerate run-owned fixtures instead of relying on cleaned predecessors",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Disposable integration fixtures and isolated verification projects. Do not regenerate missing user assets, purchased content, or irreplaceable source data, and do not silently replace an unexplained hash mismatch with freshly trusted inputs.",
+  "goal": "Construct a fresh Unity verification project using approved synthetic shader and assembly-definition fixtures.",
+  "approach": "Historical failed assumption: A retained historical manifest was assumed to imply that the previous run's disposable fixture tree still existed. Restoring those files into the old verification project was considered before checking cleanup provenance.",
+  "what_worked": "Historical correction: Check listed paths and metadata before hashing and distinguish missing inputs from malformed manifests. Generate canonical fixture payloads with fresh unique GUIDs inside the new run's isolated template, and bind a new manifest to the actual source revision and generated hashes. Leave the old project read-only. Verification reported by the source: Recorded regressions verify canonical payload hashes, GUID uniqueness, fresh manifest consistency, tamper rejection, and preservation of the old project and its intentionally absent assets. The preparation checkpoint passed 317/317 in the non-Unity harness; that checkpoint did not establish Unity execution.",
+  "what_failed": "Historical observed failure: Preparation stopped because an old manifest listed twelve fixture paths whose assets and metadata were absent. An initial diagnostic described a malformed manifest when a missing folder metadata read threw.",
+  "why": "Confirmed from the recorded cleanup history: the prior run intentionally removed its owned fixtures and restored the historical manifest. The manifest described a historical inventory, not a live readiness guarantee.",
+  "improved_method": "Treat a manifest as evidence about a specific inventory, not proof that its files still exist. Recreate run-owned fixtures from reviewed definitions in a fresh owned location instead of depending on artifacts that a previous run was entitled to delete.",
+  "when_to_use": "Disposable integration fixtures and isolated verification projects. Do not regenerate missing user assets, purchased content, or irreplaceable source data, and do not silently replace an unexplained hash mismatch with freshly trusted inputs.",
+  "when_not_to_use": "Do not regenerate missing user assets, purchased content, or irreplaceable source data, and do not silently replace an unexplained hash mismatch with freshly trusted inputs.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000003"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Preparation stopped because an old manifest listed twelve fixture paths whose assets and metadata were absent. An initial diagnostic described a malformed manifest when a missing folder metadata read threw.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed from the recorded cleanup history: the prior run intentionally removed its owned fixtures and restored the historical manifest. The manifest described a historical inventory, not a live readiness guarantee.",
+    "detection": "The historical record reports: Recorded regressions verify canonical payload hashes, GUID uniqueness, fresh manifest consistency, tamper rejection, and preservation of the old project and its intentionally absent assets. The preparation checkpoint passed 317/317 in the non-Unity harness; that checkpoint did not establish Unity execution.",
+    "recovery": "Check listed paths and metadata before hashing and distinguish missing inputs from malformed manifests. Generate canonical fixture payloads with fresh unique GUIDs inside the new run's isolated template, and bind a new manifest to the actual source revision and generated hashes. Leave the old project read-only.",
+    "prevention": "Treat a manifest as evidence about a specific inventory, not proof that its files still exist. Recreate run-owned fixtures from reviewed definitions in a fresh owned location instead of depending on artifacts that a previous run was entitled to delete.",
+    "generalized_lesson": "Regenerate run-owned fixtures instead of relying on cleaned predecessors: Treat a manifest as evidence about a specific inventory, not proof that its files still exist. Recreate run-owned fixtures from reviewed definitions in a fresh owned location instead of depending on artifacts that a previous run was entitled to delete."
+  }
+}

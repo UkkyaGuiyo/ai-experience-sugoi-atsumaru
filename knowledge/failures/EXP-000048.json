@@ -1,0 +1,40 @@
+{
+  "id": "EXP-000048",
+  "title": "Parse numbers together with their units",
+  "category": "failures",
+  "task_type": "AI-assisted engineering and verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Compound area strings in the observed parser. Other unit systems, locale separators and ambiguous input need their own explicit contracts.",
+  "goal": "Normalize an area string containing metric and alternate-unit values.",
+  "approach": "Historical failed assumption: The first numeric token plus a unit appearing anywhere in the string was assumed to identify a measurement.",
+  "what_worked": "Historical correction: Read the numeric token immediately associated with each unit. Convert only when exactly one of the expected units is absent. Verification reported by the source: A recorded diagnostic stored both supplied values correctly; five focused parsing cases passed.",
+  "what_failed": "Historical observed failure: A string containing both values used the first number as the alternate unit and converted it incorrectly.",
+  "why": "Confirmed: numeric extraction happened before unit-specific association.",
+  "improved_method": "Parse number-unit pairs rather than separate number and unit lists. Test both orders, each single unit, separators and malformed input.",
+  "when_to_use": "Compound area strings in the observed parser. Other unit systems, locale separators and ambiguous input need their own explicit contracts.",
+  "when_not_to_use": "Do not extrapolate outside the recorded conditions or use partial evidence to claim general product or release acceptance.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "A string containing both values used the first number as the alternate unit and converted it incorrectly.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: numeric extraction happened before unit-specific association.",
+    "detection": "The historical record reports: A recorded diagnostic stored both supplied values correctly; five focused parsing cases passed.",
+    "recovery": "Read the numeric token immediately associated with each unit. Convert only when exactly one of the expected units is absent.",
+    "prevention": "Parse number-unit pairs rather than separate number and unit lists. Test both orders, each single unit, separators and malformed input.",
+    "generalized_lesson": "Parse numbers together with their units: Parse number-unit pairs rather than separate number and unit lists. Test both orders, each single unit, separators and malformed input."
+  }
+}

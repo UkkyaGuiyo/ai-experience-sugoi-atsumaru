@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000035",
+  "title": "Compiled component types still need resolvable script assets",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "This does not forbid multiple ordinary C# types per file or establish all Unity serialization cases. The evidence is the tested scene-generation path.",
+  "goal": "Generate playable scenes using newly compiled component types.",
+  "approach": "Historical failed assumption: Successful C# compilation was treated as sufficient for serialized component resolution.",
+  "what_worked": "Historical correction: Split serializable component types into matching files and regenerate scenes through their source builder. Verification reported by the source: Three regenerated scenes had zero missing scripts, broken prefabs or other validation issues; final console and Windows build checks were clean.",
+  "what_failed": "Historical observed failure: Scene loading reported Unknown Behaviour after several public MonoBehaviour types were initially placed in one source file.",
+  "why": "Confirmed for the observed generated-scene path: component definitions did not align with Unity's script-asset resolution boundary.",
+  "improved_method": "Verify serialized scene reload and component references after code generation. Keep component file/script-asset identity coherent with generated scene references.",
+  "when_to_use": "This does not forbid multiple ordinary C# types per file or establish all Unity serialization cases. The evidence is the tested scene-generation path.",
+  "when_not_to_use": "This does not forbid multiple ordinary C# types per file or establish all Unity serialization cases.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000001"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Scene loading reported Unknown Behaviour after several public MonoBehaviour types were initially placed in one source file.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed for the observed generated-scene path: component definitions did not align with Unity's script-asset resolution boundary.",
+    "detection": "The historical record reports: Three regenerated scenes had zero missing scripts, broken prefabs or other validation issues; final console and Windows build checks were clean.",
+    "recovery": "Split serializable component types into matching files and regenerate scenes through their source builder.",
+    "prevention": "Verify serialized scene reload and component references after code generation. Keep component file/script-asset identity coherent with generated scene references.",
+    "generalized_lesson": "Compiled component types still need resolvable script assets: Verify serialized scene reload and component references after code generation. Keep component file/script-asset identity coherent with generated scene references."
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000060",
+  "title": "Shortcut tests must traverse real event bindings",
+  "category": "failures",
+  "task_type": "AI-assisted engineering and verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Observed Windows/Tk application path. Synthetic event success does not establish every physical keyboard, widget or focus configuration.",
+  "goal": "Verify a press/release recording shortcut after interacting with UI controls.",
+  "approach": "Historical failed assumption: Testing the handler function was assumed to test keyboard dispatch.",
+  "what_worked": "Historical correction: Install a first-priority recording bindtag on relevant widgets while exempting text entry; change self-tests to generated KeyPress/KeyRelease events. Verification reported by the source: Three press-to-start/release-to-stop cycles traversed the binding path and ended with idle state, without dropped or padded frames.",
+  "what_failed": "Historical observed failure: A direct recording-function self-test passed, but the shortcut failed when focused widgets consumed the key in class bindings.",
+  "why": "Confirmed: root-window-only bindings ran too late for the affected focus paths.",
+  "improved_method": "Test the entry event with realistic focus, not just its callback. Preserve typing and modifier behavior when changing shortcut precedence.",
+  "when_to_use": "Observed Windows/Tk application path. Synthetic event success does not establish every physical keyboard, widget or focus configuration.",
+  "when_not_to_use": "Synthetic event success does not establish every physical keyboard, widget or focus configuration.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000001"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "A direct recording-function self-test passed, but the shortcut failed when focused widgets consumed the key in class bindings.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: root-window-only bindings ran too late for the affected focus paths.",
+    "detection": "The historical record reports: Three press-to-start/release-to-stop cycles traversed the binding path and ended with idle state, without dropped or padded frames.",
+    "recovery": "Install a first-priority recording bindtag on relevant widgets while exempting text entry; change self-tests to generated KeyPress/KeyRelease events.",
+    "prevention": "Test the entry event with realistic focus, not just its callback. Preserve typing and modifier behavior when changing shortcut precedence.",
+    "generalized_lesson": "Shortcut tests must traverse real event bindings: Test the entry event with realistic focus, not just its callback. Preserve typing and modifier behavior when changing shortcut precedence."
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000053",
+  "title": "Preserve scheduler phase after delayed wakes",
+  "category": "failures",
+  "task_type": "AI-assisted technical troubleshooting",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Recorded synthetic consumer path. The numbers do not prove later wrapper or live cadence, and skipping ticks is inappropriate for workloads requiring every event.",
+  "goal": "Consume the latest sample near a configured periodic rate.",
+  "approach": "Historical failed assumption: Processing duration and repeated wake delay were assumed not to accumulate into schedule drift.",
+  "what_worked": "Historical correction: Preserve the original deadline phase, include work within each period, skip missed ticks without catch-up replay, and consume newest state only. Verification reported by the source: Deterministic work/early-wake/late-wake/burst/stall controls passed. Repeated synthetic IPC measurements improved approximately 21.635 to 30.143 Hz and 32.316 to 58.876 Hz.",
+  "what_failed": "Historical observed failure: Sleeping a full period after work delivered about 21.6 Hz at a 30 Hz target and 32.3 Hz at 60 Hz. Resetting deadlines from each late start also failed.",
+  "why": "Confirmed: work-plus-sleep and late-start phase resets continually moved the deadline grid.",
+  "improved_method": "Test processing time and delayed wakes explicitly. Preserve phase for periodic latest-state work and report measured cadence rather than claiming the configured rate.",
+  "when_to_use": "Recorded synthetic consumer path. The numbers do not prove later wrapper or live cadence, and skipping ticks is inappropriate for workloads requiring every event.",
+  "when_not_to_use": "The numbers do not prove later wrapper or live cadence, and skipping ticks is inappropriate for workloads requiring every event.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000001"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Sleeping a full period after work delivered about 21.6 Hz at a 30 Hz target and 32.3 Hz at 60 Hz. Resetting deadlines from each late start also failed.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: work-plus-sleep and late-start phase resets continually moved the deadline grid.",
+    "detection": "The historical record reports: Deterministic work/early-wake/late-wake/burst/stall controls passed. Repeated synthetic IPC measurements improved approximately 21.635 to 30.143 Hz and 32.316 to 58.876 Hz.",
+    "recovery": "Preserve the original deadline phase, include work within each period, skip missed ticks without catch-up replay, and consume newest state only.",
+    "prevention": "Test processing time and delayed wakes explicitly. Preserve phase for periodic latest-state work and report measured cadence rather than claiming the configured rate.",
+    "generalized_lesson": "Preserve scheduler phase after delayed wakes: Test processing time and delayed wakes explicitly. Preserve phase for periodic latest-state work and report measured cadence rather than claiming the configured rate."
+  }
+}

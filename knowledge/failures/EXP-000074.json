@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000074",
+  "title": "Unity package import does not run explicit finalizers",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Applies to Unity packages whose manifests drive explicit Editor finalizers, such as creating Prefab Variants. It does not apply to checks that only need to confirm package files were imported.",
+  "goal": "Validate a Unity package that contains an export manifest and a task that creates a Prefab Variant.",
+  "approach": "Historical failed assumption: The probe treated a successful package import as if it had also performed the manifest's explicit finalization task.",
+  "what_worked": "Historical correction: Follow the consumer workflow in order: import the package, explicitly invoke the finalizer with the imported manifest, then inspect the generated Variant in a fresh or otherwise well-defined observation step. Preserve evidence for each stage separately. Verification reported by the source: In Unity 2022.3, package import exited successfully and the generated model hash matched the pinned fixture. The Variant inspection failed before the finalizer stage ran. Source review of the public roundtrip probe confirmed it calls `VapbModelSkinFinalizer.Apply` before loading the Variant. A dedicated apply probe was prepared to record the call result, source FBX/meta hashes before and after, destination vacancy, and Variant creation; its Unity execution remains pending.",
+  "what_failed": "Historical observed failure: The package import completed successfully, but a follow-up probe failed because the manifest's Variant path did not resolve in the AssetDatabase.",
+  "why": "The Variant was created by an explicit Editor finalizer call. Importing the package only materialized its assets and scripts; it did not execute that call.",
+  "improved_method": "Do not infer that an imported manifest's actions have run. Read the consumer workflow and execute each explicit Editor stage before asserting its outputs.",
+  "when_to_use": "Applies to Unity packages whose manifests drive explicit Editor finalizers, such as creating Prefab Variants. It does not apply to checks that only need to confirm package files were imported.",
+  "when_not_to_use": "It does not apply to checks that only need to confirm package files were imported.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000001"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "The package import completed successfully, but a follow-up probe failed because the manifest's Variant path did not resolve in the AssetDatabase.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "The Variant was created by an explicit Editor finalizer call. Importing the package only materialized its assets and scripts; it did not execute that call.",
+    "detection": "The historical record reports: In Unity 2022.3, package import exited successfully and the generated model hash matched the pinned fixture. The Variant inspection failed before the finalizer stage ran. Source review of the public roundtrip probe confirmed it calls `VapbModelSkinFinalizer.Apply` before loading the Variant. A dedicated apply probe was prepared to record the call result, source FBX/meta hashes before and after, destination vacancy, and Variant creation; its Unity execution remains pending.",
+    "recovery": "Follow the consumer workflow in order: import the package, explicitly invoke the finalizer with the imported manifest, then inspect the generated Variant in a fresh or otherwise well-defined observation step. Preserve evidence for each stage separately.",
+    "prevention": "Do not infer that an imported manifest's actions have run. Read the consumer workflow and execute each explicit Editor stage before asserting its outputs.",
+    "generalized_lesson": "Unity package import does not run explicit finalizers: Do not infer that an imported manifest's actions have run. Read the consumer workflow and execute each explicit Editor stage before asserting its outputs."
+  }
+}

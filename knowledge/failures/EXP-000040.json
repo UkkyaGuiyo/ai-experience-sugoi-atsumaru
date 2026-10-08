@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000040",
+  "title": "Hierarchy enumeration must include nonvisual occurrences",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Public synthetic semantic hierarchy in Unity 2022.3.22f1/Blender 5.2.1. This checkpoint alone did not prove native Skin, renderer or bone attachment parity.",
+  "goal": "Reconstruct a complete semantic hierarchy from nested prefabs.",
+  "approach": "Historical failed assumption: Renderer-driven model expansion was assumed to cover the semantic hierarchy.",
+  "what_worked": "Historical correction: Expand source objects using root context and ordered instance edges, retaining source object/transform identities independently of renderers. Verification reported by the source: Normal import changed from zero to two nested occurrences. All 48 oracle dimensions matched; rename/save/reopen retained semantic identity. Malformed-source and comparator controls passed.",
+  "what_failed": "Historical observed failure: An independent Unity oracle had 12 nodes and 11 edges, while normal import produced 10 and 9; two renderer-free occurrences were absent.",
+  "why": "Confirmed: prefab-local object/nested-occurrence expansion omitted nodes with no renderer.",
+  "improved_method": "Compare complete independent node populations, including repeated nonvisual nodes. Never make semantic hierarchy existence depend on renderable content.",
+  "when_to_use": "Public synthetic semantic hierarchy in Unity 2022.3.22f1/Blender 5.2.1. This checkpoint alone did not prove native Skin, renderer or bone attachment parity.",
+  "when_not_to_use": "This checkpoint alone did not prove native Skin, renderer or bone attachment parity.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000010"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "An independent Unity oracle had 12 nodes and 11 edges, while normal import produced 10 and 9; two renderer-free occurrences were absent.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: prefab-local object/nested-occurrence expansion omitted nodes with no renderer.",
+    "detection": "The historical record reports: Normal import changed from zero to two nested occurrences. All 48 oracle dimensions matched; rename/save/reopen retained semantic identity. Malformed-source and comparator controls passed.",
+    "recovery": "Expand source objects using root context and ordered instance edges, retaining source object/transform identities independently of renderers.",
+    "prevention": "Compare complete independent node populations, including repeated nonvisual nodes. Never make semantic hierarchy existence depend on renderable content.",
+    "generalized_lesson": "Hierarchy enumeration must include nonvisual occurrences: Compare complete independent node populations, including repeated nonvisual nodes. Never make semantic hierarchy existence depend on renderable content."
+  }
+}

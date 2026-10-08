@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000041",
+  "title": "A local flag does not release a host modal handler",
+  "category": "failures",
+  "task_type": "Blender asset conversion and diagnostics",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Blender 5.2.1 tested import path. Arbitrary dialog clicking and normal UI Undo remained unverified; no universal native-crash fix is claimed.",
+  "goal": "Finish foreground import and return safely to normal editor interaction.",
+  "approach": "Historical failed assumption: The same operator opened a dialog while its preparation modal remained registered; clearing a Python flag was treated as handler removal.",
+  "what_worked": "Historical correction: Return FINISHED to end preparation in the host, then start separate dialog/prepared operators on later event-loop turns. Bound session lifetime and clean success, cancel and exception paths. Verification reported by the source: Corrected foreground import finished without the preparation handler; 100 interaction cycles and two distinct serial sessions completed with process exit zero and no new crash dump. An invalid timer-context Undo probe was excluded.",
+  "what_failed": "Historical observed failure: Import completed, then ordinary view interactions caused a native access violation with a modal-callback stack.",
+  "why": "Confirmed lifecycle defect: host-owned modal registration survived the local flag change and execution reentered the same object.",
+  "improved_method": "End the host-owned lifecycle before reentrant phase changes. Verify post-completion interaction and host state rather than a local Boolean.",
+  "when_to_use": "Blender 5.2.1 tested import path. Arbitrary dialog clicking and normal UI Undo remained unverified; no universal native-crash fix is claimed.",
+  "when_not_to_use": "Do not extrapolate outside the recorded conditions or use partial evidence to claim general product or release acceptance.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000001"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Import completed, then ordinary view interactions caused a native access violation with a modal-callback stack.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed lifecycle defect: host-owned modal registration survived the local flag change and execution reentered the same object.",
+    "detection": "The historical record reports: Corrected foreground import finished without the preparation handler; 100 interaction cycles and two distinct serial sessions completed with process exit zero and no new crash dump. An invalid timer-context Undo probe was excluded.",
+    "recovery": "Return FINISHED to end preparation in the host, then start separate dialog/prepared operators on later event-loop turns. Bound session lifetime and clean success, cancel and exception paths.",
+    "prevention": "End the host-owned lifecycle before reentrant phase changes. Verify post-completion interaction and host state rather than a local Boolean.",
+    "generalized_lesson": "A local flag does not release a host modal handler: End the host-owned lifecycle before reentrant phase changes. Verify post-completion interaction and host state rather than a local Boolean."
+  }
+}

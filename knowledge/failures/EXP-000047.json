@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000047",
+  "title": "Matching transforms do not prove evaluated geometry",
+  "category": "failures",
+  "task_type": "Blender asset conversion and diagnostics",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Unity 2022.3.22f1/Blender 5.2.1, depth-one MeshRenderer and supported FBX settings. Point-set parity is not topology, Skin or general FBX-frame equivalence.",
+  "goal": "Place directly referenced mesh resources in nested occurrences.",
+  "approach": "Historical failed assumption: The native FBX object transform was assumed to belong to the directly referenced mesh subasset.",
+  "what_worked": "Historical correction: Apply the independently verified mesh frame, excluding Model translation, only when exact receipts/revisions and supported importer settings validate. Verification reported by the source: An asymmetric four-point probe isolated basis/unit conversion. Corrected normal import and rename/resolve/reopen stayed within 1e-5; omitted scale, doubled Model transform and omitted instance transform controls failed.",
+  "what_failed": "Historical observed failure: Transform checks passed while evaluated world-point errors exceeded 3.6 units in a public fixture.",
+  "why": "Confirmed for the fixture: importer file scale applied to mesh coordinates, but the FBX Model-node translation did not belong to that direct mesh frame.",
+  "improved_method": "Verify evaluated world geometry independently of transform matrices. Distinguish resource-local coordinates from scene-node placement before applying either.",
+  "when_to_use": "Unity 2022.3.22f1/Blender 5.2.1, depth-one MeshRenderer and supported FBX settings. Point-set parity is not topology, Skin or general FBX-frame equivalence.",
+  "when_not_to_use": "Point-set parity is not topology, Skin or general FBX-frame equivalence.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000010"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Transform checks passed while evaluated world-point errors exceeded 3.6 units in a public fixture.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed for the fixture: importer file scale applied to mesh coordinates, but the FBX Model-node translation did not belong to that direct mesh frame.",
+    "detection": "The historical record reports: An asymmetric four-point probe isolated basis/unit conversion. Corrected normal import and rename/resolve/reopen stayed within 1e-5; omitted scale, doubled Model transform and omitted instance transform controls failed.",
+    "recovery": "Apply the independently verified mesh frame, excluding Model translation, only when exact receipts/revisions and supported importer settings validate.",
+    "prevention": "Verify evaluated world geometry independently of transform matrices. Distinguish resource-local coordinates from scene-node placement before applying either.",
+    "generalized_lesson": "Matching transforms do not prove evaluated geometry: Verify evaluated world geometry independently of transform matrices. Distinguish resource-local coordinates from scene-node placement before applying either."
+  }
+}

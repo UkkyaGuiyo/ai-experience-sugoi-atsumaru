@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000057",
+  "title": "A zero SDK version can mean its query failed",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Historical Windows/Unity toolchain only. Current versions and device behavior were not reverified.",
+  "goal": "Run an Android build with an external SDK and the editor's bundled Java.",
+  "approach": "Historical failed assumption: The displayed zero and stale generated settings suggested missing or obsolete platform-tools.",
+  "what_worked": "Historical correction: Choose a compatible tools/JDK pair. In the recorded environment, backed-up newer tools were replaced by the editor's Java-11-compatible tools 6.0; this is not a universal version recommendation. Verification reported by the source: The same sdkmanager failed under editor Java and succeeded under another compatible Java. Corrected queries worked under actual editor Java, and Android Build And Run was recorded successful; a nonfatal XML warning remained.",
+  "what_failed": "Historical observed failure: The editor reported SDK Platform Tools version 0.0 and failed to list API levels despite installed working platform-tools.",
+  "why": "Confirmed: command-line tools 20.0 required Java 17 while the tested Unity editor invoked OpenJDK 11; forced execution exposed class-file 61 versus supported 55.",
+  "improved_method": "Run the failing SDK query with the exact Java/executable/environment used by the build. Separate interrogation failure from actual installed package versions before changing project targets.",
+  "when_to_use": "Historical Windows/Unity toolchain only. Current versions and device behavior were not reverified.",
+  "when_not_to_use": "Historical Windows/Unity toolchain only. Current versions and device behavior were not reverified.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000006"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "The editor reported SDK Platform Tools version 0.0 and failed to list API levels despite installed working platform-tools.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: command-line tools 20.0 required Java 17 while the tested Unity editor invoked OpenJDK 11; forced execution exposed class-file 61 versus supported 55.",
+    "detection": "The historical record reports: The same sdkmanager failed under editor Java and succeeded under another compatible Java. Corrected queries worked under actual editor Java, and Android Build And Run was recorded successful; a nonfatal XML warning remained.",
+    "recovery": "Choose a compatible tools/JDK pair. In the recorded environment, backed-up newer tools were replaced by the editor's Java-11-compatible tools 6.0; this is not a universal version recommendation.",
+    "prevention": "Run the failing SDK query with the exact Java/executable/environment used by the build. Separate interrogation failure from actual installed package versions before changing project targets.",
+    "generalized_lesson": "A zero SDK version can mean its query failed: Run the failing SDK query with the exact Java/executable/environment used by the build. Separate interrogation failure from actual installed package versions before changing project targets."
+  }
+}

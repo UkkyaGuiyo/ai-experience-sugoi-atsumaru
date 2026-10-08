@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000075",
+  "title": "Unity LicensingClient IPC needs the matching user session",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Applies to Windows Unity batch runs where the Hub and LicensingClient are already active in a logged-in session and the Editor is launched from a separate restricted process context. It does not establish the cause of licensing failures in other setups, nor does a successful IPC connection prove that all license entitlements or warning states are healthy.",
+  "goal": "Run a headless Unity Editor probe against an isolated project without changing license configuration.",
+  "approach": "Historical failed assumption: The failure was initially treated as a general Editor/license failure, although the Unity Hub and LicensingClient were running in a different logged-in user session.",
+  "what_worked": "Historical correction: Check the Unity process owner and session using non-secret process metadata. If the process is in the restricted context and licensing IPC fails, stop that attempt and request the normal authorized user-session execution route. Preserve the failed log and run the probe once after the process context is confirmed. Verification reported by the source: The restricted launch exited 199 before the probe. The authorized logged-in session established the LicensingClient channel, completed the same headless probe with exit 0, and emitted the probe's success marker. The successful log still contained a nonfatal validation warning, so this does not establish that every licensing status or warning is resolved.",
+  "what_failed": "Historical observed failure: A Unity Editor process launched by a restricted execution context could not connect to the running LicensingClient IPC channel. It waited for the client channel and exited with code 199 before invoking the probe.",
+  "why": "Confirmed for the tested Windows setup: the default restricted process context did not share the LicensingClient IPC identity/session used by Unity Hub. Running the same Editor version, project and probe in the explicitly authorized logged-in user session connected to LicensingClient and completed successfully. No license or credential setting changed.",
+  "improved_method": "When Unity exits with LicenseIPC 199 before invoking an Editor method, compare the Editor's owner/session with the Hub and LicensingClient before diagnosing license configuration. Use the normal authorized matching user session when appropriate; do not change license settings or credentials to work around an IPC context mismatch.",
+  "when_to_use": "Applies to Windows Unity batch runs where the Hub and LicensingClient are already active in a logged-in session and the Editor is launched from a separate restricted process context. It does not establish the cause of licensing failures in other setups, nor does a successful IPC connection prove that all license entitlements or warning states are healthy.",
+  "when_not_to_use": "It does not establish the cause of licensing failures in other setups, nor does a successful IPC connection prove that all license entitlements or warning states are healthy.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000006"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "A Unity Editor process launched by a restricted execution context could not connect to the running LicensingClient IPC channel. It waited for the client channel and exited with code 199 before invoking the probe.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed for the tested Windows setup: the default restricted process context did not share the LicensingClient IPC identity/session used by Unity Hub. Running the same Editor version, project and probe in the explicitly authorized logged-in user session connected to LicensingClient and completed successfully. No license or credential setting changed.",
+    "detection": "The historical record reports: The restricted launch exited 199 before the probe. The authorized logged-in session established the LicensingClient channel, completed the same headless probe with exit 0, and emitted the probe's success marker. The successful log still contained a nonfatal validation warning, so this does not establish that every licensing status or warning is resolved.",
+    "recovery": "Check the Unity process owner and session using non-secret process metadata. If the process is in the restricted context and licensing IPC fails, stop that attempt and request the normal authorized user-session execution route. Preserve the failed log and run the probe once after the process context is confirmed.",
+    "prevention": "When Unity exits with LicenseIPC 199 before invoking an Editor method, compare the Editor's owner/session with the Hub and LicensingClient before diagnosing license configuration. Use the normal authorized matching user session when appropriate; do not change license settings or credentials to work around an IPC context mismatch.",
+    "generalized_lesson": "Unity LicensingClient IPC needs the matching user session: When Unity exits with LicenseIPC 199 before invoking an Editor method, compare the Editor's owner/session with the Hub and LicensingClient before diagnosing license configuration. Use the normal authorized matching user session when appropriate; do not change license settings or credentials to work around an IPC context mismatch."
+  }
+}

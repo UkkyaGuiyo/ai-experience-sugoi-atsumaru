@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000051",
+  "title": "Supervise the whole native lifecycle outside the child",
+  "category": "failures",
+  "task_type": "AI-assisted technical troubleshooting",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Tested Python/Windows supervision. No hard-real-time OS guarantee or general native-SDK defect is asserted; terminate only the owned child.",
+  "goal": "Finish a short native-SDK observation and report its outcome within a bound.",
+  "approach": "Historical failed assumption: The observation-loop deadline was assumed to cover native initialization and teardown, and final-only output was assumed sufficient.",
+  "what_worked": "Historical correction: Use parent-owned child-process supervision with a total deadline and cleanup reserve, bounded intermediate aggregates and pre-close evidence. Record both result and actual child exit. Verification reported by the source: Spawned import/constructor/open/close/exit-hang controls and partial-IPC tests passed. A later live recovery exited normally in about 20.25 seconds with 1,200 valid callbacks; this did not retrospectively identify the original hang.",
+  "what_failed": "Historical observed failure: A nominal twenty-second probe was still alive after 43.1 seconds with no final aggregate; forced stop left stage/activity uncertain.",
+  "why": "Confirmed containment gap: synchronous lifecycle calls lay outside the loop deadline. The historical stalled stage and underlying native cause remained unknown.",
+  "improved_method": "Bound the complete lifecycle externally and retain partial evidence. Missing summary means unknown activity; a pre-close result does not prove cleanup completed.",
+  "when_to_use": "Tested Python/Windows supervision. No hard-real-time OS guarantee or general native-SDK defect is asserted; terminate only the owned child.",
+  "when_not_to_use": "No hard-real-time OS guarantee or general native-SDK defect is asserted; terminate only the owned child.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000001"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "A nominal twenty-second probe was still alive after 43.1 seconds with no final aggregate; forced stop left stage/activity uncertain.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed containment gap: synchronous lifecycle calls lay outside the loop deadline. The historical stalled stage and underlying native cause remained unknown.",
+    "detection": "The historical record reports: Spawned import/constructor/open/close/exit-hang controls and partial-IPC tests passed. A later live recovery exited normally in about 20.25 seconds with 1,200 valid callbacks; this did not retrospectively identify the original hang.",
+    "recovery": "Use parent-owned child-process supervision with a total deadline and cleanup reserve, bounded intermediate aggregates and pre-close evidence. Record both result and actual child exit.",
+    "prevention": "Bound the complete lifecycle externally and retain partial evidence. Missing summary means unknown activity; a pre-close result does not prove cleanup completed.",
+    "generalized_lesson": "Supervise the whole native lifecycle outside the child: Bound the complete lifecycle externally and retain partial evidence. Missing summary means unknown activity; a pre-close result does not prove cleanup completed."
+  }
+}

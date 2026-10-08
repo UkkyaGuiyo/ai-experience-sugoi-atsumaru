@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000054",
+  "title": "A reset instruction is not conversation isolation",
+  "category": "failures",
+  "task_type": "AI-assisted technical troubleshooting",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Observed Dify designs at historical checkpoints; later bounded-state acceptance is not proof that the earlier full-history design passed. No universal confidentiality guarantee is inferred.",
+  "goal": "Start a new independent service session without reusing prior-session context.",
+  "approach": "Historical failed assumption: Prompt-level reset was treated as if it removed the platform's retained conversation history.",
+  "what_worked": "Historical correction: Start a new platform conversation at the session boundary and reuse its identifier only within that session. Require clarification when no candidate was presented in the current session. Verification reported by the source: The initial migration verified zero old inputs/candidates/answers and reran the complete two-session sequence after the canary correction. A later bounded-state design recorded five separation cases across eleven turns with zero observed leaks.",
+  "what_failed": "Historical observed failure: A reset phrase and marker controls passed narrow checks, but a later acceptance run reused the previous session's candidates.",
+  "why": "Confirmed: the old history remained in the same conversation container. A new-container canary also exposed a separate tendency to invent an absent referent from the current catalog.",
+  "improved_method": "Use actual history-container isolation at independent session boundaries. Test a previous-session reference after switching and distinguish isolation from unsupported referent guessing.",
+  "when_to_use": "Observed Dify designs at historical checkpoints; later bounded-state acceptance is not proof that the earlier full-history design passed. No universal confidentiality guarantee is inferred.",
+  "when_not_to_use": "Observed Dify designs at historical checkpoints; later bounded-state acceptance is not proof that the earlier full-history design passed.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000005"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "A reset phrase and marker controls passed narrow checks, but a later acceptance run reused the previous session's candidates.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: the old history remained in the same conversation container. A new-container canary also exposed a separate tendency to invent an absent referent from the current catalog.",
+    "detection": "The historical record reports: The initial migration verified zero old inputs/candidates/answers and reran the complete two-session sequence after the canary correction. A later bounded-state design recorded five separation cases across eleven turns with zero observed leaks.",
+    "recovery": "Start a new platform conversation at the session boundary and reuse its identifier only within that session. Require clarification when no candidate was presented in the current session.",
+    "prevention": "Use actual history-container isolation at independent session boundaries. Test a previous-session reference after switching and distinguish isolation from unsupported referent guessing.",
+    "generalized_lesson": "A reset instruction is not conversation isolation: Use actual history-container isolation at independent session boundaries. Test a previous-session reference after switching and distinguish isolation from unsupported referent guessing."
+  }
+}

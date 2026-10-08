@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000036",
+  "title": "A created version is not the live deployment target",
+  "category": "failures",
+  "task_type": "AI-assisted engineering and verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Apps Script deployment plus Dify integration. Do not confuse draft execution with a published API surface or infer authentication failure before the intended version is reachable.",
+  "goal": "Observe new build/authentication diagnostics through an existing integration endpoint.",
+  "approach": "Historical failed assumption: Version creation or propagation delay was treated as equivalent to updating the endpoint's deployment target.",
+  "what_worked": "Historical correction: Require the exact existing deployment to reference the intended version, then preserve required diagnostics end to end. This was the recorded recovery plan, not a completed live repair at that checkpoint. Verification reported by the source: Read-only version/deployment and endpoint-identity comparisons established the mismatch. Seventeen local tests passed but did not assert the full new response; no corrected live result was established there.",
+  "what_failed": "Historical observed failure: Expected diagnostics were absent even though the new immutable service version existed.",
+  "why": "Confirmed: deployment metadata still pointed to the previous version. Separately, workflow parser/final-output definitions dropped the new diagnostic fields. The exact failed operator step was unknown.",
+  "improved_method": "Verify control-plane target and observed runtime marker separately. Waiting cannot fix metadata that still selects the old version.",
+  "when_to_use": "Apps Script deployment plus Dify integration. Do not confuse draft execution with a published API surface or infer authentication failure before the intended version is reachable.",
+  "when_not_to_use": "Do not confuse draft execution with a published API surface or infer authentication failure before the intended version is reachable.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000005"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Expected diagnostics were absent even though the new immutable service version existed.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: deployment metadata still pointed to the previous version. Separately, workflow parser/final-output definitions dropped the new diagnostic fields. The exact failed operator step was unknown.",
+    "detection": "The historical record reports: Read-only version/deployment and endpoint-identity comparisons established the mismatch. Seventeen local tests passed but did not assert the full new response; no corrected live result was established there.",
+    "recovery": "Require the exact existing deployment to reference the intended version, then preserve required diagnostics end to end. This was the recorded recovery plan, not a completed live repair at that checkpoint.",
+    "prevention": "Verify control-plane target and observed runtime marker separately. Waiting cannot fix metadata that still selects the old version.",
+    "generalized_lesson": "A created version is not the live deployment target: Verify control-plane target and observed runtime marker separately. Waiting cannot fix metadata that still selects the old version."
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000059",
+  "title": "Serialize generated content instead of interpolating JSON",
+  "category": "failures",
+  "task_type": "AI-assisted engineering and verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Observed Dify raw-text HTTP to Apps Script flow. This is a serialization correction, not proof that every stored field is semantically correct.",
+  "goal": "Send canonical fields and generated text through an HTTP JSON request.",
+  "approach": "Historical failed assumption: Quoted raw-text JSON templates were assumed safe for arbitrary generated text.",
+  "what_worked": "Historical correction: Build one complete payload object and serialize it once; give the HTTP node only the finished JSON string. Verification reported by the source: The diagnostic request then returned creation success/HTTP 200, stored nonempty generated fields and reported parse success. Existing records were not changed during that diagnostic.",
+  "what_failed": "Historical observed failure: The receiver rejected a POST with parse_invalid_json even though content type and body type looked correct.",
+  "why": "Confirmed in the recorded diagnosis: quotes and newlines from generated content broke the interpolated JSON.",
+  "improved_method": "Serialize structured values at the final boundary rather than concatenating JSON. Include quotes, line breaks, Unicode, arrays and objects in sender-to-receiver tests.",
+  "when_to_use": "Observed Dify raw-text HTTP to Apps Script flow. This is a serialization correction, not proof that every stored field is semantically correct.",
+  "when_not_to_use": "This is a serialization correction, not proof that every stored field is semantically correct.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000001"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "The receiver rejected a POST with parse_invalid_json even though content type and body type looked correct.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed in the recorded diagnosis: quotes and newlines from generated content broke the interpolated JSON.",
+    "detection": "The historical record reports: The diagnostic request then returned creation success/HTTP 200, stored nonempty generated fields and reported parse success. Existing records were not changed during that diagnostic.",
+    "recovery": "Build one complete payload object and serialize it once; give the HTTP node only the finished JSON string.",
+    "prevention": "Serialize structured values at the final boundary rather than concatenating JSON. Include quotes, line breaks, Unicode, arrays and objects in sender-to-receiver tests.",
+    "generalized_lesson": "Serialize generated content instead of interpolating JSON: Serialize structured values at the final boundary rather than concatenating JSON. Include quotes, line breaks, Unicode, arrays and objects in sender-to-receiver tests."
+  }
+}

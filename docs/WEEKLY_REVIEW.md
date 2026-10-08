@@ -17,9 +17,9 @@ Formal Knowledge is stored only as `knowledge/**/*.json` and is checked by the e
 
 ## Current integrated queue
 
-The default branch contains 12 formal Knowledge Entries. The historical A〜I proposal document has full disposition: eight candidates were formalized as EXP-000005〜EXP-000012 and one was excluded as substantially overlapping EXP-000003. That proposal is marked `Review status: FORMALIZED`.
+The default branch contains 75 formal Knowledge Entries following owner-approved registration of 63 reviewed candidates on 2026-10-09. The historical A〜I proposal document has full disposition: eight candidates were formalized as EXP-000005〜EXP-000012 and one was excluded as substantially overlapping EXP-000003. That proposal is marked `Review status: FORMALIZED`.
 
-The engineering-lessons batch contains 20 generalized candidates and remains `PENDING_REVIEW`. Its files stay outside `knowledge/`; machine PASS must not be treated as independent AI review or adoption.
+The engineering-lessons batch retains 20 candidate narratives: 15 are formally registered and five remain unresolved overlapping cases. The legacy migration retains 72 candidate narratives: 48 are formally registered and 24 remain unformalized. Both source documents remain `PENDING_REVIEW` at document level while they include unresolved candidates. Source Markdown is not formal Knowledge; only reviewed `knowledge/**/*.json` entries are. Machine PASS does not replace safety, rights or content approval.
 
 ## Review status convention
 

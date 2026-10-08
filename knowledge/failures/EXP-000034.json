@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000034",
+  "title": "Verify the committed artifact in a clean checkout",
+  "category": "failures",
+  "task_type": "AI-assisted technical troubleshooting",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Source handoffs with mixed tracked/untracked changes; clean Python checks do not establish application-runtime acceptance.",
+  "goal": "Recover and hand off a coherent tested source revision.",
+  "approach": "Historical failed assumption: Local passing tests were taken as evidence that the committed artifact was self-contained.",
+  "what_worked": "Historical correction: Recover the specific missing dependency as an atomic change, then validate a fresh HEAD-only checkout with the correct package root. Verification reported by the source: The clean checkout exposed the missing import. After dependency recovery, committed-source imports, the expected test population and compileall passed. Blender/Unity acceptance was not run in this recovery.",
+  "what_failed": "Historical observed failure: The dirty workspace passed 238 tests while committed source had 172. A first recovery commit still imported parser APIs absent from the commit.",
+  "why": "Confirmed: required semantic parser APIs remained only in a modified workspace file.",
+  "improved_method": "Test the exact committed artifact from a clean checkout and reconcile test-population differences. Do not sweep unrelated dirty files into a commit to make local results reproducible.",
+  "when_to_use": "Source handoffs with mixed tracked/untracked changes; clean Python checks do not establish application-runtime acceptance.",
+  "when_not_to_use": "Source handoffs with mixed tracked/untracked changes; clean Python checks do not establish application-runtime acceptance.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000001"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "The dirty workspace passed 238 tests while committed source had 172. A first recovery commit still imported parser APIs absent from the commit.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: required semantic parser APIs remained only in a modified workspace file.",
+    "detection": "The historical record reports: The clean checkout exposed the missing import. After dependency recovery, committed-source imports, the expected test population and compileall passed. Blender/Unity acceptance was not run in this recovery.",
+    "recovery": "Recover the specific missing dependency as an atomic change, then validate a fresh HEAD-only checkout with the correct package root.",
+    "prevention": "Test the exact committed artifact from a clean checkout and reconcile test-population differences. Do not sweep unrelated dirty files into a commit to make local results reproducible.",
+    "generalized_lesson": "Verify the committed artifact in a clean checkout: Test the exact committed artifact from a clean checkout and reconcile test-population differences. Do not sweep unrelated dirty files into a commit to make local results reproducible."
+  }
+}

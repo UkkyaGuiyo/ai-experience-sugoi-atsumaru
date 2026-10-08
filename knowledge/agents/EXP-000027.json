@@ -1,0 +1,33 @@
+{
+  "id": "EXP-000027",
+  "title": "依頼がキューに入ったことと、担当が動き出したことを区別する",
+  "category": "agents",
+  "task_type": "Multi-agent operations and handoff",
+  "ai_system": "AI-assisted engineering workflow",
+  "observation_date": "2026-10-09",
+  "environment": "サブエージェント、ジョブキュー、長期タスクの追加修正依頼。",
+  "goal": "完了・待機状態の担当へ追加メッセージを送っただけで、作業が再開したと報告する。実際には通知だけが保存され、担当は動いていない場合がある。",
+  "approach": "依頼送信、受信確認、実行開始、成果物受領、統合完了を別々に記録する。利用する実行基盤の正式な再開操作を確認し、実行状態または担当の応答で再開を確かめる。再開確認前に代役を増やし、同じファイルへ重複作業させない。",
+  "what_worked": "本知見の効果を確かめる再現実験は未実施。候補に記載された方法は、問題の原因を切り分けるための検証設計として提案されている。",
+  "what_failed": "想定される失敗モード：完了・待機状態の担当へ追加メッセージを送っただけで、作業が再開したと報告する。実際には通知だけが保存され、担当は動いていない場合がある。",
+  "why": "一般原則から追加して区別する論点：既存の委譲範囲・統合所有権とは別に、依頼配送と実行状態の取り違えを扱う。",
+  "improved_method": "依頼送信、受信確認、実行開始、成果物受領、統合完了を別々に記録する。利用する実行基盤の正式な再開操作を確認し、実行状態または担当の応答で再開を確かめる。再開確認前に代役を増やし、同じファイルへ重複作業させない。",
+  "when_to_use": "サブエージェント、ジョブキュー、長期タスクの追加修正依頼。",
+  "when_not_to_use": "基盤によって通知と再開の意味は異なる。特定のAPI名や全システム共通の挙動を仮定せず、実際の状態遷移を確認する。",
+  "known_limitations": "評価用の対照試験はまだ実行されていない：メッセージは受理するが再開しない代替実行器、正常に再開する実行器、完了済み担当への重複依頼を使う。「依頼済み」が自動で「作業中」へ変わらないことを確認する。。正式レビュー日をobservation_dateとして保存しており、元事例の発生日や実験日ではない。効果の再現性と適用範囲は未確認。",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000004"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "current"
+}
