@@ -362,7 +362,7 @@ The displayed zero and stale generated settings suggested missing or obsolete pl
 
 ### Root cause
 
-Confirmed: command-line tools 20.0 required Java 17 while Unity 2022.3.22f1 invoked OpenJDK 11.0.14.1; forced execution exposed class-file 61 versus supported 55.
+Confirmed: command-line tools 20.0 required Java 17 while the tested Unity editor invoked OpenJDK 11; forced execution exposed class-file 61 versus supported 55.
 
 ### Correction
 
