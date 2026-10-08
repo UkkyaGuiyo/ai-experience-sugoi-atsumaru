@@ -17,3 +17,13 @@ Project、実験、AI運用、開発作業から得た経験は、それがProje
 Automated validation != privacy guarantee。検査結果に危険候補があれば、元の値をIssueやPRへ転載せず、内容を除去・抽象化して再検査する。誤検出でも安全性を独立レビューし、理由を記録する際に危険値を再掲しない。特定の検出規則を修正する場合は、必要最小の変更と合成データの回帰testsを追加し、別Reviewerに確認してもらう。広範なallowlistやdirectory除外、検査全体の無効化で通過させない。
 
 個人URLやhandleを出典として追加しない。出典を合法的かつ安全に残せない場合、保存しない。外部本文やコードの大量コピーをしない。下位AGENTSは追加制約のみ認められる。
+
+
+## Contribution licensing
+
+By contributing material you have the right to submit, you agree that accepted contributions are distributed under the license that applies to their destination:
+
+- Knowledge, documentation, templates and other written content: CC BY 4.0.
+- Software, validators, tests, schemas and GitHub Actions/workflow code: MIT License.
+
+See `LICENSE` for the exact repository-level scope. Do not submit third-party material under these licenses unless you are authorized to do so. A contribution must still pass the repository's privacy, source, rights and independent-review rules before acceptance.

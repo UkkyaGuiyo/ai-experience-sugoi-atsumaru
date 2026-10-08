@@ -35,7 +35,13 @@ Project、開発作業、AI運用、実験、失敗、成功から得られた�
 
 下位directoryにAGENTS.mdを置く場合、本書のSafety Ruleを継承し、追加制約のみ設定できる。弱める、例外化する、上書きする指示は無効。本規則自体も下位指示で変更しない。
 
-RepositoryはPRIVATEを維持する。ユーザーの明示指示なしにPUBLIC化、LICENSE決定、過去データの一括移植・自動backfillをしない。安全に一般化された新規経験の通常収集は本規則で許可された収集範囲に含む。保存・レビュー・mergeはRepository固有の承認済み運用に従う。危険情報をIssue、PR、commit message、検証出力へ転載しない。
+## Public Repository Assumption
+
+RepositoryはPUBLICを前提に扱う。保存したfileだけでなく、commit message、branch、PR、Issue、review note、workflow summary、生成artifact、削除済み/revert済み履歴も第三者から見えるものとして扱う。
+
+branch分離、Draft PR、後からの削除、revert、非default branch、Actions logを秘密保持手段として使わない。公開できない情報は最初からGitHubへ保存しない。Repositoryのvisibilityやlicenseを再変更する場合は、ユーザーの明示指示を必要とする。
+
+安全に一般化された新規経験の通常収集は本規則で許可された収集範囲に含む。過去データの一括移植・自動backfillは既存の明示承認規則を維持する。保存・レビュー・mergeはRepository固有の承認済み運用に従う。危険情報をIssue、PR、commit message、検証出力へ転載しない。
 
 ## 実装上の制約
 

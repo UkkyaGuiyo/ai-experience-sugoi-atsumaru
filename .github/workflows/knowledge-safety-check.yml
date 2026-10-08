@@ -1,7 +1,7 @@
 name: Knowledge safety check
 on:
-  # Weekly queue logic is integrated, but scheduled execution is intentionally
-  # disabled until the owner confirms an effective no-overage/no-charge Actions condition.
+  schedule:
+    - cron: '17 0 * * 1' # Monday 00:17 UTC / 09:17 JST; delivery can be delayed.
   push:
   pull_request:
   workflow_dispatch:

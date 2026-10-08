@@ -1,0 +1,36 @@
+# Licensing
+
+This repository uses two licenses, depending on the material.
+
+## Knowledge and written content — CC BY 4.0
+
+Unless a file says otherwise, the following are licensed under the Creative Commons Attribution 4.0 International license (CC BY 4.0):
+
+- `knowledge/**`
+- `docs/**`
+- `templates/**`
+- `README.md`
+- `AGENTS.md`
+- `CONTRIBUTING.md`
+- `SECURITY.md`
+- `.github/pull_request_template.md`
+
+See `LICENSE-CONTENT`.
+
+## Software and machine-readable tooling — MIT
+
+Unless a file says otherwise, the following are licensed under the MIT License:
+
+- `scripts/**`
+- `tests/**`
+- `schema/**`
+- `.github/workflows/**`
+- other source-code or automation files whose primary purpose is software execution or validation
+
+See `LICENSE-CODE`.
+
+## Third-party material
+
+Third-party material, if any, remains subject to its own license and is not relicensed by this repository. A reference to, summary of, or link to third-party material does not transfer ownership or grant rights beyond the applicable license or law.
+
+If a file contains an explicit license notice that conflicts with this repository-level scope, the file-specific notice controls for that file.

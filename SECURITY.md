@@ -2,8 +2,16 @@
 
 機械検査は第一防衛線であり、個人情報・機密情報・適法性の完全な検出器ではない。
 
-危険情報や検査の欠陥を見つけた場合、値、本文、credential、個人情報をIssue、PR、comment、公開窓口へ貼らない。安全な最小限の説明として、問題の種類と影響範囲だけを管理者へ承認済みの非公開連絡経路で伝える。安全な窓口を確認できない場合は情報を送らない。
+危険情報、credential、個人情報、非公開source、検査回避に使える秘密値をPublic Issue、PR、comment、discussion、commit messageへ貼らない。
 
-実secretが疑われる場合は通常の収集・公開を止める。credential失効・アクセス制限・履歴対応は管理者が正規の権限で判断する。勝手に既存データ削除、履歴rewrite、公開設定変更、credential生成をしない。削除だけで履歴や外部複製から消えたと判断しない。
+## 非公開の報告
 
-テスト再現には完全な合成値を使い、実データの再投稿を要求しない。PRIVATEは保存許可の代替ではない。禁止情報は非公開Repositoryにも保存しない。
+Security上の問題に機密情報を含む可能性がある場合は、GitHubの **Report a vulnerability** からPrivate vulnerability reportingを使用する。報告には必要最小限の再現情報だけを含め、実credentialや個人データを再投稿しない。
+
+Private vulnerability reportingが利用できない場合、危険値をPublicに投稿しない。安全な非公開窓口が確認できるまで、具体値の送信を止める。
+
+## Secretや危険情報が疑われる場合
+
+通常の収集・公開・mergeを止める。credential失効、アクセス制限、履歴rewrite、外部複製への対応はRepository管理者が正規の権限で判断する。勝手に既存データ削除、履歴rewrite、credential生成を行わない。ファイル削除だけで履歴・fork・clone・cacheから消えたと判断しない。
+
+テスト再現には完全な合成値を使う。PUBLICであることも、PRIVATEであることも保存許可の代替ではない。禁止情報はRepository visibilityに関係なく保存しない。

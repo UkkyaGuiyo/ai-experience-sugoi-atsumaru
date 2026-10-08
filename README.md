@@ -33,6 +33,14 @@ GitHub Actionsでもschema validation、automated safety scan、unit testsを実
 
 基盤は初期構築済みで、独立ReviewとSafety Reviewを通した正式Knowledge Entryを12件収録しています。一般化済みのエンジニアリング候補20件は `docs/proposals/engineering-lessons-batch/` で `PENDING_REVIEW` として保持し、正式Entryと混同しません。過去Projectや既存Failure Atlas等の一括backfill・自動移植は別途明示された対象範囲が必要です。
 
-週次Review Queueの集計ロジックはGitHub Actionsへ統合済みですが、private RepositoryのActions課金条件を未確認のためschedule triggerはまだ有効化していません。push / pull_request / workflow_dispatchでは同じValidator・unit tests・Review Queue集計を検証できます。
+RepositoryはPUBLICです。保存する情報は、ファイル本体だけでなくcommit、branch、PR、Issue、review、Actions summary等も第三者から見える前提で最小化・一般化します。PublicであることはSafety Reviewの代替ではありません。
 
-Repositoryは現在PRIVATEで、PUBLIC化はEntry内容の公開可能性とは別の明示的な判断です。LICENSEは未設定で、自由な再配布を許諾していません。
+GitHub Actionsはschema validation、automated safety scan、unit testsに加え、毎週月曜09:17 JSTごろにReview Queueを整理します。定期処理はAIを自動起動せず、候補を自動採用・変更しません。push / pull_request / workflow_dispatchでも同じ検査を実行できます。
+
+
+## License
+
+- Knowledge・Documentationなどの文章: **CC BY 4.0**
+- Validator・tests・schema・GitHub Actionsなどのコード: **MIT License**
+
+正確な適用範囲は [LICENSE](LICENSE)、[LICENSE-CONTENT](LICENSE-CONTENT)、[LICENSE-CODE](LICENSE-CODE) を参照してください。第三者素材は、その素材固有の権利・ライセンスに従い、本Repositoryのライセンスで再許諾しません。

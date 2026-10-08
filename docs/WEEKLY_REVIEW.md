@@ -1,19 +1,17 @@
 # Weekly knowledge checks
 
-The Knowledge safety check workflow contains the weekly review-queue logic, but the scheduled trigger is intentionally **disabled** on the default branch until the owner confirms an effective no-overage / no-charge condition for private GitHub Actions.
+The Knowledge safety check workflow runs a read-only review-queue maintenance job every Monday at 00:17 UTC (09:17 JST). GitHub may delay scheduled delivery.
 
-The intended cadence, once explicitly enabled, is Monday 00:17 UTC (09:17 JST). GitHub may delay scheduled delivery. Enabling that cron is a billing/operations decision, not a knowledge-review decision.
+## What the workflow does
 
-## What is integrated now
-
-On `push`, `pull_request`, and `workflow_dispatch`, the existing workflow:
+On `schedule`, `push`, `pull_request`, and `workflow_dispatch`, the workflow:
 
 1. runs the repository unit tests;
 2. runs the existing Schema and automated safety scan;
 3. produces a read-only Review Queue summary for `docs/proposals/**/*.md`;
-4. never calls an AI model, adopts candidates, commits files, writes artifacts/caches, or changes repository data.
+4. never calls an AI model, adopts candidates, commits files, writes repository data, or changes review status.
 
-The workflow uses a standard Linux runner, read-only contents permission and a five-minute job timeout. Runner startup still consumes Actions usage.
+The workflow uses the standard GitHub-hosted `ubuntu-latest` runner, read-only contents permission and a five-minute job timeout.
 
 Formal Knowledge is stored only as `knowledge/**/*.json` and is checked by the existing entry schema. Proposal Markdown is scanned for repository safety but is not a formal Knowledge Entry.
 
@@ -44,15 +42,4 @@ Machine PASS is not privacy/safety approval. Pending candidates require an indep
 
 Preferred normal reviewer: GPT-6.1 Sol. GPT-6 Astra is not the default reviewer. Candidate collection must not block product work.
 
-## Enabling the weekly schedule later
-
-Before adding the cron trigger to the default branch, confirm the private Actions allowance and an effective stop-spending / no-overage condition in GitHub billing. This repository remains PRIVATE; this workflow does not change billing, budgets, visibility, license, merge policy or publication state.
-
-Target schedule when approved:
-
-```yaml
-schedule:
-  - cron: '17 0 * * 1' # Monday 00:17 UTC / 09:17 JST
-```
-
-References: GitHub scheduled events and job summaries documentation.
+The weekly machine check does not replace independent AI review and does not automatically promote any candidate.
