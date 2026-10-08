@@ -1,5 +1,8 @@
 name: Knowledge safety check
 on:
+  # Keep off the default branch until the owner confirms no-charge conditions.
+  schedule:
+    - cron: '17 0 * * 1' # Monday 00:17 UTC / 09:17 JST; delivery can be delayed.
   push:
   pull_request:
   workflow_dispatch:
@@ -8,6 +11,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     env:
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
@@ -18,6 +22,66 @@ jobs:
         with:
           python-version: '3.12'
       - name: Unit tests
+        id: tests
         run: python -m unittest discover -s tests -v
       - name: Schema and automated safety scan
+        id: scan
+        if: ${{ !cancelled() }}
         run: python scripts/validate_knowledge.py
+      - name: Review queue summary
+        if: ${{ !cancelled() }}
+        env:
+          TEST_RESULT: ${{ steps.tests.outcome }}
+          SCAN_RESULT: ${{ steps.scan.outcome }}
+        run: |
+          python -B - <<'PY'
+          import html
+          import json
+          import os
+          from pathlib import Path
+          import re
+          from difflib import SequenceMatcher
+          from scripts.validate_knowledge import scan_text
+
+          lines = ["## Knowledge checks and review queue",
+                   "Unit tests: " + os.environ['TEST_RESULT'],
+                   "Schema / automated safety scan: " + os.environ['SCAN_RESULT'],
+                   "Automated validation != privacy guarantee. PASS is not AI safety approval.",
+                   "No AI calls, adoption, commits, artifacts or caches. Runner startup still consumes Actions usage."]
+          if os.environ['SCAN_RESULT'] != 'success':
+              lines.append("Queue withheld: scan did not pass. Candidate content is not echoed.")
+          else:
+              # Existing proposals are Markdown review documents, not schema entries.
+              proposals = sorted(Path('docs/proposals').rglob('*.md'))
+              entries = [json.loads(p.read_text(encoding='utf-8'))
+                         for p in sorted(Path('knowledge').rglob('*.json'))]
+              lines.append(f"Knowledge entries checked: {len(entries)}. Proposal documents: {len(proposals)}.")
+              if not proposals:
+                  lines.append("No candidates: successful no-op for review collection.")
+              else:
+                  lines += ["Batch independent review preferred: GPT-6.1 Sol; no automatic reviewer is started.",
+                            "All proposal documents remain PENDING_REVIEW until independent review; no files are changed.",
+                            "", "| Proposal document | State | Possible existing overlap |",
+                            "| --- | --- | --- |"]
+                  for index, proposal in enumerate(proposals, 1):
+                      text = proposal.read_text(encoding='utf-8')
+                      references = set(re.findall(r'\bEXP-[0-9]{6}\b', text))
+                      headings = re.findall(r'^#{1,6}\s+(.+)$', text, re.MULTILINE)
+                      overlap = []
+                      for entry in entries:
+                          if entry['id'] in references or any(
+                              SequenceMatcher(None, heading.casefold(), entry['title'].casefold()).ratio() >= 0.8
+                              for heading in headings):
+                              overlap.append(entry['id'])
+                      # Reuse diagnostic safety checks before displaying any filename.
+                      path = proposal.as_posix()
+                      if scan_text(path) or any(ord(char) < 32 for char in path):
+                          path = f'Proposal document {index} (filename withheld)'
+                      safe_path = html.escape(path).replace('|', '&#124;')
+                      matches = ', '.join(sorted(overlap)) or 'None detected (not proof of uniqueness)'
+                      lines.append(f"| <code>{safe_path}</code> | PENDING_REVIEW | {matches} |")
+                  lines += ["", "Overlap is a heuristic: existing ID references or heading/title similarity >= 0.8.",
+                            "Reviewers should improve/qualify existing entries before adding near-duplicates."]
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as summary:
+              summary.write('\n'.join(lines) + '\n')
+          PY
