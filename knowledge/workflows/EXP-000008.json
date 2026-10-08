@@ -1,0 +1,34 @@
+{
+  "id": "EXP-000008",
+  "title": "必須能力を先に確かめ、代替出力を要件達成と扱わない",
+  "category": "workflows",
+  "task_type": "Agent Operations / Verification",
+  "ai_system": "AI agent",
+  "observation_date": "2026-10-07",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "knowledge_status": "current",
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "environment": "中核能力がSDKや外部実行環境の制約に依存するAI支援開発。",
+  "goal": "未確認の中核能力を前提に周辺実装を進めたり、異なる出力を無断で成功扱いしたりすることを防ぐ。",
+  "approach": "必須条件、許容できる代替、許可されない代替を分け、中核能力だけの最小検証を設計する。APIの存在、実行環境への公開、コンパイル、呼び出し、必要な出力の取得を順に確認する。",
+  "what_worked": "成功結果は未観測。中核能力の各確認段階を分けることで、どの前提が未確認かを明示できると推論する。",
+  "what_failed": "失敗結果は未観測。型定義の存在や代替方式で作った値だけでは、必要な経路から目的の出力を取得できるとは限らない。",
+  "why": "周辺実装の成立と中核能力の成立は別の条件であり、代替出力は元の要件と等価とは限らない。",
+  "improved_method": "未検証の提案として、型だけ存在する、呼び出せるが空値、必要な実値を取得できるという合成状態を評価する。未確認、実行不能、失敗を分け、経路や要件の変更を別の判断として記録する。",
+  "when_to_use": "SDK制約、外部環境依存の企画、実装順序の検討。",
+  "when_not_to_use": "限定した経路の失敗だけで、すべての方式が不可能と断定する場合。",
+  "known_limitations": "observation_dateは一般化提案のレビュー・JSON案作成日であり、過去の事例の発生日や実験日ではない。合成例は未実行。優先度付けの提案であり、開発時間短縮や成功率の効果は未測定。許容代替の判断には実際の要件確認が必要。",
+  "related_knowledge_ids": [
+    "EXP-000001",
+    "EXP-000002"
+  ]
+}

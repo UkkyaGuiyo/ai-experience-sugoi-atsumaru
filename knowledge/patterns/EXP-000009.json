@@ -1,0 +1,33 @@
+{
+  "id": "EXP-000009",
+  "title": "異なる正解を持つ二つの合成履歴で観測の区別可能性を問う",
+  "category": "patterns",
+  "task_type": "Agent Operations / Verification",
+  "ai_system": "AI agent",
+  "observation_date": "2026-10-07",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "knowledge_status": "current",
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "environment": "限られたセンサー値やツール出力を使う対象選択、追跡、照合、状態推定の設計。",
+  "goal": "必要な状態を観測から区別できるという未確認の前提を、複雑な実装の前に点検する。",
+  "approach": "正解が異なる二つの仮想状況を作り、判断側の初期状態と観測履歴を比較する。同一の場合は追加観測の必要性を示すか、不明を保持して危険な自動判断を保留する。",
+  "what_worked": "成功結果は未観測。同じ初期状態と同じ観測履歴だけを入力とする決定的処理は、二つの状況に異なる判断を選べないという推論を設計確認に使える。",
+  "what_failed": "失敗結果は未観測。区別に必要な情報がないまま追跡や協調処理を複雑化しても、その処理だけでは観測の不足を解消できない。",
+  "why": "決定的処理への入力が等しければ出力も等しいため、入力に現れない正解の差をその条件だけで決定できない。",
+  "improved_method": "未検証の提案として、初期状態と出力列が同じで正解ラベルだけ異なる二つの合成履歴を作り、区別できる追加入力を持つ対照例と比較する。追加観測にも許可、プライバシー、必要最小性を適用する。",
+  "when_to_use": "対象選択、照合、状態推定の実装前の反例設計。",
+  "when_not_to_use": "この反例から他の観測源、すべての構成、実環境の挙動まで否定する場合。",
+  "known_limitations": "observation_dateは一般化提案のレビュー・JSON案作成日であり、過去の事例の発生日や実験日ではない。推論は定義した観測条件と決定的処理に限る。合成例は未実行で、実在人物の追跡データは用いない。実環境での識別性能は未測定。",
+  "related_knowledge_ids": [
+    "EXP-000002"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "EXP-000001",
+  "title": "Separate verification results by acceptance gate",
+  "category": "patterns",
+  "task_type": "Verification and workflow automation",
+  "ai_system": "AI-assisted software workflow",
+  "observation_date": "2026-10-07",
+  "environment": "Multi-stage software work with tests, process execution, generated artifacts, and postflight checks.",
+  "goal": "Report completion evidence accurately when a task has multiple acceptance stages.",
+  "approach": "Define required checks before execution. Record each check separately and bind its evidence to the relevant run and artifact. Distinguish assertions, compiler results, process completion, artifact checks, input protection, and cleanup where applicable.",
+  "what_worked": "Keeping results separate makes partial success and unexecuted stages visible, and prevents one passing signal from standing in for unrelated requirements.",
+  "what_failed": "Collapsing several checks into a test count, one process exit, or one overall wrapper result can hide a skipped branch, an invalid artifact, or a failed postflight condition.",
+  "why": "Each check measures a different property. Evidence from a different run or artifact does not establish that the current acceptance condition was met.",
+  "improved_method": "List each required check and its evidence source before the run. Bind outputs to the run and artifact identity. Report the results individually, and mark any unmet or unexecuted condition clearly.",
+  "when_to_use": "Multi-stage build, test, import/export, deployment, or cleanup workflows where different checks establish different requirements.",
+  "when_not_to_use": "A task with one clearly defined check and no separate process, artifact, or postflight requirements; do not add irrelevant checks.",
+  "known_limitations": "This is a workflow recommendation synthesized from published QA documentation. No underlying application run was repeated here, so it is not fresh experimental validation. The observation date records synthesis/review, not an underlying execution or incident.",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": ["EXP-000002"],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "current"
+}

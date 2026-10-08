@@ -31,4 +31,8 @@ GitHub Actionsでもschema validation、automated safety scan、unit testsを実
 
 ## 現在の状態
 
-基盤は初期構築済みで、Knowledge EntryはSafety Review・Schema検査・独立レビューを通して通常収集できます。過去Projectや既存Failure Atlas等の一括backfill・自動移植は行っておらず、別途明示された対象範囲が必要です。Repositoryは現在PRIVATEで、PUBLIC化はEntry内容の公開可能性とは別の明示的な判断です。LICENSEは未設定で、自由な再配布を許諾していません。
+基盤は初期構築済みで、独立ReviewとSafety Reviewを通した正式Knowledge Entryを12件収録しています。一般化済みのエンジニアリング候補20件は `docs/proposals/engineering-lessons-batch/` で `PENDING_REVIEW` として保持し、正式Entryと混同しません。過去Projectや既存Failure Atlas等の一括backfill・自動移植は別途明示された対象範囲が必要です。
+
+週次Review Queueの集計ロジックはGitHub Actionsへ統合済みですが、private RepositoryのActions課金条件を未確認のためschedule triggerはまだ有効化していません。push / pull_request / workflow_dispatchでは同じValidator・unit tests・Review Queue集計を検証できます。
+
+Repositoryは現在PRIVATEで、PUBLIC化はEntry内容の公開可能性とは別の明示的な判断です。LICENSEは未設定で、自由な再配布を許諾していません。

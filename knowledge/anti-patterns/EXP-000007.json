@@ -1,0 +1,33 @@
+{
+  "id": "EXP-000007",
+  "title": "安全性テストの外部操作を取得前に封じる",
+  "category": "anti-patterns",
+  "task_type": "Agent Operations / Verification",
+  "ai_system": "AI agent",
+  "observation_date": "2026-10-07",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "knowledge_status": "current",
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "environment": "OS操作、外部API、ネイティブ連携、情報取得の境界を持つエージェント用ツールの判定テスト。",
+  "goal": "安全性確認のテスト自体が実操作や不要な情報取得を行うことを防ぐ。",
+  "approach": "入口から外部操作までの呼び出し経路を確認し、判定処理と実取得処理を分離する。判定にはメモリ内の合成値を使い、外部操作が呼ばれたら失敗する代替アダプターを注入する。",
+  "what_worked": "成功結果は未観測。取得前に境界を設け、既定・旧・回復経路を含めて確認すれば、合成テスト中の外部操作を検出しやすいと推論する。",
+  "what_failed": "失敗結果は未観測。安全な新経路だけを確認しても、旧関数や別の呼び出し元に実取得処理が残り得る。",
+  "why": "判定後にデータを減らしても、実取得の副作用や不要な取得は既に発生している可能性がある。",
+  "improved_method": "未検証の提案として、呼び出されたら即座に失敗する取得アダプターを通常経路と旧経路へ注入し、合成入力だけで評価する。架空の数値を実OS識別子として渡さず、回復経路も取得前の境界を通るか確認する。",
+  "when_to_use": "Computer Use、外部情報取得、OSや外部サービスを操作するツールの判定テスト。",
+  "when_not_to_use": "実環境での正常動作や接続互換性の証明として合成テストを使う場合。",
+  "known_limitations": "observation_dateは一般化提案のレビュー・JSON案作成日であり、過去の事例の発生日や実験日ではない。合成テストは未実行。実取得テストには別途許可と必要最小限の取得設計が必要であり、この案だけで実環境の安全性を保証しない。",
+  "related_knowledge_ids": [
+    "EXP-000003"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "EXP-000002",
+  "title": "Limit conclusions to the scope that was examined",
+  "category": "patterns",
+  "task_type": "Evidence-based verification",
+  "ai_system": "AI-assisted software workflow",
+  "observation_date": "2026-10-07",
+  "environment": "Software verification that combines synthetic controls, representative inputs, automated checks, and human inspection.",
+  "goal": "Avoid extending a narrow verification result to cases the evidence did not cover.",
+  "approach": "State the tested input class, environment, artifact, and check for each conclusion. Keep automated, human, unmeasured, blocked, and failed results distinct.",
+  "what_worked": "Explicit scope and status labels keep a successful control useful while preserving unresolved cases and limits on generalization.",
+  "what_failed": "A result from one representative case or synthetic control can be mistaken for broad compatibility; an incomplete or harness-failed run can also be misreported as a product pass.",
+  "why": "Finite tests cover only their stated conditions. A result in one scope does not establish behavior for other inputs, environments, or stages.",
+  "improved_method": "Define the population and acceptance boundary first. Record the result and evidence for each case, identify untested or human-required checks, and generalize only where the sampled coverage supports it.",
+  "when_to_use": "Regression, integration, compatibility, benchmark, or release claims based on samples and multiple forms of evidence.",
+  "when_not_to_use": "A conclusion limited to a directly observed single fact; keep that fact narrow instead of inventing a broader population claim.",
+  "known_limitations": "Scope labels cannot compensate for biased or inadequate test design. This is an inference from published verification records and has not been independently reproduced here. The observation date records synthesis/review, not an underlying execution or incident.",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": ["EXP-000001"],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "current"
+}
