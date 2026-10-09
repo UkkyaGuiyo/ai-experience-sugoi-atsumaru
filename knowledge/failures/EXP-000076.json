@@ -1,0 +1,40 @@
+{
+  "id": "EXP-000076",
+  "title": "Preserve required empty catalog directories through source control and package selection",
+  "category": "failures",
+  "task_type": "Software Engineering",
+  "ai_system": "AI-assisted verification",
+  "observation_date": "2026-10-09",
+  "environment": "Git-backed asset distribution with optional catalog directories, sibling metadata files, and definition-only package seed selection.",
+  "goal": "Keep a documented empty catalog directory available in a distributed product without adding a selectable definition.",
+  "approach": "Inspect the tracked tree and existing package inventory separately from catalog lifecycle tests; exercise the existing seed selector with a harmless marker fixture.",
+  "what_worked": "A tracked non-definition child file plus an explicit entry in the existing seed policy retained the directory in source and selected the marker for distribution. The focused seed-selection fixture passed.",
+  "what_failed": "The tracked tree retained a sibling metadata file but had no child file to retain the empty directory. The inspected artifact contained no entry for that directory. Lifecycle fixtures created their own directory, so their passing results did not establish shipped directory presence.",
+  "why": "Git does not retain an empty directory by itself, and definition-only seed selection does not select a documentation marker automatically. A test-created layout differs from a shipped layout.",
+  "improved_method": "When an otherwise empty catalog directory must be present in a Git-backed distribution, retain a tracked child file and include it in package seed selection. Check directory presence in the exported artifact independently of lifecycle tests. Preserve existing metadata and avoid changing persisted selections to compensate for packaging omissions.",
+  "when_to_use": "Asset products whose documented workflow requires an initially empty directory and whose package selector enumerates only asset definitions.",
+  "when_not_to_use": "Directories that may be absent by design, or packaging systems that already preserve and verify empty directories explicitly.",
+  "known_limitations": "Source presence, the prior artifact omission, and corrected seed selection were checked. A fresh full export/import and actual GUI behavior after the change were not verified. This does not establish the cause of a separate reported candidate-display problem.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "reproduced",
+  "confidence": "high",
+  "related_knowledge_ids": ["EXP-000065", "EXP-000071"],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "current",
+  "failure_details": {
+    "failure": "A documented empty catalog directory was absent from source checkout and the inspected distribution.",
+    "impact": "The inspected checkout and distribution lacked the documented unused-definition destination directory; runtime and GUI impact were not established.",
+    "cause": "No tracked child retained the empty directory, and the package seeds did not explicitly include a retaining marker.",
+    "detection": "Independent tracked-tree and archive inventory checks, followed by a focused package-seed fixture.",
+    "recovery": "Add a non-definition marker with metadata and select it through the existing distribution policy.",
+    "prevention": "Verify documented directory presence against the actual artifact, separately from tests that construct their own layout.",
+    "generalized_lesson": "Selected-file integrity and lifecycle behavior do not establish distribution completeness."
+  }
+}
