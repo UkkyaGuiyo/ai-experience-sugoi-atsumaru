@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000033",
+  "title": "Coordinate basis conversion must include scale",
+  "category": "failures",
+  "task_type": "Blender asset conversion and diagnostics",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Tested semantic reconstruction in Blender 5.2.1. Previously saved scenes were not silently migrated; native geometry fidelity was not proved by these matrix checks.",
+  "goal": "Convert semantic transform chains between coordinate systems.",
+  "approach": "Historical failed assumption: Position and rotation were converted while scale remained in its original axis order.",
+  "what_worked": "Historical correction: Change scale ordering consistently with the basis; leave native FBX handling separate. Verification reported by the source: Nonuniform, negative and zero-scale controls failed before correction and passed six local/world conjugation checks afterward. Fresh import plus save/reopen matched 271 semantic identities/parents and local bases within 1e-5.",
+  "what_failed": "Historical observed failure: Nonuniform real-input matrices differed; a three-node synthetic chain failed an independent matrix oracle.",
+  "why": "Confirmed: under the tested basis mapping, diagonal scale required axis permutation while retaining signs.",
+  "improved_method": "Test basis conversion using independent matrix conjugation and nonuniform, negative and zero scales. Uniform-scale examples cannot expose axis-order defects.",
+  "when_to_use": "Tested semantic reconstruction in Blender 5.2.1. Previously saved scenes were not silently migrated; native geometry fidelity was not proved by these matrix checks.",
+  "when_not_to_use": "Previously saved scenes were not silently migrated; native geometry fidelity was not proved by these matrix checks.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000010"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Nonuniform real-input matrices differed; a three-node synthetic chain failed an independent matrix oracle.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: under the tested basis mapping, diagonal scale required axis permutation while retaining signs.",
+    "detection": "The historical record reports: Nonuniform, negative and zero-scale controls failed before correction and passed six local/world conjugation checks afterward. Fresh import plus save/reopen matched 271 semantic identities/parents and local bases within 1e-5.",
+    "recovery": "Change scale ordering consistently with the basis; leave native FBX handling separate.",
+    "prevention": "Test basis conversion using independent matrix conjugation and nonuniform, negative and zero scales. Uniform-scale examples cannot expose axis-order defects.",
+    "generalized_lesson": "Coordinate basis conversion must include scale: Test basis conversion using independent matrix conjugation and nonuniform, negative and zero scales. Uniform-scale examples cannot expose axis-order defects."
+  }
+}

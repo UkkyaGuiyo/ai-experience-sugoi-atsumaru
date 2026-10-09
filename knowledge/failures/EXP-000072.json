@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000072",
+  "title": "Separate Unity metadata line endings from GUID validation",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Line-oriented Unity metadata readers. The observed tool required lowercase hexadecimal GUIDs; this lesson does not establish that every Unity producer must use that casing or that arbitrary whitespace should be accepted.",
+  "goal": "Validate Unity asset metadata before constructing an isolated verification project.",
+  "approach": "Historical failed assumption: A multiline regular expression required the GUID capture to be followed immediately by the line-end anchor, without accounting for the carriage return preceding LF.",
+  "what_worked": "Historical correction: Accept one optional carriage return outside the GUID capture. Retain the exact identifier syntax required by the tool, the exactly-one-GUID-line rule, duplicate-GUID checks, and the original asset/meta byte hashes. Do not normalize the entire metadata file merely to make an identity check pass. Verification reported by the source: Committed regressions cover successful preparation with LF and CRLF metadata and rejection of a malformed 31-character GUID with CRLF. The checkpoint records a 314/314 non-Unity harness pass; Unity was not launched for that checkpoint.",
+  "what_failed": "Historical observed failure: Valid metadata using CRLF line endings was rejected as an invalid GUID before Unity launched. The same parser accepted LF metadata.",
+  "why": "Confirmed by source inspection and the recorded input audit: CRLF left a carriage return outside the expected 32-character hexadecimal identifier, so a valid line failed the expression. This was a line-terminator incompatibility, not evidence of a corrupt identifier.",
+  "improved_method": "Treat line terminators separately from identifier content. Test LF, CRLF, malformed identifiers, and duplicate identity declarations without weakening content or hash validation.",
+  "when_to_use": "Line-oriented Unity metadata readers. The observed tool required lowercase hexadecimal GUIDs; this lesson does not establish that every Unity producer must use that casing or that arbitrary whitespace should be accepted.",
+  "when_not_to_use": "The observed tool required lowercase hexadecimal GUIDs; this lesson does not establish that every Unity producer must use that casing or that arbitrary whitespace should be accepted.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000010"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Valid metadata using CRLF line endings was rejected as an invalid GUID before Unity launched. The same parser accepted LF metadata.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed by source inspection and the recorded input audit: CRLF left a carriage return outside the expected 32-character hexadecimal identifier, so a valid line failed the expression. This was a line-terminator incompatibility, not evidence of a corrupt identifier.",
+    "detection": "The historical record reports: Committed regressions cover successful preparation with LF and CRLF metadata and rejection of a malformed 31-character GUID with CRLF. The checkpoint records a 314/314 non-Unity harness pass; Unity was not launched for that checkpoint.",
+    "recovery": "Accept one optional carriage return outside the GUID capture. Retain the exact identifier syntax required by the tool, the exactly-one-GUID-line rule, duplicate-GUID checks, and the original asset/meta byte hashes. Do not normalize the entire metadata file merely to make an identity check pass.",
+    "prevention": "Treat line terminators separately from identifier content. Test LF, CRLF, malformed identifiers, and duplicate identity declarations without weakening content or hash validation.",
+    "generalized_lesson": "Separate Unity metadata line endings from GUID validation: Treat line terminators separately from identifier content. Test LF, CRLF, malformed identifiers, and duplicate identity declarations without weakening content or hash validation."
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000058",
+  "title": "A search label does not prove result category",
+  "category": "failures",
+  "task_type": "AI-assisted engineering and verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Observed SerpApi Maps normalization. Type allowlists are provider/contract-specific; zero accepted candidates can be a valid result requiring human review.",
+  "goal": "Save search results belonging to requested facility categories.",
+  "approach": "Historical failed assumption: A titled search result or category query was treated as category evidence.",
+  "what_worked": "Historical correction: Combine provider type fields, require a category-specific allowlist match, reject missing/mismatched types, and deduplicate with diagnostic reasons. Verification reported by the source: The subsequent recorded audit found 264 saved candidates with zero category mismatches, missing-type entries or JSON errors; fixture, contract and live checks were recorded.",
+  "what_failed": "Historical observed failure: Locality names and unrelated businesses were stored as requested categories despite parse success.",
+  "why": "Confirmed: the normalizer retained titled entries without using available provider type fields as acceptance criteria.",
+  "improved_method": "Validate result semantics with provider evidence, not the request label or title. Preserve no-match and transport-failure as different outcomes.",
+  "when_to_use": "Observed SerpApi Maps normalization. Type allowlists are provider/contract-specific; zero accepted candidates can be a valid result requiring human review.",
+  "when_not_to_use": "Do not extrapolate outside the recorded conditions or use partial evidence to claim general product or release acceptance.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000002"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Locality names and unrelated businesses were stored as requested categories despite parse success.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: the normalizer retained titled entries without using available provider type fields as acceptance criteria.",
+    "detection": "The historical record reports: The subsequent recorded audit found 264 saved candidates with zero category mismatches, missing-type entries or JSON errors; fixture, contract and live checks were recorded.",
+    "recovery": "Combine provider type fields, require a category-specific allowlist match, reject missing/mismatched types, and deduplicate with diagnostic reasons.",
+    "prevention": "Validate result semantics with provider evidence, not the request label or title. Preserve no-match and transport-failure as different outcomes.",
+    "generalized_lesson": "A search label does not prove result category: Validate result semantics with provider evidence, not the request label or title. Preserve no-match and transport-failure as different outcomes."
+  }
+}

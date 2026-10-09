@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000046",
+  "title": "Mandatory evidence retrieval must be enforced by control flow",
+  "category": "failures",
+  "task_type": "AI-assisted technical troubleshooting",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Observed Dify grounded workflow. The lesson does not require removing every model or claim that later external validation failures were solved.",
+  "goal": "Require evidence retrieval and a valid handoff before producing grounded answers.",
+  "approach": "Historical failed assumption: Prompts and generic helper tests were assumed to enforce mandatory operations and output contracts.",
+  "what_worked": "Historical correction: Route required operations through fixed intent-specific tool nodes, validate untrusted results, gate remote work on parser success, and model non-evidence/failure outcomes explicitly. Verification reported by the source: Targeted search/detail/comparison checks improved to 10/10 and 5/5; 55 malformed inputs rejected and invalid-input remote calls stayed zero. Later soak still failed final validation, so overall architecture acceptance remained incomplete.",
+  "what_failed": "Historical observed failure: An autonomous agent omitted the required tool in one of ten searches; valid handoffs were four of ten for search and zero of five for detail/comparison, while four existing tests passed.",
+  "why": "Confirmed: operation choice and contract generation remained discretionary, with conflicting legacy instructions and missing graph guards.",
+  "improved_method": "Make mandatory operations structural invariants. Test omitted-tool, malformed-result and failure paths in the actual graph; targeted success is not full-system acceptance.",
+  "when_to_use": "Observed Dify grounded workflow. The lesson does not require removing every model or claim that later external validation failures were solved.",
+  "when_not_to_use": "The lesson does not require removing every model or claim that later external validation failures were solved.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000005"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "An autonomous agent omitted the required tool in one of ten searches; valid handoffs were four of ten for search and zero of five for detail/comparison, while four existing tests passed.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: operation choice and contract generation remained discretionary, with conflicting legacy instructions and missing graph guards.",
+    "detection": "The historical record reports: Targeted search/detail/comparison checks improved to 10/10 and 5/5; 55 malformed inputs rejected and invalid-input remote calls stayed zero. Later soak still failed final validation, so overall architecture acceptance remained incomplete.",
+    "recovery": "Route required operations through fixed intent-specific tool nodes, validate untrusted results, gate remote work on parser success, and model non-evidence/failure outcomes explicitly.",
+    "prevention": "Make mandatory operations structural invariants. Test omitted-tool, malformed-result and failure paths in the actual graph; targeted success is not full-system acceptance.",
+    "generalized_lesson": "Mandatory evidence retrieval must be enforced by control flow: Make mandatory operations structural invariants. Test omitted-tool, malformed-result and failure paths in the actual graph; targeted success is not full-system acceptance."
+  }
+}

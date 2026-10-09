@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000028",
+  "title": "Explicit triangles still need destination importer controls",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Confirmed for this synthetic zero-area/coincident-position FBX control in Unity 2022.3.22f1. It does not prove all topology problems, Shape Keys, full Skin identity or deformation fidelity are fixed. A separate missing-influence control was unaffected by disabling welding and must remain a separate unresolved failure.",
+  "goal": "Preserve Blender final explicit triangle connectivity through FBX into Unity.",
+  "approach": "Historical failed assumption: Freezing final triangles before FBX export was treated as sufficient to preserve destination topology. An existing exact-revision Skin importer policy changed weight settings but left vertex welding enabled.",
+  "what_worked": "Historical correction: A disposable copy of the exact-revision opt-in importer assigns weldVertices=false after revision validation. This is a scoped candidate, not a reason to change every imported asset globally. Verification reported by the source: The unchanged helper's no-policy, exact-policy and repeated imports all produced 3-to-2 topology mismatch. The one-line candidate retained 3-to-3 topology exactly after policy application and repeat import; its no-policy control still failed. Existing control-point comparisons also reported UV and measured Skin numeric sets exact. Console error/warning counts were zero and original source/helper hashes were unchanged.",
+  "what_failed": "Historical observed failure: A synthetic mesh exported three explicit triangles, including a zero-area triangle with distinct control-point identities and coincident positions. Unity 2022.3.22f1 retained two. FBX still contained all three.",
+  "why": "Confirmed causal setting effect in this bounded control: identical FBX and initial meta with only ModelImporter.weldVertices changed from true to false retained three instead of two triangles. Other observed settings were unchanged and original meta/settings were restored. Unity's internal removal mechanism remains unknown.",
+  "improved_method": "When explicit exported triangles disappear downstream, compare authored, serialized and imported topology before blaming export staging. Test destination weld settings with identical bytes and one changed variable, preserve and restore settings, and measure actual Mesh topology. Scope any policy change to proven inputs; do not filter triangles or relax acceptance to manufacture a pass.",
+  "when_to_use": "Confirmed for this synthetic zero-area/coincident-position FBX control in Unity 2022.3.22f1. It does not prove all topology problems, Shape Keys, full Skin identity or deformation fidelity are fixed. A separate missing-influence control was unaffected by disabling welding and must remain a separate unresolved failure.",
+  "when_not_to_use": "It does not prove all topology problems, Shape Keys, full Skin identity or deformation fidelity are fixed.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000010"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "A synthetic mesh exported three explicit triangles, including a zero-area triangle with distinct control-point identities and coincident positions. Unity 2022.3.22f1 retained two. FBX still contained all three.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed causal setting effect in this bounded control: identical FBX and initial meta with only ModelImporter.weldVertices changed from true to false retained three instead of two triangles. Other observed settings were unchanged and original meta/settings were restored. Unity's internal removal mechanism remains unknown.",
+    "detection": "The historical record reports: The unchanged helper's no-policy, exact-policy and repeated imports all produced 3-to-2 topology mismatch. The one-line candidate retained 3-to-3 topology exactly after policy application and repeat import; its no-policy control still failed. Existing control-point comparisons also reported UV and measured Skin numeric sets exact. Console error/warning counts were zero and original source/helper hashes were unchanged.",
+    "recovery": "A disposable copy of the exact-revision opt-in importer assigns weldVertices=false after revision validation. This is a scoped candidate, not a reason to change every imported asset globally.",
+    "prevention": "When explicit exported triangles disappear downstream, compare authored, serialized and imported topology before blaming export staging. Test destination weld settings with identical bytes and one changed variable, preserve and restore settings, and measure actual Mesh topology. Scope any policy change to proven inputs; do not filter triangles or relax acceptance to manufacture a pass.",
+    "generalized_lesson": "Explicit triangles still need destination importer controls: When explicit exported triangles disappear downstream, compare authored, serialized and imported topology before blaming export staging. Test destination weld settings with identical bytes and one changed variable, preserve and restore settings, and measure actual Mesh topology. Scope any policy change to proven inputs; do not filter triangles or relax acceptance to manufacture a pass."
+  }
+}

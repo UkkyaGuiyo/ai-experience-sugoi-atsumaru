@@ -1,0 +1,40 @@
+{
+  "id": "EXP-000030",
+  "title": "Separate movement intent from attack facing",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Directional combat with persistent airborne facing. Grounded-only facing is a design-specific correction, not a universal control rule; physical gamepad feel was not established.",
+  "goal": "Select front and backward aerial attacks relative to character facing.",
+  "approach": "Historical failed assumption: Movement direction was used to update orientation before interpreting attack intent.",
+  "what_worked": "Historical correction: Under this game's rules, update facing from grounded movement only and retain the airborne attack reference frame. Verification reported by the source: Five aerial attack variants were rechecked through actual Input Actions after correction.",
+  "what_failed": "Historical observed failure: Opposite horizontal input immediately flipped facing in air, so backward aerial attack could not be selected.",
+  "why": "Confirmed: the reference frame changed in response to the same input that was meant to select the backward attack.",
+  "improved_method": "Specify whether directional input changes orientation or selects an action relative to existing orientation. Test opposite input after takeoff before classifying the attack.",
+  "when_to_use": "Directional combat with persistent airborne facing. Grounded-only facing is a design-specific correction, not a universal control rule; physical gamepad feel was not established.",
+  "when_not_to_use": "Grounded-only facing is a design-specific correction, not a universal control rule; physical gamepad feel was not established.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Opposite horizontal input immediately flipped facing in air, so backward aerial attack could not be selected.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: the reference frame changed in response to the same input that was meant to select the backward attack.",
+    "detection": "The historical record reports: Five aerial attack variants were rechecked through actual Input Actions after correction.",
+    "recovery": "Under this game's rules, update facing from grounded movement only and retain the airborne attack reference frame.",
+    "prevention": "Specify whether directional input changes orientation or selects an action relative to existing orientation. Test opposite input after takeoff before classifying the attack.",
+    "generalized_lesson": "Separate movement intent from attack facing: Specify whether directional input changes orientation or selects an action relative to existing orientation. Test opposite input after takeoff before classifying the attack."
+  }
+}

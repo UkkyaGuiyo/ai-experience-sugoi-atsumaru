@@ -1,0 +1,40 @@
+{
+  "id": "EXP-000052",
+  "title": "Do not parse language representations as JSON",
+  "category": "failures",
+  "task_type": "AI-assisted technical troubleshooting",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Historical Python/Dify guard. Local/draft correctness does not prove the deployed graph, published version or persisted outputs were repaired.",
+  "goal": "Accept a generated structured object without discarding valid content.",
+  "approach": "Historical failed assumption: The guard stringified a dictionary and passed that representation to json.loads.",
+  "what_worked": "Historical correction: Accept mappings directly and parse only JSON strings. Add parity tests for host and embedded workflow guards. Verification reported by the source: Local contract and embedded-guard tests passed, and the fix was present in a draft. The latest recorded live attempt stopped upstream at HTTP 401; existing records were not regenerated and end-to-end recovery was unverified.",
+  "what_failed": "Historical observed failure: Every audited record used whole-output safety fallback despite a valid generated object.",
+  "why": "Confirmed: language dictionary notation is not JSON text; valid object input was misclassified.",
+  "improved_method": "Branch on the actual input type at serialization boundaries. Test object and string forms, and measure fallback frequency so safe degradation does not conceal systematic rejection.",
+  "when_to_use": "Historical Python/Dify guard. Local/draft correctness does not prove the deployed graph, published version or persisted outputs were repaired.",
+  "when_not_to_use": "Local/draft correctness does not prove the deployed graph, published version or persisted outputs were repaired.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Every audited record used whole-output safety fallback despite a valid generated object.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: language dictionary notation is not JSON text; valid object input was misclassified.",
+    "detection": "The historical record reports: Local contract and embedded-guard tests passed, and the fix was present in a draft. The latest recorded live attempt stopped upstream at HTTP 401; existing records were not regenerated and end-to-end recovery was unverified.",
+    "recovery": "Accept mappings directly and parse only JSON strings. Add parity tests for host and embedded workflow guards.",
+    "prevention": "Branch on the actual input type at serialization boundaries. Test object and string forms, and measure fallback frequency so safe degradation does not conceal systematic rejection.",
+    "generalized_lesson": "Do not parse language representations as JSON: Branch on the actual input type at serialization boundaries. Test object and string forms, and measure fallback frequency so safe degradation does not conceal systematic rejection."
+  }
+}

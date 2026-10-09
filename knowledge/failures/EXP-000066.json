@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000066",
+  "title": "Keep fixture oracles separate from product policy",
+  "category": "failures",
+  "task_type": "AI-assisted technical troubleshooting",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Applies to final-state-authoritative geometry pipelines where the edited mesh may replace its source. It does not apply when the product promises source-vertex continuity, transfers vertex-indexed component data, or validates source-relative face/material/weight equivalence.",
+  "goal": "Design a bounded integration test for a product that treats an edited final mesh as authoritative.",
+  "approach": "Historical failed assumption: The test's geometry-equality oracle was treated as evidence that every accepted final mesh must prove source-to-final vertex correspondence, even though the approved product contract allowed complete source mesh replacement.",
+  "what_worked": "Historical correction: Read the approved product model before defining acceptance policy. Keep source-relative geometry checks inside the fixture oracle; validate the final mesh on its own streams, indices, weights, bone/rest bindings and material identities. Require lineage only when transferring or asserting continuity of source-indexed state. Otherwise reject unsupported index-dependent components or explicitly exclude them from scope. Verification reported by the source: The approved architecture states that final Blender geometry/topology/UV/weights/shape/material assignment is authoritative and that source geometry lineage is normally unnecessary. The Unity finalizer assigns the imported final mesh to the Variant renderer. An independent review confirmed that mesh assignment itself does not require source-vertex correspondence; Cloth/custom vertex-index state and source-relative parity claims are separate responsibilities.",
+  "what_failed": "Historical observed failure: A fixture-specific test expected a topology edit to preserve source face and vertex semantics. A design review incorrectly elevated that expectation into a general product requirement for explicit source-vertex lineage.",
+  "why": "Confirmed: test oracle and product policy answered different questions. The test asked whether one synthetic seam split preserved selected source semantics. The product contract asked whether a valid Blender-authored final mesh could replace the source mesh while Unity semantic references were restored.",
+  "improved_method": "Before adding transport fields or rejecting edited geometry, separate what the fixture must prove from what the product promises to accept. Add source-to-final lineage only when a named preservation or migration responsibility consumes it; otherwise validate the final mesh and explicitly refuse unsupported dependent state.",
+  "when_to_use": "Applies to final-state-authoritative geometry pipelines where the edited mesh may replace its source. It does not apply when the product promises source-vertex continuity, transfers vertex-indexed component data, or validates source-relative face/material/weight equivalence.",
+  "when_not_to_use": "It does not apply when the product promises source-vertex continuity, transfers vertex-indexed component data, or validates source-relative face/material/weight equivalence.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000010"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "A fixture-specific test expected a topology edit to preserve source face and vertex semantics. A design review incorrectly elevated that expectation into a general product requirement for explicit source-vertex lineage.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: test oracle and product policy answered different questions. The test asked whether one synthetic seam split preserved selected source semantics. The product contract asked whether a valid Blender-authored final mesh could replace the source mesh while Unity semantic references were restored.",
+    "detection": "The historical record reports: The approved architecture states that final Blender geometry/topology/UV/weights/shape/material assignment is authoritative and that source geometry lineage is normally unnecessary. The Unity finalizer assigns the imported final mesh to the Variant renderer. An independent review confirmed that mesh assignment itself does not require source-vertex correspondence; Cloth/custom vertex-index state and source-relative parity claims are separate responsibilities.",
+    "recovery": "Read the approved product model before defining acceptance policy. Keep source-relative geometry checks inside the fixture oracle; validate the final mesh on its own streams, indices, weights, bone/rest bindings and material identities. Require lineage only when transferring or asserting continuity of source-indexed state. Otherwise reject unsupported index-dependent components or explicitly exclude them from scope.",
+    "prevention": "Before adding transport fields or rejecting edited geometry, separate what the fixture must prove from what the product promises to accept. Add source-to-final lineage only when a named preservation or migration responsibility consumes it; otherwise validate the final mesh and explicitly refuse unsupported dependent state.",
+    "generalized_lesson": "Keep fixture oracles separate from product policy: Before adding transport fields or rejecting edited geometry, separate what the fixture must prove from what the product promises to accept. Add source-to-final lineage only when a named preservation or migration responsibility consumes it; otherwise validate the final mesh and explicitly refuse unsupported dependent state."
+  }
+}

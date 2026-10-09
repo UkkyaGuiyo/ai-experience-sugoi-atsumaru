@@ -30,6 +30,8 @@ Deleting names alone does **not** make an item anonymous. Consider combinations 
 
 The current [English README](README.en.md) explains the difference between formal entries and pending candidates. A candidate's presence in `docs/proposals/`, a repaired draft, a duplicate-consolidation plan, or a passing CI run is **not** formal adoption.
 
+The [2026-10-09 formalization record](reviews/2026-10-09-63-knowledge-formalization.md) maps the 63 newly admitted candidates to formal IDs and states the limits of that review. There are now 75 formal entries and 29 unadopted candidates (10 overlapping cases and 19 repaired cases awaiting individual admission approval). Retained source batches include already adopted narratives; their document-level `PENDING_REVIEW` marker is not a count of unresolved candidates. Preserve candidate-level decisions and do not adopt the remainder in bulk.
+
 You may submit generalized English-language explanations for review; keep machine-readable schema property names and required formats unchanged.
 
 ## 3. Turn an experience into a safe lesson
@@ -94,6 +96,17 @@ An **independent reviewer**, separate from the author/implementer, must assess a
 If revisions are required, revise the safe generalized material and rerun the checks. Follow the repository's approved review and merge process. **CI PASS is necessary but is never independent privacy approval, rights clearance, or permission to adopt.** Neither scheduled checks nor an ordinary PR automatically formalize a candidate.
 
 Do **not** bypass warnings by disabling validation, adding broad allowlists, or excluding directories from scanning. Any justified narrow detector fix needs synthetic regression tests and separate review.
+
+### Independent review of this English documentation
+
+Before merging this English-documentation PR, a reviewer separate from its author/implementer must check:
+
+- **Privacy and re-identification:** the changed text, examples, links, metadata, and combinations of details introduce no identifying or private information.
+- **Rights and sources:** licensing explanations, attribution guidance, references, and translated policy meanings accurately preserve source, redistribution, contractual, and legal restrictions.
+- **Technical accuracy and evidence:** the 75/29 snapshot and 15/48 adoption split match the Japanese README, formal JSON entries, and review record; retained proposal narratives and document-level status are not confused with unadopted candidate counts; historical results, inference, review dates, and unperformed reproductions are described truthfully.
+- **Review independence and policy parity:** English wording does not weaken the Japanese rules or claim an additional independent review of the converted 63 JSON entries. The formalization record's reviewer also converted/wrote those entries; the record does not claim a further review by another model.
+
+This checklist identifies **pending independent-review requirements**, not completed approval. Link checks and CI do not satisfy these checks, and this documentation update does not adopt any of the 29 remaining candidates.
 
 ## 6. Security problems and uncertain material
 

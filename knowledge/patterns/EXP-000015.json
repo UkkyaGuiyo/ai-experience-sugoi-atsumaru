@@ -1,0 +1,31 @@
+{
+  "id": "EXP-000015",
+  "title": "画像座標と演出座標を分け、最終出力にも表示範囲を適用する",
+  "category": "patterns",
+  "task_type": "AI-assisted shader and image engineering",
+  "ai_system": "AI-assisted engineering workflow",
+  "observation_date": "2026-10-09",
+  "environment": "画像表示、二面表示、シェーダー演出、サムネイルや枠内表示。",
+  "goal": "画像の反転や縦横比補正を演出側の座標へ混ぜると、演出方向まで変わる。最初に余白を透明にしても、後段の座標変形や色チャンネル別の再サンプリングで余白へ色が出る場合がある。",
+  "approach": "元の表示領域、画像サンプリング座標、演出用座標を別の契約にする。反転や縦横比補正は画像側へ集約する。余白を透明にする要件がある場合は、元の表示領域から作ったマスクを最終合成後の透明度にも適用し、すべての描画経路を同じ契約で検証する。",
+  "what_worked": "本知見の効果を確かめる再現実験は未実施。候補に記載された方法は、問題の原因を切り分けるための検証設計として提案されている。",
+  "what_failed": "想定される失敗モード：画像の反転や縦横比補正を演出側の座標へ混ぜると、演出方向まで変わる。最初に余白を透明にしても、後段の座標変形や色チャンネル別の再サンプリングで余白へ色が出る場合がある。",
+  "why": "一般原則から追加して区別する論点：一般的な責務分離に加えて、座標変形後も不変条件を守る最終マスクの確認を扱う。",
+  "improved_method": "元の表示領域、画像サンプリング座標、演出用座標を別の契約にする。反転や縦横比補正は画像側へ集約する。余白を透明にする要件がある場合は、元の表示領域から作ったマスクを最終合成後の透明度にも適用し、すべての描画経路を同じ契約で検証する。",
+  "when_to_use": "画像表示、二面表示、シェーダー演出、サムネイルや枠内表示。",
+  "when_not_to_use": "意図的に枠外へ伸ばす演出には別の要件が必要。描画の正しさを確認しても、フレーム時間やGPU負荷の保証にはならない。",
+  "known_limitations": "評価用の対照試験はまだ実行されていない：縦長と横長、表裏が別比率、裏面未指定、反転、座標変形、色分離を組み合わせる。余白の画素と画像内の画素を別に比較し、CPU側の式だけで描画成功としない。。正式レビュー日をobservation_dateとして保存しており、元事例の発生日や実験日ではない。効果の再現性と適用範囲は未確認。",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "current"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "EXP-000020",
+  "title": "入力を止めてから別経路で再生し、一時保持を検証する",
+  "category": "workflows",
+  "task_type": "Audio capability verification",
+  "ai_system": "AI-assisted engineering workflow",
+  "observation_date": "2026-10-09",
+  "environment": "録音PoC、ストリーム保持、音声SDK、隔離実行環境の能力調査。",
+  "goal": "メーターが動く、コールバックが来る、その場で音が聞こえるだけでは、目的の音を取得・保持・再生できたとは言えない。生の入力や既存のモニター再生を聞いているだけかもしれない。",
+  "approach": "取得、保持、再生を分ける。まず既知の合成音で再生側を確認し、取得経路ごとに何の音源が入るかを調べる。その後、元入力と元再生を止め、保持したデータだけを独立した出力から再生する。単独利用などの必須条件を、別利用者や別機能で代用しない。",
+  "what_worked": "本知見の効果を確かめる再現実験は未実施。候補に記載された方法は、問題の原因を切り分けるための検証設計として提案されている。",
+  "what_failed": "想定される失敗モード：メーターが動く、コールバックが来る、その場で音が聞こえるだけでは、目的の音を取得・保持・再生できたとは言えない。生の入力や既存のモニター再生を聞いているだけかもしれない。",
+  "why": "一般原則から追加して区別する論点：既存の必須能力検証に対し、ライブ入力と保持データの再生を区別する停止・独立再生試験を追加する。",
+  "improved_method": "取得、保持、再生を分ける。まず既知の合成音で再生側を確認し、取得経路ごとに何の音源が入るかを調べる。その後、元入力と元再生を止め、保持したデータだけを独立した出力から再生する。単独利用などの必須条件を、別利用者や別機能で代用しない。",
+  "when_to_use": "録音PoC、ストリーム保持、音声SDK、隔離実行環境の能力調査。",
+  "when_not_to_use": "ここでは特定SDKの音声取得可能性を主張しない。取得できた場合も、長時間の連続性や個人情報保護は別の検証が必要。",
+  "known_limitations": "評価用の対照試験はまだ実行されていない：無音、既知音、目的の入力、別音源、ループバックを独立したケースにする。毎回バッファを消去し、入力停止後の再生が元入力へ依存しないか確認する。実在者の音声ではなく、まず合成信号で評価する。。正式レビュー日をobservation_dateとして保存しており、元事例の発生日や実験日ではない。効果の再現性と適用範囲は未確認。",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000008"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "current"
+}

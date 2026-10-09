@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000073",
+  "title": "Redact binary FBX strings by their declared length",
+  "category": "failures",
+  "task_type": "Blender asset conversion and diagnostics",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Applies to path redaction in binary FBX files with the described string-property encoding. Do not generalize this replacement code to other FBX versions, binary formats, or arbitrary properties without format-specific validation.",
+  "goal": "Remove absolute workspace paths from a binary FBX copy while preserving its structure and geometry for a downstream verification.",
+  "approach": "Historical failed assumption: The path was treated as a null-terminated byte string. Binary FBX stores string properties with an `S` type marker and a length prefix, and arbitrary binary fields can follow the string before a null byte.",
+  "what_worked": "Historical correction: For each candidate path, require the preceding `S` marker, read the little-endian 32-bit payload length, validate the full payload and expected suffix, and replace only that payload with an equal-length neutral value. Fail closed if any check is unexpected. Verification reported by the source: The redacted copy retained the original byte length; byte comparison showed that only the matched string payload ranges changed. Blender imported the copy, and a geometry/winding comparison completed on that copy.",
+  "what_failed": "Historical observed failure: A byte-regex replacement that ran from a drive-letter path through the next null byte produced an FBX that Blender could not parse and reported a nested-block sentinel error.",
+  "why": "The regex replaced bytes beyond the string payload, corrupting later binary structure. This was reproduced by the failed import; preserving the declared string length fixed that failure.",
+  "improved_method": "Do not redact binary FBX paths with null-terminated regex spans. Parse and validate the string-property marker and declared length, replace only the payload with equal-length bytes, then verify both structural import and the downstream semantic check.",
+  "when_to_use": "Applies to path redaction in binary FBX files with the described string-property encoding. Do not generalize this replacement code to other FBX versions, binary formats, or arbitrary properties without format-specific validation.",
+  "when_not_to_use": "Do not generalize this replacement code to other FBX versions, binary formats, or arbitrary properties without format-specific validation.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000003"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "A byte-regex replacement that ran from a drive-letter path through the next null byte produced an FBX that Blender could not parse and reported a nested-block sentinel error.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "The regex replaced bytes beyond the string payload, corrupting later binary structure. This was reproduced by the failed import; preserving the declared string length fixed that failure.",
+    "detection": "The historical record reports: The redacted copy retained the original byte length; byte comparison showed that only the matched string payload ranges changed. Blender imported the copy, and a geometry/winding comparison completed on that copy.",
+    "recovery": "For each candidate path, require the preceding `S` marker, read the little-endian 32-bit payload length, validate the full payload and expected suffix, and replace only that payload with an equal-length neutral value. Fail closed if any check is unexpected.",
+    "prevention": "Do not redact binary FBX paths with null-terminated regex spans. Parse and validate the string-property marker and declared length, replace only the payload with equal-length bytes, then verify both structural import and the downstream semantic check.",
+    "generalized_lesson": "Redact binary FBX strings by their declared length: Do not redact binary FBX paths with null-terminated regex spans. Parse and validate the string-property marker and declared length, replace only the payload with equal-length bytes, then verify both structural import and the downstream semantic check."
+  }
+}

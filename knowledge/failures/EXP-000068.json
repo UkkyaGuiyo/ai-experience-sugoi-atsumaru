@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000068",
+  "title": "Use a run-owned temporary directory for restricted Python processes",
+  "category": "failures",
+  "task_type": "AI-assisted technical troubleshooting",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Applies to restricted Windows runners where the default temporary candidates are inaccessible to Python child processes. Do not generalize it to environments whose normal temporary paths are writable.",
+  "goal": "Run an integration test that uses Python temporary files inside a restricted Windows execution environment.",
+  "approach": "Historical failed assumption: The default Windows temporary-directory candidates were assumed to be usable by every child process started from the workspace.",
+  "what_worked": "Historical correction: Create a temporary directory inside the current task's owned writable run directory. Set `TEMP` and `TMP` for the child process only, then restore the caller's environment. When a failed run already created an output directory that must be absent on entry, preserve that directory and use a fresh run-owned output path for the retry. Verification reported by the source: Python 3.13.13 created a `TemporaryDirectory` with the process-local `TEMP`/`TMP` set to the owned run directory. The Blender package importer then completed its Material ON/OFF Skin/Shape parity run, including save/reopen checks. The default-path run had failed before package import.",
+  "what_failed": "Historical observed failure: A Blender import operator failed before opening its input package with `No usable temporary directory found`. Python listed its default temporary-directory candidates, but none were writable in the restricted process context.",
+  "why": "Confirmed in the observed execution environment: the child process could not create a temporary directory under its default `TEMP`/`TMP` candidates. Python's `tempfile` initialization therefore failed before the tested import work began.",
+  "improved_method": "When a restricted Windows child process reports `No usable temporary directory found`, direct only that process's `TEMP`/`TMP` to a newly created task-owned writable directory and restore the parent environment afterward. Preserve failed outputs and use a new output directory if the command requires a nonexistent destination.",
+  "when_to_use": "Applies to restricted Windows runners where the default temporary candidates are inaccessible to Python child processes. Do not generalize it to environments whose normal temporary paths are writable.",
+  "when_not_to_use": "Do not generalize it to environments whose normal temporary paths are writable.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000003"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "A Blender import operator failed before opening its input package with `No usable temporary directory found`. Python listed its default temporary-directory candidates, but none were writable in the restricted process context.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed in the observed execution environment: the child process could not create a temporary directory under its default `TEMP`/`TMP` candidates. Python's `tempfile` initialization therefore failed before the tested import work began.",
+    "detection": "The historical record reports: Python 3.13.13 created a `TemporaryDirectory` with the process-local `TEMP`/`TMP` set to the owned run directory. The Blender package importer then completed its Material ON/OFF Skin/Shape parity run, including save/reopen checks. The default-path run had failed before package import.",
+    "recovery": "Create a temporary directory inside the current task's owned writable run directory. Set `TEMP` and `TMP` for the child process only, then restore the caller's environment. When a failed run already created an output directory that must be absent on entry, preserve that directory and use a fresh run-owned output path for the retry.",
+    "prevention": "When a restricted Windows child process reports `No usable temporary directory found`, direct only that process's `TEMP`/`TMP` to a newly created task-owned writable directory and restore the parent environment afterward. Preserve failed outputs and use a new output directory if the command requires a nonexistent destination.",
+    "generalized_lesson": "Use a run-owned temporary directory for restricted Python processes: When a restricted Windows child process reports `No usable temporary directory found`, direct only that process's `TEMP`/`TMP` to a newly created task-owned writable directory and restore the parent environment afterward. Preserve failed outputs and use a new output directory if the command requires a nonexistent destination."
+  }
+}

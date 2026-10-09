@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000042",
+  "title": "Inspect workflow body and file outputs separately",
+  "category": "failures",
+  "task_type": "AI-assisted engineering and verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "This is a scoped compatibility workaround, not a change to the provider or a universal MIME rule. Do not turn the transport into an unrestricted proxy.",
+  "goal": "Consume a provider's JSON response in a workflow normalizer.",
+  "approach": "Historical failed assumption: HTTP success and JSON-related content type were assumed to guarantee body delivery.",
+  "what_worked": "Historical correction: Use a bounded authenticated fixed-endpoint transport that envelopes the provider object as ordinary application/json; validate transport marker, provider status and call count. Verification reported by the source: Later recorded live geocode/place checks succeeded. Initial execution used two provider calls and cache replay zero; provider/backend regression checks passed.",
+  "what_failed": "Historical observed failure: The provider returned HTTP 200, but the node body was empty and a GeoJSON file appeared in files; the normalizer rejected the response.",
+  "why": "Confirmed observed Dify Cloud behavior: the response with an inline filename Content-Disposition was classified as file output.",
+  "improved_method": "Inspect status, headers, body and files before blaming upstream data. Exercise a minimal actual node-output smoke test before extending the workflow.",
+  "when_to_use": "This is a scoped compatibility workaround, not a change to the provider or a universal MIME rule. Do not turn the transport into an unrestricted proxy.",
+  "when_not_to_use": "This is a scoped compatibility workaround, not a change to the provider or a universal MIME rule. Do not turn the transport into an unrestricted proxy.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000002"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "The provider returned HTTP 200, but the node body was empty and a GeoJSON file appeared in files; the normalizer rejected the response.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed observed Dify Cloud behavior: the response with an inline filename Content-Disposition was classified as file output.",
+    "detection": "The historical record reports: Later recorded live geocode/place checks succeeded. Initial execution used two provider calls and cache replay zero; provider/backend regression checks passed.",
+    "recovery": "Use a bounded authenticated fixed-endpoint transport that envelopes the provider object as ordinary application/json; validate transport marker, provider status and call count.",
+    "prevention": "Inspect status, headers, body and files before blaming upstream data. Exercise a minimal actual node-output smoke test before extending the workflow.",
+    "generalized_lesson": "Inspect workflow body and file outputs separately: Inspect status, headers, body and files before blaming upstream data. Exercise a minimal actual node-output smoke test before extending the workflow."
+  }
+}

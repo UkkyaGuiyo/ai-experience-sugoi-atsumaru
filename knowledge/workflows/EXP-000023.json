@@ -1,0 +1,33 @@
+{
+  "id": "EXP-000023",
+  "title": "製品要求と候補方式の実験計画を分ける",
+  "category": "workflows",
+  "task_type": "Technical feasibility and product planning",
+  "ai_system": "AI-assisted engineering workflow",
+  "observation_date": "2026-10-09",
+  "environment": "未知のSDK機能、追跡、同期、変換技術を含む探索型開発。",
+  "goal": "最初に思いついた方式の実験手順が、そのまま製品全体の実装計画になり、方式が失敗すると要求を無断で弱めてしまう。",
+  "approach": "製品が満たす振る舞い、方式候補と比較基準、採用後の実装計画を分離する。候補の失敗は候補に対する証拠として保存する。必要な能力ごとに複数方式を組み合わせる余地を残し、採用の根拠と棄却理由を明示する。要求変更は別の判断にする。",
+  "what_worked": "本知見の効果を確かめる再現実験は未実施。候補に記載された方法は、問題の原因を切り分けるための検証設計として提案されている。",
+  "what_failed": "想定される失敗モード：最初に思いついた方式の実験手順が、そのまま製品全体の実装計画になり、方式が失敗すると要求を無断で弱めてしまう。",
+  "why": "一般原則から追加して区別する論点：既存の実現可能性検証に対し、要求・選定・実装の文書責任と採用判断を分離する。",
+  "improved_method": "製品が満たす振る舞い、方式候補と比較基準、採用後の実装計画を分離する。候補の失敗は候補に対する証拠として保存する。必要な能力ごとに複数方式を組み合わせる余地を残し、採用の根拠と棄却理由を明示する。要求変更は別の判断にする。",
+  "when_to_use": "未知のSDK機能、追跡、同期、変換技術を含む探索型開発。",
+  "when_not_to_use": "すべての方式を無期限に試す提案ではない。比較対象の妥当性、調査終了条件、利用可能な資源を定める。",
+  "known_limitations": "評価用の対照試験はまだ実行されていない：同じ要求を満たす異なる二方式と、動くが要求を満たさない方式を比較する。試作品の成功だけで採用済みになる経路や、一方式の失敗だけで製品不可能とする経路がないか確認する。。正式レビュー日をobservation_dateとして保存しており、元事例の発生日や実験日ではない。効果の再現性と適用範囲は未確認。",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000008"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "current"
+}

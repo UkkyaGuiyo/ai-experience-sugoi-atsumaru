@@ -1,0 +1,33 @@
+{
+  "id": "EXP-000018",
+  "title": "往復で同じになっただけでは、最初から正しかったとは言えない",
+  "category": "patterns",
+  "task_type": "Data conversion and semantic verification",
+  "ai_system": "AI-assisted engineering workflow",
+  "observation_date": "2026-10-09",
+  "environment": "3Dアセット変換、データ移行、シリアライズ往復、外部形式との相互変換。",
+  "goal": "取り込み時点で誤った割当になった状態を、書き出しと再取り込みが忠実に保存していると、往復比較だけは成功する。",
+  "approach": "原入力、取り込み直後、確認・割当操作直後、保存後、書き出し後を別に観測する。内部状態同士だけでなく、各段階を独立した原入力の意味へ結び付ける。最初に意味が変わった境界を特定してから、その境界を修正する。",
+  "what_worked": "本知見の効果を確かめる再現実験は未実施。候補に記載された方法は、問題の原因を切り分けるための検証設計として提案されている。",
+  "what_failed": "想定される失敗モード：取り込み時点で誤った割当になった状態を、書き出しと再取り込みが忠実に保存していると、往復比較だけは成功する。",
+  "why": "一般原則から追加して区別する論点：既存の順番・件数による誤対応に対し、誤った中間状態を正解にしてしまう往復試験の循環を扱う。",
+  "improved_method": "原入力、取り込み直後、確認・割当操作直後、保存後、書き出し後を別に観測する。内部状態同士だけでなく、各段階を独立した原入力の意味へ結び付ける。最初に意味が変わった境界を特定してから、その境界を修正する。",
+  "when_to_use": "3Dアセット変換、データ移行、シリアライズ往復、外部形式との相互変換。",
+  "when_not_to_use": "原入力の解釈自体が不明なら、比較用の正解も未確定。内部整合性試験は有用だが、意味保存試験の代替ではない。",
+  "known_limitations": "評価用の対照試験はまだ実行されていない：形状と要素数を保ったままラベルだけを入れ替えた入力を使う。誤った中間状態の再保存が成功しても、原入力との比較では拒否されることを確認する。。正式レビュー日をobservation_dateとして保存しており、元事例の発生日や実験日ではない。効果の再現性と適用範囲は未確認。",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000010"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "current"
+}

@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000043",
+  "title": "Isolate template expansion before changing encodings",
+  "category": "failures",
+  "task_type": "AI-assisted engineering and verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Observed Dify raw-text behavior at that revision. This is not a universal ban on hyphenated IDs or a claim that encoding changes repair interpolation.",
+  "goal": "Transport encoded input through a workflow template to a receiver.",
+  "approach": "Historical failed assumption: Transport-symbol interpretation was initially blamed.",
+  "what_worked": "Historical correction: Use the observed working numeric IDs for HTTP-referenced nodes and verify actual interpolation. Diagnose subsequent authorization failure separately. Verification reported by the source: The next request decoded and reached provider execution; later full smoke succeeded after the independent external-request authorization issue was resolved.",
+  "what_failed": "Historical observed failure: The receiver rejected the encoded value even though a direct request to the same deployment decoded correctly; changing Base64 to hexadecimal did not fix the workflow path.",
+  "why": "Confirmed: a reference containing a hyphenated node ID arrived literally rather than expanding. Privacy-safe character-class/length diagnostics distinguished a placeholder from corrupted data.",
+  "improved_method": "Compare direct receiver and templated-path controls before re-encoding data. Inspect non-sensitive structure to prove expansion without logging payloads or secrets.",
+  "when_to_use": "Observed Dify raw-text behavior at that revision. This is not a universal ban on hyphenated IDs or a claim that encoding changes repair interpolation.",
+  "when_not_to_use": "This is not a universal ban on hyphenated IDs or a claim that encoding changes repair interpolation.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000002"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "The receiver rejected the encoded value even though a direct request to the same deployment decoded correctly; changing Base64 to hexadecimal did not fix the workflow path.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: a reference containing a hyphenated node ID arrived literally rather than expanding. Privacy-safe character-class/length diagnostics distinguished a placeholder from corrupted data.",
+    "detection": "The historical record reports: The next request decoded and reached provider execution; later full smoke succeeded after the independent external-request authorization issue was resolved.",
+    "recovery": "Use the observed working numeric IDs for HTTP-referenced nodes and verify actual interpolation. Diagnose subsequent authorization failure separately.",
+    "prevention": "Compare direct receiver and templated-path controls before re-encoding data. Inspect non-sensitive structure to prove expansion without logging payloads or secrets.",
+    "generalized_lesson": "Isolate template expansion before changing encodings: Compare direct receiver and templated-path controls before re-encoding data. Inspect non-sensitive structure to prove expansion without logging payloads or secrets."
+  }
+}

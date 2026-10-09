@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000070",
+  "title": "Count verified batch-import outcomes rather than attempted inputs",
+  "category": "failures",
+  "task_type": "Blender asset conversion and diagnostics",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Best-effort batch importers and converters. An empty result is a failure only when the input contract requires produced objects; legitimate no-output operations need their own explicit success state.",
+  "goal": "Import several FBX files and report whether the resulting Blender scene is complete.",
+  "approach": "Historical failed assumption: Reaching the end of the batch, or obtaining some objects, was treated as equivalent to importing every input successfully.",
+  "what_worked": "Historical correction: Record a terminal result for each attempted input, distinguishing imported objects, an exception, and no produced objects. Derive the summary from those results, preserve per-file details, and propagate partial failures into the persisted scene outcome and user-facing warning. Verification reported by the source: The reviewed committed regression supplies one successful import, one RuntimeError, and one empty result. It asserts three distinct statuses, only the successful object in the returned collection, and totals of one imported out of three. UI/outcome assertions also require the partial-failure indicator. This curation verified the code and test definitions; it did not execute that Blender pipeline or establish a new runtime pass.",
+  "what_failed": "Historical observed failure: Source inspection showed that the completion message used the input-file count even though the loop caught individual import exceptions and continued. A file that returned no objects could also leave the final message overstating success.",
+  "why": "Confirmed directly in the before/after implementation: len(input_paths) measured attempts, not successful per-file results. Caught failures were printed but were not included in the user-facing aggregate outcome.",
+  "improved_method": "Never calculate batch success from the number of inputs or from completion of the loop. Test a mixed success/exception/empty-result batch and ensure per-item outcomes reach both persisted reports and the visible overall status.",
+  "when_to_use": "Best-effort batch importers and converters. An empty result is a failure only when the input contract requires produced objects; legitimate no-output operations need their own explicit success state.",
+  "when_not_to_use": "An empty result is a failure only when the input contract requires produced objects; legitimate no-output operations need their own explicit success state.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000001"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Source inspection showed that the completion message used the input-file count even though the loop caught individual import exceptions and continued. A file that returned no objects could also leave the final message overstating success.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed directly in the before/after implementation: len(input_paths) measured attempts, not successful per-file results. Caught failures were printed but were not included in the user-facing aggregate outcome.",
+    "detection": "The historical record reports: The reviewed committed regression supplies one successful import, one RuntimeError, and one empty result. It asserts three distinct statuses, only the successful object in the returned collection, and totals of one imported out of three. UI/outcome assertions also require the partial-failure indicator. This curation verified the code and test definitions; it did not execute that Blender pipeline or establish a new runtime pass.",
+    "recovery": "Record a terminal result for each attempted input, distinguishing imported objects, an exception, and no produced objects. Derive the summary from those results, preserve per-file details, and propagate partial failures into the persisted scene outcome and user-facing warning.",
+    "prevention": "Never calculate batch success from the number of inputs or from completion of the loop. Test a mixed success/exception/empty-result batch and ensure per-item outcomes reach both persisted reports and the visible overall status.",
+    "generalized_lesson": "Count verified batch-import outcomes rather than attempted inputs: Never calculate batch success from the number of inputs or from completion of the loop. Test a mixed success/exception/empty-result batch and ensure per-item outcomes reach both persisted reports and the visible overall status."
+  }
+}

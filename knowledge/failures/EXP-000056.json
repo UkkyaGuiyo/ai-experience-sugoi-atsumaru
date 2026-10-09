@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000056",
+  "title": "Verify fields across the actual serialized payload",
+  "category": "failures",
+  "task_type": "AI-assisted engineering and verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Workflow/API/tabular boundaries. Presence and parse success do not prove value correctness, category accuracy or deployment freshness.",
+  "goal": "Persist derived fields alongside canonical inputs.",
+  "approach": "Historical failed assumption: Backend header mappings were treated as proof that corresponding values arrived.",
+  "what_worked": "Historical correction: Add required derived fields and parser status to the payload, serialize structured fields, and test the producer/HTTP/receiver/storage contract together. Verification reported by the source: A diagnostic stored nonempty derived columns. Recorded payload-contract and fixture tests checked the required field set; registration success alone had not detected the omission.",
+  "what_failed": "Historical observed failure: Registration succeeded but generated and nearby-information columns were blank.",
+  "why": "Confirmed: the outgoing HTTP body omitted parser-derived keys despite receiver mappings being present.",
+  "improved_method": "Assert that required producer values survive actual serialization and storage. Include diagnostic response fields too: parser or final-output projections can silently drop them independently.",
+  "when_to_use": "Workflow/API/tabular boundaries. Presence and parse success do not prove value correctness, category accuracy or deployment freshness.",
+  "when_not_to_use": "Presence and parse success do not prove value correctness, category accuracy or deployment freshness.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000001"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Registration succeeded but generated and nearby-information columns were blank.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: the outgoing HTTP body omitted parser-derived keys despite receiver mappings being present.",
+    "detection": "The historical record reports: A diagnostic stored nonempty derived columns. Recorded payload-contract and fixture tests checked the required field set; registration success alone had not detected the omission.",
+    "recovery": "Add required derived fields and parser status to the payload, serialize structured fields, and test the producer/HTTP/receiver/storage contract together.",
+    "prevention": "Assert that required producer values survive actual serialization and storage. Include diagnostic response fields too: parser or final-output projections can silently drop them independently.",
+    "generalized_lesson": "Verify fields across the actual serialized payload: Assert that required producer values survive actual serialization and storage. Include diagnostic response fields too: parser or final-output projections can silently drop them independently."
+  }
+}

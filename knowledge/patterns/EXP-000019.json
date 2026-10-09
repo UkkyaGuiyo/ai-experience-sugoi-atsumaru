@@ -1,0 +1,33 @@
+{
+  "id": "EXP-000019",
+  "title": "見たデータで作った仮説は、未見データで確かめる",
+  "category": "patterns",
+  "task_type": "Evidence-based AI engineering",
+  "ai_system": "AI-assisted engineering workflow",
+  "observation_date": "2026-10-09",
+  "environment": "変換規則推定、互換性調査、最適化、AI運用の比較実験。",
+  "goal": "既存の観測に合う座標変換式や対応規則を見つけた後、その同じ観測を検証データとして再利用し、一般則を発見したことにしてしまう。",
+  "approach": "仮説を作るために使った観測と、独立評価に使う入力を分ける。新しい非対称入力、予測式、許容誤差、判定法を観測前に固定する。失敗後に式や閾値を変えた場合は改訂仮説として扱い、既に見たデータを未見と呼び直さない。",
+  "what_worked": "本知見の効果を確かめる再現実験は未実施。候補に記載された方法は、問題の原因を切り分けるための検証設計として提案されている。",
+  "what_failed": "想定される失敗モード：既存の観測に合う座標変換式や対応規則を見つけた後、その同じ観測を検証データとして再利用し、一般則を発見したことにしてしまう。",
+  "why": "一般原則から追加して区別する論点：既存の結論範囲限定に対し、観測前の固定と評価データの独立性を具体的な手順にする。",
+  "improved_method": "仮説を作るために使った観測と、独立評価に使う入力を分ける。新しい非対称入力、予測式、許容誤差、判定法を観測前に固定する。失敗後に式や閾値を変えた場合は改訂仮説として扱い、既に見たデータを未見と呼び直さない。",
+  "when_to_use": "変換規則推定、互換性調査、最適化、AI運用の比較実験。",
+  "when_not_to_use": "未見データでも少数・偏った入力では一般化範囲は狭い。親子階層など試していない次元を、単一要素の成功から推定しない。",
+  "known_limitations": "評価用の対照試験はまだ実行されていない：未知の軸・単位・複合変換を含む入力を用意し、仮説から先に期待値を計算する。二つの変換器の相互一致だけでなく、独立に作った入力の意味との一致も確認する。。正式レビュー日をobservation_dateとして保存しており、元事例の発生日や実験日ではない。効果の再現性と適用範囲は未確認。",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000002"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "current"
+}

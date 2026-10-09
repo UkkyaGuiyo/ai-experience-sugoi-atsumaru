@@ -6,7 +6,7 @@ A retired, lower-level failure-lesson knowledge base contained **72 generalized 
 
 This migration preserves each source Lesson's core intent, failure, assumptions, root-cause evidence, correction, verification and reusable rule. Applicable scope and essential diagnostic notes have been reconciled where omissions were found; incidental historical notes are not copied verbatim. The original confirmed label remains historical evidence, not approval by Atsumaru. The old repository's operational manuals, agent handoff instructions, templates, index machinery and validator are **not** migrated as Knowledge because Atsumaru supersedes those mechanisms.
 
-The source repository had already generalized/anonymized these Lessons and marked them confirmed. That status is retained only as source provenance. It does **not** satisfy Atsumaru's independent-review requirement. Every migrated candidate remains `PENDING_REVIEW` until an independent reviewer checks technical generalization, safety/rights, evidence level, limitations, and overlap with the 12 formal Knowledge Entries plus other pending proposal batches.
+The original generalized Lessons documented historical confirmations, not fresh experiments. On 2026-10-09, following candidate-content safety and technical review and explicit owner authorization, **48 of 72** were formally registered as historically qualified Knowledge Entries. The other **24** remain unformalized: 19 repaired candidates awaiting individual approval and five overlap/merge cases. No historic application test was rerun. See [the formalization review record](../../reviews/2026-10-09-63-knowledge-formalization.md).
 
 ## Review and remediation (2026-10-09)
 
@@ -22,7 +22,7 @@ A per-candidate comparison against the original generalized Lessons found 14 mis
 - Duplicate migration IDs: **0**
 - Raw conversations/logs/screenshots/project repositories: not intentionally migrated
 - Source repository operational/template files: intentionally excluded
-- Formal Knowledge Entries created by this migration: **0**
+- Formal Knowledge Entries created by this migration: **48**; **24** migrated candidates remain unformalized
 
 The retired source repository may be deleted only after this batch is saved on GitHub, repository safety checks pass, and the remote tree is read back with all 72 IDs present. Deletion is a repository-retirement action, not evidence that all 72 candidates were independently reviewed or formalized.
 

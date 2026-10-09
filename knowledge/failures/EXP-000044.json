@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000044",
+  "title": "Use invariant node types and verify the active render path",
+  "category": "failures",
+  "task_type": "Blender asset conversion and diagnostics",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Blender 5.2.1 observed material graph. Transparent paths and multiple engine-specific outputs were not covered.",
+  "goal": "Construct textured material graphs in more than one UI locale.",
+  "approach": "Historical failed assumption: Built-in display names and the mere presence of images/nodes were treated as stable rendering evidence.",
+  "what_worked": "Historical correction: Select nodes by invariant type, prefer the active output and its connected shader, and explicitly establish the active Surface link. Verification reported by the source: English/Japanese controls each reached 48/48 active surfaces with no duplicate outputs. Separate-process reopen preserved graph signatures and 147 slot bindings. Manual viewport preview was not verified in this recorded checkpoint.",
+  "what_failed": "Historical observed failure: English-name lookups failed under Japanese UI, creating duplicate shader/output nodes; none of 48 texture chains reached the active output.",
+  "why": "Confirmed: localized names defeated lookup, and new links reached an inactive sink.",
+  "improved_method": "Address built-in nodes by invariant identifiers. Test graph reachability to the active sink, including nondefault locales and save/reopen.",
+  "when_to_use": "Blender 5.2.1 observed material graph. Transparent paths and multiple engine-specific outputs were not covered.",
+  "when_not_to_use": "Transparent paths and multiple engine-specific outputs were not covered.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000010"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "English-name lookups failed under Japanese UI, creating duplicate shader/output nodes; none of 48 texture chains reached the active output.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: localized names defeated lookup, and new links reached an inactive sink.",
+    "detection": "The historical record reports: English/Japanese controls each reached 48/48 active surfaces with no duplicate outputs. Separate-process reopen preserved graph signatures and 147 slot bindings. Manual viewport preview was not verified in this recorded checkpoint.",
+    "recovery": "Select nodes by invariant type, prefer the active output and its connected shader, and explicitly establish the active Surface link.",
+    "prevention": "Address built-in nodes by invariant identifiers. Test graph reachability to the active sink, including nondefault locales and save/reopen.",
+    "generalized_lesson": "Use invariant node types and verify the active render path: Address built-in nodes by invariant identifiers. Test graph reachability to the active sink, including nondefault locales and save/reopen."
+  }
+}

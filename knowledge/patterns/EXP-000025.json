@@ -1,0 +1,33 @@
+{
+  "id": "EXP-000025",
+  "title": "復元確認では件数だけでなく、元の対象そのものを比較する",
+  "category": "patterns",
+  "task_type": "Non-destructive Editor verification",
+  "ai_system": "AI-assisted engineering workflow",
+  "observation_date": "2026-10-09",
+  "environment": "Editorの一時シーン、GUI自動化、生成物検証、復元が必要なテスト。",
+  "goal": "一時的な検証後にシーンのルート数やファイル数が同じでも、元の対象が別物へ置き換わっていれば復元できたとは言えない。",
+  "approach": "操作範囲に応じて元の対象集合の識別、親子関係、アクティブ状態、未保存状態を記録する。復元後に同じ対象が残ることを確認し、順序だけの違いと対象の置換を分ける。メモリ内の復元と、ディスク上の保護ファイルの不変性も分けて確認する。",
+  "what_worked": "本知見の効果を確かめる再現実験は未実施。候補に記載された方法は、問題の原因を切り分けるための検証設計として提案されている。",
+  "what_failed": "想定される失敗モード：一時的な検証後にシーンのルート数やファイル数が同じでも、元の対象が別物へ置き換わっていれば復元できたとは言えない。",
+  "why": "一般原則から追加して区別する論点：既存の非破壊検証に対し、同数置換を検出する対象集合の確認を追加する。",
+  "improved_method": "操作範囲に応じて元の対象集合の識別、親子関係、アクティブ状態、未保存状態を記録する。復元後に同じ対象が残ることを確認し、順序だけの違いと対象の置換を分ける。メモリ内の復元と、ディスク上の保護ファイルの不変性も分けて確認する。",
+  "when_to_use": "Editorの一時シーン、GUI自動化、生成物検証、復元が必要なテスト。",
+  "when_not_to_use": "実行時識別子は一般にプロセスをまたぐ恒久IDではない。再読込後は永続参照など別の比較契約が必要。",
+  "known_limitations": "評価用の対照試験はまだ実行されていない：件数を保った置換、欠落と追加、重複、順序だけの入替、同じ名前の別対象を用意する。成功例と失敗例の両方を通し、件数一致だけの検査が通らないかを見る。。正式レビュー日をobservation_dateとして保存しており、元事例の発生日や実験日ではない。効果の再現性と適用範囲は未確認。",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000010"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "current"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "EXP-000022",
+  "title": "精度を下げることと、メモリを減らすことを区別する",
+  "category": "patterns",
+  "task_type": "Audio and memory engineering",
+  "ai_system": "AI-assisted engineering workflow",
+  "observation_date": "2026-10-09",
+  "environment": "音声バッファ、画像、センサー時系列、制約のあるランタイム。",
+  "goal": "音声や数値データを粗く丸めても、保存先が元と同じサイズの数値配列なら、要素あたりの保存容量は減らない。コピー用配列が増え、逆に使用量が増える場合もある。",
+  "approach": "サンプル数、チャンネル数、実際の保存型、配列本数、ピーク時の同時保持を数える。値の量子化、保存表現の変更、サンプル数の削減を別々の変更として測る。取得経路を証明する前に圧縮を入れて欠落原因を増やさない。",
+  "what_worked": "本知見の効果を確かめる再現実験は未実施。候補に記載された方法は、問題の原因を切り分けるための検証設計として提案されている。",
+  "what_failed": "想定される失敗モード：音声や数値データを粗く丸めても、保存先が元と同じサイズの数値配列なら、要素あたりの保存容量は減らない。コピー用配列が増え、逆に使用量が増える場合もある。",
+  "why": "一般原則から追加して区別する論点：一般的な省メモリ助言ではなく、数値精度・保存型・ピーク時複製数の区別を扱う。",
+  "improved_method": "サンプル数、チャンネル数、実際の保存型、配列本数、ピーク時の同時保持を数える。値の量子化、保存表現の変更、サンプル数の削減を別々の変更として測る。取得経路を証明する前に圧縮を入れて欠落原因を増やさない。",
+  "when_to_use": "音声バッファ、画像、センサー時系列、制約のあるランタイム。",
+  "when_not_to_use": "小さい表現へ変換できても、対応APIや復号負荷、音質が要件を満たすとは限らない。割当量と実際の常駐メモリも同一ではない。",
+  "known_limitations": "評価用の対照試験はまだ実行されていない：同じ長さの浮動小数点配列に丸めた値を入れる場合と、より小さい表現へ詰め直す場合を比較する。変換中の一時配列と再生時の展開配列を含めて測定する。。正式レビュー日をobservation_dateとして保存しており、元事例の発生日や実験日ではない。効果の再現性と適用範囲は未確認。",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "current"
+}

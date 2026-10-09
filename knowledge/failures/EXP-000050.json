@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000050",
+  "title": "A neutral mean does not prove stable return",
+  "category": "failures",
+  "task_type": "AI-assisted technical troubleshooting",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Offline motion-analysis controls. No live body-motion acceptance or universal threshold choice was established.",
+  "goal": "Decide whether a sampled motion window has returned to neutral.",
+  "approach": "Historical failed assumption: Mean proximity, plus stability in a different window, was treated as sufficient.",
+  "what_worked": "Historical correction: Require both mean-return proximity and return dispersion within the existing allowance, including selected and opposite-side joints; retain independent invariant failures. Verification reported by the source: Symmetric plus/minus translation and rotation fixtures now remained unverified rather than passing. Neutral and small-noise controls still passed. The recorded current run covered 128 related tests, not a new full-suite result.",
+  "what_failed": "Historical observed failure: Opposite displacements or rotations canceled to a neutral average while oscillation continued, yet the result was accepted.",
+  "why": "Confirmed: return-window dispersion was computed but omitted from the acceptance decision.",
+  "improved_method": "Validate central tendency and stability in every required acceptance window. Include adversarial cancellation fixtures instead of relying only on average error.",
+  "when_to_use": "Offline motion-analysis controls. No live body-motion acceptance or universal threshold choice was established.",
+  "when_not_to_use": "Do not extrapolate outside the recorded conditions or use partial evidence to claim general product or release acceptance.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000002"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Opposite displacements or rotations canceled to a neutral average while oscillation continued, yet the result was accepted.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: return-window dispersion was computed but omitted from the acceptance decision.",
+    "detection": "The historical record reports: Symmetric plus/minus translation and rotation fixtures now remained unverified rather than passing. Neutral and small-noise controls still passed. The recorded current run covered 128 related tests, not a new full-suite result.",
+    "recovery": "Require both mean-return proximity and return dispersion within the existing allowance, including selected and opposite-side joints; retain independent invariant failures.",
+    "prevention": "Validate central tendency and stability in every required acceptance window. Include adversarial cancellation fixtures instead of relying only on average error.",
+    "generalized_lesson": "A neutral mean does not prove stable return: Validate central tendency and stability in every required acceptance window. Include adversarial cancellation fixtures instead of relying only on average error."
+  }
+}

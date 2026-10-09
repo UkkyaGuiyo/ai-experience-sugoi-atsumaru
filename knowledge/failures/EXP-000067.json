@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000067",
+  "title": "Bind generated FBX hashes to the fixture run",
+  "category": "failures",
+  "task_type": "Blender asset conversion and diagnostics",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Applies to generated FBX fixtures when the exporter serializes timestamps or source paths. It does not imply that every FBX exporter or every format is nondeterministic.",
+  "goal": "Verify generated FBX fixtures through a Unity import and integration test.",
+  "approach": "Historical failed assumption: The fixture's geometry and material identities were treated as sufficient to make the exported FBX bytes stable.",
+  "what_worked": "Historical correction: Record each newly generated FBX hash in that run's fixture evidence. In the consumer test, bind the evidence entry to the expected case, Export ID, filename, and owned path, then compare the copied FBX bytes with that same-run hash. Keep semantic checks for imported geometry and material assignment separate from byte identity. Verification reported by the source: The installed Blender exporter source writes `CreationTimeStamp` from the current time and serializes the blend-file path as `ApplicationNativeFile`. The fixture builder records per-run SHA-256 values and the Unity integration test consumes those values.",
+  "what_failed": "Historical observed failure: A test case expected one fixed FBX SHA-256 across fixture rebuilds, coupling the test to bytes from an earlier run.",
+  "why": "Confirmed for Blender 5.2.1's binary FBX exporter: output metadata includes the current creation timestamp and the source blend-file path. Rebuilding the same synthetic geometry can therefore change the whole-file hash without changing the behavior under test.",
+  "improved_method": "Do not use a previous run's whole-file FBX hash as the expected value for a regenerated fixture when exporter metadata can vary. Produce evidence alongside the fixture and validate its case identity and path before using the hash.",
+  "when_to_use": "Applies to generated FBX fixtures when the exporter serializes timestamps or source paths. It does not imply that every FBX exporter or every format is nondeterministic.",
+  "when_not_to_use": "It does not imply that every FBX exporter or every format is nondeterministic.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000001"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "A test case expected one fixed FBX SHA-256 across fixture rebuilds, coupling the test to bytes from an earlier run.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed for Blender 5.2.1's binary FBX exporter: output metadata includes the current creation timestamp and the source blend-file path. Rebuilding the same synthetic geometry can therefore change the whole-file hash without changing the behavior under test.",
+    "detection": "The historical record reports: The installed Blender exporter source writes `CreationTimeStamp` from the current time and serializes the blend-file path as `ApplicationNativeFile`. The fixture builder records per-run SHA-256 values and the Unity integration test consumes those values.",
+    "recovery": "Record each newly generated FBX hash in that run's fixture evidence. In the consumer test, bind the evidence entry to the expected case, Export ID, filename, and owned path, then compare the copied FBX bytes with that same-run hash. Keep semantic checks for imported geometry and material assignment separate from byte identity.",
+    "prevention": "Do not use a previous run's whole-file FBX hash as the expected value for a regenerated fixture when exporter metadata can vary. Produce evidence alongside the fixture and validate its case identity and path before using the hash.",
+    "generalized_lesson": "Bind generated FBX hashes to the fixture run: Do not use a previous run's whole-file FBX hash as the expected value for a regenerated fixture when exporter metadata can vary. Produce evidence alongside the fixture and validate its case identity and path before using the hash."
+  }
+}

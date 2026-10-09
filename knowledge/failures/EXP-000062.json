@@ -1,0 +1,40 @@
+{
+  "id": "EXP-000062",
+  "title": "Residual takeoff contact must not reset jump state",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Observed Unity controller and intended jump rules. Different physics/contact models need their own transition contract and timing tests.",
+  "goal": "Enforce a two-jump budget through takeoff, ascent and landing.",
+  "approach": "Historical failed assumption: Any ground contact was interpreted as a landing event.",
+  "what_worked": "Historical correction: Exclude immediate post-takeoff contact from landing reset in this controller. Verification reported by the source: An editor driver injected keyboard state through actual Input Actions and observed jump, second jump and fall after correction. A dedicated timing unit test was not recorded for this exact defect.",
+  "what_failed": "Historical observed failure: Brief ground contact during ascent reset the jump count.",
+  "why": "Confirmed in the tested controller: contact persisted briefly after takeoff and triggered the reset at the wrong lifecycle phase.",
+  "improved_method": "Treat landing as a state transition supported by contact and motion/timing, not raw contact alone. Regress takeoff persistence through the actual input path.",
+  "when_to_use": "Observed Unity controller and intended jump rules. Different physics/contact models need their own transition contract and timing tests.",
+  "when_not_to_use": "Do not extrapolate outside the recorded conditions or use partial evidence to claim general product or release acceptance.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Brief ground contact during ascent reset the jump count.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed in the tested controller: contact persisted briefly after takeoff and triggered the reset at the wrong lifecycle phase.",
+    "detection": "The historical record reports: An editor driver injected keyboard state through actual Input Actions and observed jump, second jump and fall after correction. A dedicated timing unit test was not recorded for this exact defect.",
+    "recovery": "Exclude immediate post-takeoff contact from landing reset in this controller.",
+    "prevention": "Treat landing as a state transition supported by contact and motion/timing, not raw contact alone. Regress takeoff persistence through the actual input path.",
+    "generalized_lesson": "Residual takeoff contact must not reset jump state: Treat landing as a state transition supported by contact and motion/timing, not raw contact alone. Regress takeoff persistence through the actual input path."
+  }
+}

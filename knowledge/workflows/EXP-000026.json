@@ -1,0 +1,33 @@
+{
+  "id": "EXP-000026",
+  "title": "一時オブジェクトの成立と、保存・再読込後の成立を分ける",
+  "category": "workflows",
+  "task_type": "Persisted asset and state verification",
+  "ai_system": "AI-assisted engineering workflow",
+  "observation_date": "2026-10-09",
+  "environment": "リグ・Prefab・モデル・設定アセットなどの生成と永続化。",
+  "goal": "メモリ内で正しく構築された生成物を、そのまま保存可能・再読込可能・製品利用可能と判断してしまう。保存による参照変化や再バインドの副作用は別に起こり得る。",
+  "approach": "最初は所有する一時領域で最小構成のネイティブ成立を確認する。次に新しい保存先へ限定して保存し、再読込後の参照、対応付け、姿勢や属性を検査する。途中の証拠ファイルと、後片付け・外部保護確認まで終わった証拠を別状態にする。",
+  "what_worked": "本知見の効果を確かめる再現実験は未実施。候補に記載された方法は、問題の原因を切り分けるための検証設計として提案されている。",
+  "what_failed": "想定される失敗モード：メモリ内で正しく構築された生成物を、そのまま保存可能・再読込可能・製品利用可能と判断してしまう。保存による参照変化や再バインドの副作用は別に起こり得る。",
+  "why": "一般原則から追加して区別する論点：既存の検証物所有に対し、一時成立から永続化へ進む際の証拠と副作用の段階を具体化する。",
+  "improved_method": "最初は所有する一時領域で最小構成のネイティブ成立を確認する。次に新しい保存先へ限定して保存し、再読込後の参照、対応付け、姿勢や属性を検査する。途中の証拠ファイルと、後片付け・外部保護確認まで終わった証拠を別状態にする。",
+  "when_to_use": "リグ・Prefab・モデル・設定アセットなどの生成と永続化。",
+  "when_not_to_use": "ネイティブの有効性フラグや限定した検査は、SDK全体・実クライアント・実操作の成功を保証しない。既存資産の自動修復も許可しない。",
+  "known_limitations": "評価用の対照試験はまだ実行されていない：メモリ上だけ有効、保存後に参照が欠落、再読込で対応が変化、再バインドで値が変化、片付け前だけ成功、を分ける。保存途中の残骸へ無断で上書き再試行しない。。正式レビュー日をobservation_dateとして保存しており、元事例の発生日や実験日ではない。効果の再現性と適用範囲は未確認。",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000001"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "current"
+}

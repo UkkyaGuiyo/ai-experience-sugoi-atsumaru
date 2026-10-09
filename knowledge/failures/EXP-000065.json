@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000065",
+  "title": "Scope cache exclusions to the project root and verify copy completeness independently",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Applies to project migration, backup, packaging, and source synchronization when cache-like names can also occur in maintained source trees. Do not infer that every nested Cache directory must be copied or that root-only exclusions alone prove completeness; classify each exclusion from its actual role and verify the intended migration scope.",
+  "goal": "Migrate selected Unity projects while excluding regenerable project caches and preserving required source files.",
+  "approach": "Historical failed assumption: Any directory whose basename was Library or Cache was treated as generated, cached, or system content, regardless of its position in the project. The verifier reused the copier's exclusion rules, so matching selected-file hashes were mistaken for proof of a complete migration.",
+  "what_worked": "Historical correction: Recover the 30 identified source files from the official package of the same version and verify each recovered file's hash. For future migrations, scope generated-cache exclusions to documented project-relative locations, such as the project-root Library directory; preserve nested names unless their generated status is independently established. Verification reported by the source: The skipped-directory manifest established the exclusion mechanism. Recovery restored 30 identified source files from a same-version official package, with individual hashes verified. This confirms the identified omissions and recovery bytes, not full project recovery: the original drive was unavailable for a complete source rescan, so additional missing files outside the recorded manifest were not ruled out. A full Unity compile and runtime validation had not yet passed.\n\nBefore calling a future migration complete, compare the destination against an independently obtained expected source inventory, review every excluded path and its reason, then import and compile. Include fixtures where root Library is excluded but nested runtime/editor Library and Cache source directories are retained. These are required future checks, not tests reported as already run for this incident.",
+  "what_failed": "Historical observed failure: The copy manifest recorded nine skipped directories across three projects. Among the skipped contents were 30 required third-party source files: 19 in a runtime Library directory, six in an editor Library directory, and five in a nested editor-module Cache directory. A later compile reported a missing namespace despite matching hashes for all selected source and destination files.",
+  "why": "Confirmed: basename-only exclusions also matched nested source directories with legitimate Library and Cache names. Those files were never selected for copying. Reusing the same selection logic in hash validation made the omission invisible: the validator proved integrity only for the selected set, not completeness of the required source inventory.",
+  "improved_method": "Exclude Unity caches by documented project-relative location, never by matching every directory basename Library or Cache. Verify destination completeness against an independent expected source inventory as well as hashes; a verifier sharing the copier's filter cannot prove that the filter selected all required files. Keep byte-integrity, inventory-completeness, and compile/runtime results separate.",
+  "when_to_use": "Applies to project migration, backup, packaging, and source synchronization when cache-like names can also occur in maintained source trees. Do not infer that every nested Cache directory must be copied or that root-only exclusions alone prove completeness; classify each exclusion from its actual role and verify the intended migration scope.",
+  "when_not_to_use": "Do not infer that every nested Cache directory must be copied or that root-only exclusions alone prove completeness; classify each exclusion from its actual role and verify the intended migration scope.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000003"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "The copy manifest recorded nine skipped directories across three projects. Among the skipped contents were 30 required third-party source files: 19 in a runtime Library directory, six in an editor Library directory, and five in a nested editor-module Cache directory. A later compile reported a missing namespace despite matching hashes for all selected source and destination files.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: basename-only exclusions also matched nested source directories with legitimate Library and Cache names. Those files were never selected for copying. Reusing the same selection logic in hash validation made the omission invisible: the validator proved integrity only for the selected set, not completeness of the required source inventory.",
+    "detection": "The historical record reports: The skipped-directory manifest established the exclusion mechanism. Recovery restored 30 identified source files from a same-version official package, with individual hashes verified. This confirms the identified omissions and recovery bytes, not full project recovery: the original drive was unavailable for a complete source rescan, so additional missing files outside the recorded manifest were not ruled out. A full Unity compile and runtime validation had not yet passed.\n\nBefore calling a future migration complete, compare the destination against an independently obtained expected source inventory, review every excluded path and its reason, then import and compile. Include fixtures where root Library is excluded but nested runtime/editor Library and Cache source directories are retained. These are required future checks, not tests reported as already run for this incident.",
+    "recovery": "Recover the 30 identified source files from the official package of the same version and verify each recovered file's hash. For future migrations, scope generated-cache exclusions to documented project-relative locations, such as the project-root Library directory; preserve nested names unless their generated status is independently established.",
+    "prevention": "Exclude Unity caches by documented project-relative location, never by matching every directory basename Library or Cache. Verify destination completeness against an independent expected source inventory as well as hashes; a verifier sharing the copier's filter cannot prove that the filter selected all required files. Keep byte-integrity, inventory-completeness, and compile/runtime results separate.",
+    "generalized_lesson": "Scope cache exclusions to the project root and verify copy completeness independently: Exclude Unity caches by documented project-relative location, never by matching every directory basename Library or Cache. Verify destination completeness against an independent expected source inventory as well as hashes; a verifier sharing the copier's filter cannot prove that the filter selected all required files. Keep byte-integrity, inventory-completeness, and compile/runtime results separate."
+  }
+}

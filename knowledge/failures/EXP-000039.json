@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000039",
+  "title": "Validate helper handles and bound response waits",
+  "category": "failures",
+  "task_type": "AI-assisted engineering and verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Observed Windows/Tcl helper protocol. This addresses control flow, not all underlying native audio or device failures.",
+  "goal": "Recover recording/playback UI after helper launch or response failure.",
+  "approach": "Historical failed assumption: Any nonempty handle string was treated as a channel, and a helper was assumed eventually to answer.",
+  "what_worked": "Historical correction: Check live-channel membership, convert EOF/read/write/timeout into normal errors, use finite event-driven waits, and clear handles/busy state while releasing helpers on every exit. Verification reported by the source: A stale error string injected before a second stop triggered safe controller recovery; a third recording succeeded. Consecutive cycles passed and termination completed within eight seconds with no residual processes.",
+  "what_failed": "Historical observed failure: Launch error text remained in a channel-handle variable, causing modal write errors; a wait ignoring EOF/deadline hung stop and left the UI busy.",
+  "why": "Confirmed: diagnostic text and resource identity shared storage, while protocol waits lacked terminal failure handling.",
+  "improved_method": "Keep handles distinct from diagnostics. Test helper death between request and response, and make cleanup plus return-to-idle unconditional.",
+  "when_to_use": "Observed Windows/Tcl helper protocol. This addresses control flow, not all underlying native audio or device failures.",
+  "when_not_to_use": "This addresses control flow, not all underlying native audio or device failures.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000001"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Launch error text remained in a channel-handle variable, causing modal write errors; a wait ignoring EOF/deadline hung stop and left the UI busy.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: diagnostic text and resource identity shared storage, while protocol waits lacked terminal failure handling.",
+    "detection": "The historical record reports: A stale error string injected before a second stop triggered safe controller recovery; a third recording succeeded. Consecutive cycles passed and termination completed within eight seconds with no residual processes.",
+    "recovery": "Check live-channel membership, convert EOF/read/write/timeout into normal errors, use finite event-driven waits, and clear handles/busy state while releasing helpers on every exit.",
+    "prevention": "Keep handles distinct from diagnostics. Test helper death between request and response, and make cleanup plus return-to-idle unconditional.",
+    "generalized_lesson": "Validate helper handles and bound response waits: Keep handles distinct from diagnostics. Test helper death between request and response, and make cleanup plus return-to-idle unconditional."
+  }
+}

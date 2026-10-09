@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000055",
+  "title": "Rollback must reverse executed mutations only",
+  "category": "failures",
+  "task_type": "Blender asset conversion and diagnostics",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Tested bone/group merge operations. This is not a guarantee for untested animation state or arbitrary multi-resource transactions.",
+  "goal": "Recover safely from a failed bone/group merge.",
+  "approach": "Historical failed assumption: The full planned rename mapping was inverted on failure.",
+  "what_worked": "Historical correction: Journal actual completed renames and replay that list in reverse; retain original values. Verification reported by the source: Injected failures before the first write and after writes preserved target-only group name and weight. Blender 5.2.1 pose/chain/parenting/identity/rollback/Undo controls and the recorded Python suite passed.",
+  "what_failed": "Historical observed failure: Rollback renamed an existing target-only group even when the forward phase had never renamed it.",
+  "why": "Confirmed: the undo plan contained operations that had not executed.",
+  "improved_method": "Build rollback from executed-operation receipts, not intended operations. Test failure before the first mutation as well as midway through the transaction.",
+  "when_to_use": "Tested bone/group merge operations. This is not a guarantee for untested animation state or arbitrary multi-resource transactions.",
+  "when_not_to_use": "This is not a guarantee for untested animation state or arbitrary multi-resource transactions.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000003"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Rollback renamed an existing target-only group even when the forward phase had never renamed it.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: the undo plan contained operations that had not executed.",
+    "detection": "The historical record reports: Injected failures before the first write and after writes preserved target-only group name and weight. Blender 5.2.1 pose/chain/parenting/identity/rollback/Undo controls and the recorded Python suite passed.",
+    "recovery": "Journal actual completed renames and replay that list in reverse; retain original values.",
+    "prevention": "Build rollback from executed-operation receipts, not intended operations. Test failure before the first mutation as well as midway through the transaction.",
+    "generalized_lesson": "Rollback must reverse executed mutations only: Build rollback from executed-operation receipts, not intended operations. Test failure before the first mutation as well as midway through the transaction."
+  }
+}

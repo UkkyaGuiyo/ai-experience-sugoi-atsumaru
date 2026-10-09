@@ -1,0 +1,31 @@
+{
+  "id": "EXP-000021",
+  "title": "消去操作の後から届くデータも、旧セッションとして拒否する",
+  "category": "patterns",
+  "task_type": "Asynchronous state management",
+  "ai_system": "AI-assisted engineering workflow",
+  "observation_date": "2026-10-09",
+  "environment": "音声・センサーの一時記録、非同期UI、キャンセル可能な収集処理。",
+  "goal": "バッファを空にした直後、既に予約されていた取得コールバックが旧データを書き戻すと、消したはずの内容が再生される恐れがある。",
+  "approach": "停止・消去・新規開始を状態遷移として設計する。作業セッションの世代とバッファの所有を明示し、遅着処理が現在の世代に属するか確認する。再生可能長や状態表示も同時に更新し、消去済みデータを再び有効化しない。",
+  "what_worked": "本知見の効果を確かめる再現実験は未実施。候補に記載された方法は、問題の原因を切り分けるための検証設計として提案されている。",
+  "what_failed": "想定される失敗モード：バッファを空にした直後、既に予約されていた取得コールバックが旧データを書き戻すと、消したはずの内容が再生される恐れがある。",
+  "why": "一般原則から追加して区別する論点：資源の再利用とは別に、利用者による消去が遅着データで取り消されない条件を扱う。",
+  "improved_method": "停止・消去・新規開始を状態遷移として設計する。作業セッションの世代とバッファの所有を明示し、遅着処理が現在の世代に属するか確認する。再生可能長や状態表示も同時に更新し、消去済みデータを再び有効化しない。",
+  "when_to_use": "音声・センサーの一時記録、非同期UI、キャンセル可能な収集処理。",
+  "when_not_to_use": "世代番号だけでスレッド安全性は保証されない。データの受渡し、書込み完了待ち、使用するAPIの実行スレッド制約を別途検証する。",
+  "known_limitations": "評価用の対照試験はまだ実行されていない：取得中の消去、再生中の消去、消去直前に予約された書込み、消去後の新セッション開始を合成イベントで試す。満杯や例外も組み合わせ、旧データが混入しないことを確認する。。正式レビュー日をobservation_dateとして保存しており、元事例の発生日や実験日ではない。効果の再現性と適用範囲は未確認。",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "current"
+}

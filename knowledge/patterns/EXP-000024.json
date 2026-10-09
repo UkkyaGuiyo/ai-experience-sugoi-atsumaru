@@ -1,0 +1,33 @@
+{
+  "id": "EXP-000024",
+  "title": "一時スロットは、結果の引渡し完了を確認してから再利用する",
+  "category": "patterns",
+  "task_type": "Shared resource lifecycle management",
+  "ai_system": "AI-assisted engineering workflow",
+  "observation_date": "2026-10-09",
+  "environment": "共有オブジェクトプール、操作ハンドル、非同期ジョブ、限られた一時資源。",
+  "goal": "一時的に対象へ貸したスロットを、位置や結果の引渡し完了前に空きへ戻すと、次の対象への割当が前の結果を壊す。古い完了通知が新しい割当を解除する問題もある。",
+  "approach": "解放要求、結果の取得・受領確認、再利用可能という状態を分ける。要求ごとの世代を持ち、現在待っている引渡しに一致する完了だけを受け付ける。リセットで古い要求を失効させ、対象自身が結果を保持できてから共有スロットを返す。",
+  "what_worked": "本知見の効果を確かめる再現実験は未実施。候補に記載された方法は、問題の原因を切り分けるための検証設計として提案されている。",
+  "what_failed": "想定される失敗モード：一時的に対象へ貸したスロットを、位置や結果の引渡し完了前に空きへ戻すと、次の対象への割当が前の結果を壊す。古い完了通知が新しい割当を解除する問題もある。",
+  "why": "一般原則から追加して区別する論点：一般的な所有権管理ではなく、引渡し確認を再利用の条件にする具体的な状態遷移を扱う。",
+  "improved_method": "解放要求、結果の取得・受領確認、再利用可能という状態を分ける。要求ごとの世代を持ち、現在待っている引渡しに一致する完了だけを受け付ける。リセットで古い要求を失効させ、対象自身が結果を保持できてから共有スロットを返す。",
+  "when_to_use": "共有オブジェクトプール、操作ハンドル、非同期ジョブ、限られた一時資源。",
+  "when_not_to_use": "世代一致は位置や結果の正しさの証明ではない。実エンジンの更新順や保持が完了する時点は別に観測する。",
+  "known_limitations": "評価用の対照試験はまだ実行されていない：解放直後の再利用要求、完了通知の二重送信、リセット後の遅着完了、近いままの再操作を試す。状態モデルの試験と、実際の追従・保持タイミングの試験を分ける。。正式レビュー日をobservation_dateとして保存しており、元事例の発生日や実験日ではない。効果の再現性と適用範囲は未確認。",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000012"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "current"
+}

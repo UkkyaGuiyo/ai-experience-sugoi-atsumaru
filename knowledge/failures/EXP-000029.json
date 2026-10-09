@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000029",
+  "title": "Unity GPU render tests require a graphics device",
+  "category": "failures",
+  "task_type": "Unity Editor asset and build verification",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Applies to Unity GPU/image render tests. It does not apply to compile-only or other tests that do not render pixels; those may use `-nographics` if their requirements permit it.",
+  "goal": "Run shader image comparisons from Unity batch mode.",
+  "approach": "Historical failed assumption: Batch mode was treated as sufficient for headless GPU rendering, and `-nographics` was added to make the run non-interactive.",
+  "what_worked": "Historical correction: Run GPU image validation with graphics enabled. Keep batch mode if useful, but omit `-nographics`; inspect the Unity log for the selected graphics device/backend before interpreting image failures. Verification reported by the source: The same GPU render suite was rerun with graphics enabled on the workstation's graphics adapter. Effect-specific image probes then passed; the remaining failure was independently traced to a missing nested mesh in a separate fixture.",
+  "what_failed": "Historical observed failure: A GPU render validator produced many failing image checks when Unity was launched with `-nographics`. The editor log identified the active backend as Null Gfx, so the validator was not exercising the intended graphics path.",
+  "why": "Confirmed: `-nographics` selected Unity's Null Gfx backend. That backend cannot provide the GPU rendering surface the image validator requires, so its failures were invalid evidence about shader output.",
+  "improved_method": "For any Unity test that reads rendered pixels, do not pass `-nographics`. Confirm the log shows a real graphics backend before treating image comparisons as shader evidence.",
+  "when_to_use": "Applies to Unity GPU/image render tests. It does not apply to compile-only or other tests that do not render pixels; those may use `-nographics` if their requirements permit it.",
+  "when_not_to_use": "It does not apply to compile-only or other tests that do not render pixels; those may use `-nographics` if their requirements permit it.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000002"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "A GPU render validator produced many failing image checks when Unity was launched with `-nographics`. The editor log identified the active backend as Null Gfx, so the validator was not exercising the intended graphics path.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: `-nographics` selected Unity's Null Gfx backend. That backend cannot provide the GPU rendering surface the image validator requires, so its failures were invalid evidence about shader output.",
+    "detection": "The historical record reports: The same GPU render suite was rerun with graphics enabled on the workstation's graphics adapter. Effect-specific image probes then passed; the remaining failure was independently traced to a missing nested mesh in a separate fixture.",
+    "recovery": "Run GPU image validation with graphics enabled. Keep batch mode if useful, but omit `-nographics`; inspect the Unity log for the selected graphics device/backend before interpreting image failures.",
+    "prevention": "For any Unity test that reads rendered pixels, do not pass `-nographics`. Confirm the log shows a real graphics backend before treating image comparisons as shader evidence.",
+    "generalized_lesson": "Unity GPU render tests require a graphics device: For any Unity test that reads rendered pixels, do not pass `-nographics`. Confirm the log shows a real graphics backend before treating image comparisons as shader evidence."
+  }
+}

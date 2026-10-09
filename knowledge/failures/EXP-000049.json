@@ -1,0 +1,42 @@
+{
+  "id": "EXP-000049",
+  "title": "Monotonic timestamps may lack sufficient resolution",
+  "category": "failures",
+  "task_type": "AI-assisted technical troubleshooting",
+  "ai_system": "AI-assisted engineering and diagnosis",
+  "observation_date": "2026-10-09",
+  "environment": "Observed runtime and injected-clock controls. This is not a universal defect in every monotonic-clock implementation or Python version.",
+  "goal": "Enforce a strictly increasing receive watermark for a high-rate stream.",
+  "approach": "Historical failed assumption: Monotonicity was assumed to imply enough resolution to distinguish each arrival.",
+  "what_worked": "Historical correction: Use one high-resolution monotonic clock consistently for receive times, age, deadlines and latency; preserve source-order checks. Verification reported by the source: A regression quantized time to 1/64 second at 120 callbacks/second: the old path aborted, the precise path accepted 120. Threaded rate/burst/stall tests and a later 1,200-callback live run passed.",
+  "what_failed": "Historical observed failure: Separate callbacks received equal coarse timestamps and were rejected as out of order.",
+  "why": "Confirmed: clock quantization was too coarse for callback cadence; this was independent of the unresolved native hang.",
+  "improved_method": "Test clock resolution against burst arrival rates. Distinguish source time, receive time and consumer cadence; do not fabricate epsilon timestamps to conceal collisions.",
+  "when_to_use": "Observed runtime and injected-clock controls. This is not a universal defect in every monotonic-clock implementation or Python version.",
+  "when_not_to_use": "This is not a universal defect in every monotonic-clock implementation or Python version.",
+  "known_limitations": "This is an independently curated generalization of an earlier recorded failure. No source-side experiment was rerun during this registration; observation_date is the 2026-10-09 knowledge-review date, not the incident date. Applicability and root-cause claims remain limited to the source-reported conditions.",
+  "evidence_type": "direct experiment",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000001"
+  ],
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  },
+  "knowledge_status": "historical",
+  "failure_details": {
+    "failure": "Separate callbacks received equal coarse timestamps and were rejected as out of order.",
+    "impact": "The described historical operation or its acceptance evidence was affected; impact beyond the documented case was not established.",
+    "cause": "Confirmed: clock quantization was too coarse for callback cadence; this was independent of the unresolved native hang.",
+    "detection": "The historical record reports: A regression quantized time to 1/64 second at 120 callbacks/second: the old path aborted, the precise path accepted 120. Threaded rate/burst/stall tests and a later 1,200-callback live run passed.",
+    "recovery": "Use one high-resolution monotonic clock consistently for receive times, age, deadlines and latency; preserve source-order checks.",
+    "prevention": "Test clock resolution against burst arrival rates. Distinguish source time, receive time and consumer cadence; do not fabricate epsilon timestamps to conceal collisions.",
+    "generalized_lesson": "Monotonic timestamps may lack sufficient resolution: Test clock resolution against burst arrival rates. Distinguish source time, receive time and consumer cadence; do not fabricate epsilon timestamps to conceal collisions."
+  }
+}
