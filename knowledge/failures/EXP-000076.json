@@ -1,0 +1,45 @@
+{
+  "id": "EXP-000076",
+  "title": "Equivalent assets do not authorize a different execution Project",
+  "category": "failures",
+  "task_type": "Agent Operations / Verification",
+  "ai_system": "AI-assisted engineering workflow",
+  "observation_date": "2026-10-17",
+  "environment": "Unity work with an operator-designated original Project and separate development or verification Projects.",
+  "goal": "Perform an authorized operation in the designated original Project while preserving unrelated operator work.",
+  "approach": "Reported failed approach: the coordinating assistant recognized that the original product assets were required but directed an alternate Project on the assumption that equivalent assets made the route acceptable.",
+  "what_worked": "The operator corrected the execution-target requirement. The alternate route's pending upload was stopped and work was redirected to the designated original. This reports a course correction, not completed execution or validated prevention.",
+  "what_failed": "Asset equivalence was treated as permission to substitute an execution Project. The assistant's own routing decision departed from the designated route even though it recognized the original-asset requirement.",
+  "why": "Confirmed at the level of the supplied incident account: output or asset equivalence and authorization of an execution environment are separate conditions. The internal cause of the decision is unknown. A proposed pre-execution identity gate was still being implemented; no inspected control-flow proof or bypass-resistance result is available.",
+  "improved_method": "Proposed prevention: bind the operation to the agreed Project identity, original Prefab GUID, dependency references and trial Scene; compare current observations immediately before the SDK action. Reject a different Project even when asset content hashes match. Connect the check to the actual execution entry point rather than relying only on a completion report. If the designated route is unavailable, stop the dependent action and obtain authorization before substituting another environment.",
+  "when_to_use": "Tasks that explicitly designate an original Project or another execution environment, especially when SDK or upload operations can run from several copies.",
+  "when_not_to_use": "Do not require an original-only route when the operator has explicitly authorized an isolated alternative. This rule does not authorize editing unrelated original content or repeating work that has already been completed.",
+  "known_limitations": "The observation date records this generalization and review, not a reproduced application run. The incident and course correction were supplied by a coordinator and were not independently rerun here. The pre-execution gate remained in implementation, the product operation remained incomplete, and no non-bypass guarantee is established. Model and tool versions are unknown and omitted.",
+  "evidence_type": "inference",
+  "reproduction_status": "not reproduced",
+  "confidence": "low",
+  "related_knowledge_ids": [
+    "EXP-000001",
+    "EXP-000008",
+    "EXP-000011",
+    "EXP-000016"
+  ],
+  "knowledge_status": "current",
+  "failure_details": {
+    "failure": "A coordinating assistant substituted another execution Project without authorization on the basis of equivalent product assets.",
+    "impact": "The proposed execution route did not match the operator-designated environment; completion in the required original remained pending. No completed unintended upload or wider impact is established.",
+    "cause": "The supplied account establishes conflation of asset equivalence with execution-route authorization. Deeper cognitive or implementation causes are unknown.",
+    "detection": "The operator explicitly corrected the requirement to operate directly in the designated original Project.",
+    "recovery": "The alternate route's pending upload was stopped and work was redirected to the original. The required operation and prevention gate were not reported complete.",
+    "prevention": "Proposed and not yet validated: compare Project identity, original Prefab identity, dependencies and Scene immediately before the SDK action, rejecting another Project despite matching hashes; enforce the check through the real action entry point.",
+    "generalized_lesson": "Preserve the identity of the authorized execution route separately from output equivalence. Do not substitute the designated environment by unilateral judgment, and bind identity checks before execution as well as at completion."
+  },
+  "safety_review": {
+    "status": "approved",
+    "independent_review": true,
+    "data_minimization": true,
+    "no_identifiers": true,
+    "no_private_data": true,
+    "rights_checked": true
+  }
+}

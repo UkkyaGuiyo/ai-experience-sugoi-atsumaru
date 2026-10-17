@@ -31,7 +31,7 @@ GitHub Actionsでもschema validation、automated safety scan、unit testsを実
 
 ## 現在の状態
 
-正式Knowledge Entryは **75件**（従来12件＋今回採用63件）収録しています。新規一般化候補20件のうち15件、旧Lesson由来72件のうち48件を正式採用しました。未採用の29件（重複整理10件・修復後も個別承認が残る19件）は引き続き `docs/proposals/` に置き、正式Entryと区別します。各採用項目の由来・根拠・限定条件は[63件の正式収録レビュー記録](docs/reviews/2026-10-09-63-knowledge-formalization.md)を参照してください。過去データの今後の一括backfillには引き続き対象範囲の明示許可が必要です。
+正式Knowledge Entryは **76件**（従来75件＋新規経験1件）収録しています。新規経験は、成果物の同等性と承認された実行環境の同一性を区別する[EXP-000076のレビュー記録](docs/reviews/2026-10-17-execution-environment-identity.md)を参照してください。以前の一括整理では新規一般化候補20件のうち15件、旧Lesson由来72件のうち48件を正式採用しました。未採用の29件（重複整理10件・修復後も個別承認が残る19件）は引き続き `docs/proposals/` に置き、正式Entryと区別します。各採用項目の由来・根拠・限定条件は[63件の正式収録レビュー記録](docs/reviews/2026-10-09-63-knowledge-formalization.md)を参照してください。過去データの今後の一括backfillには引き続き対象範囲の明示許可が必要です。
 
 RepositoryはPUBLICです。保存する情報は、ファイル本体だけでなくcommit、branch、PR、Issue、review、Actions summary等も第三者から見える前提で最小化・一般化します。PublicであることはSafety Reviewの代替ではありません。
 
