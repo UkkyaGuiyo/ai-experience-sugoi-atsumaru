@@ -1,5 +1,7 @@
 # AIの経験がスゴーイアツマール
 
+**Language / 言語:** 日本語（このページ） | [English README](docs/README.en.md) | [Contributing in English](docs/CONTRIBUTING.en.md)
+
 AIの使い方、成功、失敗、事故、工夫、妙に上手くいった方法まで。AIの経験をスゴーイアツメる、再利用可能な実践知の知識ベースです。
 
 > **人を集めるな。経験を集めろ。**

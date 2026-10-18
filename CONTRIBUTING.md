@@ -1,5 +1,7 @@
 # Contribution手順
 
+**Language / 言語:** 日本語（このページ） | [English contribution guide](docs/CONTRIBUTING.en.md) | [English README](docs/README.en.md)
+
 人間・AIともにroot AGENTS.mdを適用する。情報量を減らすことは失敗ではない。安全に一般化できない経験は収録しない。
 
 Project、実験、AI運用、開発作業から得た経験は、それがProject由来であること自体を理由に除外しない。元Projectを知らなくても役立つ再利用可能な知識へ一般化し、第三者へ開示しても個人・組織・固有案件・private sourceを特定または復元できない内容だけを収録する。
